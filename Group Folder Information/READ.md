@@ -1,0 +1,1 @@
+To run the app do streamlit run dashboard
