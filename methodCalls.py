@@ -94,6 +94,7 @@ def displayMenu(location,file1,file2):
                     drinkb=st.button("Add To Journal", key=session_key,use_container_width=True)
                     
                     #date
+                    import datetime
                     current_date = datetime.date.today()
                     date = current_date.strftime("%Y-%m-%d")
                     meal_id = f"{date.replace('-', '')}{idx}"
@@ -105,6 +106,7 @@ def displayMenu(location,file1,file2):
                         protein = df["Protein"].iloc[idx] if pd.notnull(df["Protein"].iloc[idx]) else 0
                         fat = df["Fat"].iloc[idx] if pd.notnull(df["Fat"].iloc[idx]) else 0
                         carbs = df["Carbohydrates"].iloc[idx] if pd.notnull(df["Carbohydrates"].iloc[idx]) else 0
+                        from datetime import datetime
                         current_hour = datetime.now().hour
                         
                         if 5 <= current_hour < 11:
