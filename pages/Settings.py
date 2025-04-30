@@ -15,6 +15,7 @@ from Database_files.add_userData import update_preference
 import os
 import subprocess
 
+st.write(st.secrets)
 def clone_private_repo():
     token = st.secrets["github"]["GITHUB_TOKEN"]
     repo_url = st.secrets["github"]["PRIVATE_DB_REPO"]
@@ -32,7 +33,7 @@ def clone_private_repo():
     return os.path.join(clone_dir, db_file_name)
 
 # Call this once in your app
-DB_PATH = clone_private_repo()
+DB_PATH = ""
 
 ############################################################################
 ##################### UPDATING AND GETTING allergens########################
