@@ -153,7 +153,7 @@ else:
                 st.session_state["selected_time"] = "Lunch"
             elif dinner:
                 st.session_state["selected_time"] = "Dinner"
-            if st.session_state["selected_time"]:
+            if breakfast or lunch or dinner:
                 st.warning(f"You chose {st.session_state["selected_time"]}")
 
             
@@ -190,7 +190,7 @@ else:
             elif stone:
                 st.session_state["selected_hall"] = "Stone D"
             
-            if st.session_state["selected_hall"]:
+            if lulu or tower or stone:
                 st.warning(f"You chose {st.session_state["selected_hall"]}")
 
             
