@@ -1,14 +1,17 @@
 import streamlit as st
+import Data_Visuals.data_visualization_methods
 from userAuth.auth import google_login
 from userAuth.user_profile import render_user_profile
 from streamlit_extras.stylable_container import stylable_container
 from streamlit_extras.app_logo import add_logo
 from userAuth.user_profile import getName
 from Database_files.add_userData import get_preference
+import Data_Visuals  
 import sqlite3
 from datetime import datetime
 import pandas as pd
 import wellesley_fresh_api
+
 #st.set_page_config(page_title="RYD To Eat", page_icon="https://drive.google.com/file/d/1wdFemFBErLC6bXpJ5jvKKp6q3a0tIRVt/view?usp=sharing")
 
 ############################################################################
@@ -259,7 +262,9 @@ with stylable_container(
     with col2:
         st.write("")
         st.write("")
-        st.popover("Dining Hall visits Breakdown! ")
+        with st.popover("Dining Hall visits Breakdown! "):
+            st.plotly_chart(Data_Visuals.data_visualization_methods.common_dining(getName[1]))
+            
     date=datetime.now().date()
     timenow=datetime.now()
     current_hour=timenow.hour
