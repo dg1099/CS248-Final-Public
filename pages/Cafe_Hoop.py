@@ -16,7 +16,7 @@ st.markdown(
     border-color: black;
     border-style: solid;
     border-width: 7px;
-    background-image: url("https://wallpapers.com/images/hd/pink-and-yellow-background-50abvzwxs09vrhni.jpg");
+    background-image: url("https://png.pngtree.com/thumb_back/fh260/background/20210421/pngtree-cream-purple-vintage-paper-texture-premium-quality-background-image_636174.jpg");
 }
 </style>
 """,
@@ -28,7 +28,7 @@ st.markdown(
     <style>
     .stApp {
         opacity: 100;
-        background-image: url("https://wallpapers.com/images/hd/pink-and-yellow-background-50abvzwxs09vrhni.jpg");
+        background-image: url("https://png.pngtree.com/thumb_back/fh260/background/20210421/pngtree-cream-purple-vintage-paper-texture-premium-quality-background-image_636174.jpg");
     }
     </style>
     """,
