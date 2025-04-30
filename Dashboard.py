@@ -122,7 +122,7 @@ st.html(
     """
 <style>
 [data-testid="stSidebarContent"] {
-    color: white;
+    color: sienna;
     background-color: #622572;
     border-radius: 25px;
     border-color: black;
