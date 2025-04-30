@@ -33,7 +33,7 @@ def clone_private_repo():
     return os.path.join(clone_dir, db_file_name)
 
 # Call this once in your app
-DB_PATH = ""
+DB_PATH = "nothing"
 
 ############################################################################
 ##################### UPDATING AND GETTING allergens########################
