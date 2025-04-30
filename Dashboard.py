@@ -263,8 +263,8 @@ with stylable_container(
         st.write("")
         st.write("")
         with st.popover("Dining Hall visits Breakdown! "):
-            st.plotly_chart(Data_Visuals.data_visualization_methods.common_dining(getName[1]))
-            
+            st.plotly_chart(Data_Visuals.data_visualization_methods.common_dining(getName()[1]))
+
     date=datetime.now().date()
     timenow=datetime.now()
     current_hour=timenow.hour
