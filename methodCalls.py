@@ -104,11 +104,22 @@ def displayMenu(location,file1,file2):
                         protein = df["Protein"].iloc[idx] if pd.notnull(df["Protein"].iloc[idx]) else 0
                         fat = df["Fat"].iloc[idx] if pd.notnull(df["Fat"].iloc[idx]) else 0
                         carbs = df["Carbohydrates"].iloc[idx] if pd.notnull(df["Carbohydrates"].iloc[idx]) else 0
+                        current_hour = datetime.now().hour
+                        
+                        if 5 <= current_hour < 11:
+                            meal_type = "Breakfast"
+                        elif 11 <= current_hour < 15:
+                            meal_type = "Lunch"
+                        elif 15 <= current_hour < 21:
+                            meal_type = "Dinner"
+                        else:
+                            meal_type = "Snack"
+
 
                         add_to_food_log(
                             meal_id,
                             getName()[1],
-                            "Snack",
+                            meal_type,
                             meal_name,
                             calories,
                             protein,
@@ -193,11 +204,21 @@ def displayMenu(location,file1,file2):
                         protein = df["Protein"].iloc[ind] if pd.notnull(df["Protein"].iloc[ind]) else 0
                         fat = df["Fat"].iloc[ind] if pd.notnull(df["Fat"].iloc[ind]) else 0
                         carbs = df["Carbohydrates"].iloc[ind] if pd.notnull(df["Carbohydrates"].iloc[ind]) else 0
-
+                        current_hour = datetime.now().hour
+                        
+                        if 5 <= current_hour < 11:
+                            meal_type = "Breakfast"
+                        elif 11 <= current_hour < 15:
+                            meal_type = "Lunch"
+                        elif 15 <= current_hour < 21:
+                            meal_type = "Dinner"
+                        else:
+                            meal_type = "Snack"
+                            
                         add_to_food_log(
                             meal_id,
                             getName()[1],
-                            "Snack",
+                            meal_type,
                             meal_name,
                             calories,
                             protein,

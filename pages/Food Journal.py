@@ -211,14 +211,17 @@ else:
                 breakfast=[]
                 lunch=[]
                 dinner=[]
+                snack=[]
 
                 for item in meals_today:
                     if item[4]=="Breakfast":
                         breakfast.append(item)
                     elif item[4]=="Lunch":
                         lunch.append(item)
-                    else:
+                    elif item[4]=="Dinner":
                         dinner.append(item)
+                    else:
+                        snack.append(item)
 
 
             
