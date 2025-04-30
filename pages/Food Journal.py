@@ -16,7 +16,7 @@ DB_PATH= clone_private_repo()
 
 conn = sqlite3.connect(DB_PATH)
 cursor = conn.cursor()
-cursor.execute("SELECT * FROM user")
+cursor.execute("SELECT * FROM food_log")
 st.write(cursor.fetchall())
 conn.close()
 
