@@ -10,6 +10,7 @@ from Dashboard import clone_private_repo
 
 import subprocess
 
+st.set_page_config(layout="wide")
 
 DB_PATH= clone_private_repo()
 
@@ -19,7 +20,7 @@ cursor.execute("SELECT * FROM user")
 st.write(cursor.fetchall())
 conn.close()
 
-st.set_page_config(layout="wide")
+
 
 st.markdown(
     """
