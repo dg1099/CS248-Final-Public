@@ -185,7 +185,7 @@ with st.expander("Welcome!"):
                 css_styles=["""
                 
                     {
-                        border: 4px solid black;
+                        border: 4px solid PapayaWhip;
                         border-radius: 0.5rem;
                         background: #b89927;
                         background: linear-gradient(90deg,rgba(184, 153, 39, 1) 0%, rgba(113, 20, 163, 1) 91%);
@@ -219,7 +219,7 @@ with stylable_container(
             css_styles=["""
             
                 {
-                    border: 4px solid black;
+                    border: 4px solid PapayaWhip;
                     border-radius: 0.5rem;
                     background: #b89927;
                     background: linear-gradient(90deg,rgba(184, 153, 39, 1) 0%, rgba(113, 20, 163, 1) 91%);
