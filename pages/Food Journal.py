@@ -203,7 +203,6 @@ else:
     ): 
                 today=st.date_input("Select A Date", today)
                 uid = getName()[1]
-                st.write(username)
                 conn=sqlite3.connect(DB_PATH)
                 c=conn.cursor()
                 c.execute(
@@ -282,7 +281,10 @@ else:
 
             conn = sqlite3.connect(DB_PATH)
             c = conn.cursor()
-            c.execute(""" SELECT * FROM food_log WHERE date(date) BETWEEN ? AND ? """, (d[0], d[1]))
+            c.execute(
+                """SELECT * FROM food_log WHERE date(date) BETWEEN ? AND ? AND uid = ?""",
+                (d[0], d[1], uid)
+            )
             data=c.fetchall()
             c.close()
 
@@ -329,7 +331,10 @@ else:
 
             conn = sqlite3.connect(DB_PATH)
             c = conn.cursor()
-            c.execute(""" SELECT * FROM food_log WHERE date(date) BETWEEN ? AND ? """, (d[0], d[1]))
+            c.execute(
+                """SELECT * FROM food_log WHERE date(date) BETWEEN ? AND ? AND uid = ?""",
+                (d[0], d[1], uid)
+            )
             data=c.fetchall()
             c.close()
 
