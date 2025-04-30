@@ -16,8 +16,8 @@ import os
 import subprocess
 
 def clone_private_repo():
-    token = st.secrets.get("GITHUB_TOKEN")
-    repo_url = st.secrets.get("PRIVATE_DB_REPO")
+    token = st.secrets["github"]["GITHUB_TOKEN"]
+    repo_url = st.secrets["github"]["PRIVATE_DB_REPO"]
     db_file_name = st.secrets.get("DB_FILE_NAME", "food_tracker.db")
 
     if not token or not repo_url:
