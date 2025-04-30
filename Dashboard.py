@@ -34,7 +34,7 @@ def clone_private_repo():
     return os.path.join(clone_dir, db_file_name)
 
 # Call this once in your app
-DB_PATH = "food_tracker.db"
+DB_PATH = clone_private_repo()
 
 ############################################################################
 ##################### UPDATING AND GETTING allergens########################
