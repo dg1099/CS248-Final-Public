@@ -187,7 +187,7 @@ with st.expander("Welcome!"):
                     {
                         border: 4px solid PapayaWhip;
                         border-radius: 0.5rem;
-                        background: #dcb4cc;
+                        background: #fbebd3;
                         background-color: thistle;
                         padding: calc(1em - 1px)
                             
