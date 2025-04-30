@@ -17,7 +17,7 @@ conn = sqlite3.connect(DB_PATH)
 cursor = conn.cursor()
 cursor.execute("SELECT * FROM user")
 st.write(cursor.fetchall())
-
+conn.close()
 
 st.set_page_config(layout="wide")
 
