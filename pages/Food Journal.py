@@ -13,6 +13,10 @@ import subprocess
 st.set_page_config(layout="wide")
 
 DB_PATH= clone_private_repo()
+conn = sqlite3.connect(DB_PATH)
+cursor = conn.cursor()
+cursor.execute("SELECT * FROM rating")
+st.write(cursor.fetchall())
 
 
 
@@ -20,13 +24,13 @@ st.markdown(
     """
 <style>
 [data-testid="stSidebarContent"] {
-    color: white;
+    color: black;
     background-color: #622572;
     border-radius: 25px;
     border-color: black;
     border-style: solid;
     border-width: 7px;
-    background-image: url("https://images.unsplash.com/photo-1686593686409-43456910d65c?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cHVycGxlJTIwYmFja2dyb3VuZHxlbnwwfHwwfHx8MA%3D%3D");
+    background-image: url("https://static.vecteezy.com/system/resources/previews/008/359/817/non_2x/beautiful-and-bright-yellow-and-purple-color-gradient-background-combination-soft-and-smooth-texture-free-vector.jpg");
 }
 </style>
 """,
@@ -38,7 +42,7 @@ st.markdown(
     <style>
     .stApp {
         opacity: 100;
-        background-image: url("https://images.unsplash.com/photo-1686593686409-43456910d65c?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cHVycGxlJTIwYmFja2dyb3VuZHxlbnwwfHwwfHx8MA%3D%3D");
+        background-image: url("https://static.vecteezy.com/system/resources/previews/008/359/817/non_2x/beautiful-and-bright-yellow-and-purple-color-gradient-background-combination-soft-and-smooth-texture-free-vector.jpg");
     }
     </style>
     """,
@@ -161,7 +165,7 @@ else:
         css_styles="""
             {
                 border: 4px solid black;
-                background: linear-gradient(90deg, rgba(184, 153, 39, 1) 0%, rgba(113, 20, 163, 1) 91%);
+                background: linear-gradient(90deg, rgba(252, 186, 3, 1) 0%, rgba(113, 20, 163, 1) 91%);
                 border-radius: 0.5rem;
                 padding: 1em;
                 color: white; /* Optional: make text easier to see */
@@ -190,7 +194,7 @@ else:
         css_styles="""
             {
                 border: 4px solid black;
-                background: linear-gradient(90deg, rgba(184, 153, 39, 1) 0%, rgba(113, 20, 163, 1) 91%);
+                background: linear-gradient(90deg, rgba(252, 186, 3, 1) 0%, rgba(113, 20, 163, 1) 91%);
                 border-radius: 0.5rem;
                 padding: 1em;
                 color: white; /* Optional: make text easier to see */
@@ -260,7 +264,7 @@ else:
         css_styles="""
             {
                 border: 4px solid black;
-                background: linear-gradient(90deg, rgba(184, 153, 39, 1) 0%, rgba(113, 20, 163, 1) 91%);
+                background: linear-gradient(90deg, rgba(252, 186, 3, 1) 0%, rgba(113, 20, 163, 1) 91%);
                 border-radius: 0.5rem;
                 padding: 1em;
                 color: white; /* Optional: make text easier to see */
@@ -314,7 +318,7 @@ else:
         css_styles="""
             {
                 border: 4px solid black;
-                background: linear-gradient(90deg, rgba(184, 153, 39, 1) 0%, rgba(113, 20, 163, 1) 91%);
+                background: linear-gradient(90deg, rgba(252, 186, 3, 1) 0%, rgba(113, 20, 163, 1) 91%);
                 border-radius: 0.5rem;
                 padding: 1em;
                 color: white; /* Optional: make text easier to see */
