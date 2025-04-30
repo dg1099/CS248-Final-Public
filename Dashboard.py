@@ -21,8 +21,6 @@ import os
 import subprocess
 
 
-
-
 def clone_private_repo():
     token = st.secrets["github"]["GITHUB_TOKEN"]
     repo_url = st.secrets["github"]["PRIVATE_DB_REPO"]
@@ -41,9 +39,6 @@ def clone_private_repo():
 
 # Call this once in your app
 DB_PATH = clone_private_repo()
-
-
-import subprocess
 
 
 ############################################################################
@@ -133,7 +128,7 @@ st.html(
     border-color: black;
     border-style: solid;
     border-width: 7px;
-    background-image: url("https://png.pngtree.com/background/20230411/original/pngtree-free-download-pastel-yellow-pink-purple-gold-marble-background-picture-image_2387170.jpg");
+    background-image: url("https://images.unsplash.com/photo-1686593686409-43456910d65c?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cHVycGxlJTIwYmFja2dyb3VuZHxlbnwwfHwwfHx8MA%3D%3D");
 }
 </style>
 """
@@ -143,7 +138,7 @@ st.markdown(
     """
     <style>
     .stApp {
-        background-image: url("https://png.pngtree.com/background/20230411/original/pngtree-free-download-pastel-yellow-pink-purple-gold-marble-background-picture-image_2387170.jpg");
+        background-image: url("https://images.unsplash.com/photo-1686593686409-43456910d65c?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cHVycGxlJTIwYmFja2dyb3VuZHxlbnwwfHwwfHx8MA%3D%3D");
     }
     </style>
     """,
@@ -268,8 +263,8 @@ with stylable_container(
         st.write("")
         st.write("")
         with st.popover("Dining Hall visits Breakdown! "):
-            st.plotly_chart(Data_Visuals.data_visualization_methods.common_dining(getName()[1]))
-
+            st.plotly_chart(Data_Visuals.data_visualization_methods.common_dining(getName[1]))
+            
     date=datetime.now().date()
     timenow=datetime.now()
     current_hour=timenow.hour
@@ -366,6 +361,7 @@ with stylable_container(
                 st.write(item[1])
         else:
             st.warning("All Dining Halls are closed!")
+
 
 
             
