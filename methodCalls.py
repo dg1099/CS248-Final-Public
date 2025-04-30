@@ -207,7 +207,7 @@ def displayMenu(location,file1,file2):
                     st.write(df.columns)
                     if drinkb:
                         st.session_state[f"drink{location}"].append(session_key1)
-                        meal_name = df["Drink Name"].iloc[ind] if pd.notnull(df["Meal Name"].iloc[ind]) else "Unknown"
+                        meal_name = df["Drink Name"].iloc[ind] if pd.notnull(df["Drink Name"].iloc[ind]) else "Unknown"
                         calories = df["Calories"].iloc[ind] if pd.notnull(df["Calories"].iloc[ind]) else 0
                         protein = df["Protein"].iloc[ind] if pd.notnull(df["Protein"].iloc[ind]) else 0
                         fat = df["Fat"].iloc[ind] if pd.notnull(df["Fat"].iloc[ind]) else 0
