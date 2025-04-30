@@ -206,7 +206,10 @@ else:
                 st.write(username)
                 conn=sqlite3.connect(DB_PATH)
                 c=conn.cursor()
-                c.execute(""" SELECT * FROM food_log WHERE date(date) = ? """, (today,))
+                c.execute(
+                    """SELECT * FROM food_log WHERE date(date) = ? AND username = ?""",
+                    (today, username)
+                )
                 meals_today = c.fetchall()
                 rows = c.fetchall() 
                 c.close()
