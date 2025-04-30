@@ -9,21 +9,27 @@ from datetime import datetime
 from Dashboard import clone_private_repo
 
 import subprocess
+import subprocess
+
 def push_changes_to_repo(clone_dir, commit_message="Update database"):
-    token = st.secrets["github"]["GITHUB_TOKEN"]
-    repo_url = st.secrets["github"]["PRIVATE_DB_REPO"]
-
-    # Configure Git identity
-    subprocess.run(["git", "-C", clone_dir, "config", "user.email", "streamlit@app.com"], check=True)
-    subprocess.run(["git", "-C", clone_dir, "config", "user.name", "Streamlit Bot"], check=True)
-
-    # Add, commit, and push changes
+    # Stage all changes
     subprocess.run(["git", "-C", clone_dir, "add", "."], check=True)
+
+    # Check if there are any staged changes
+    result = subprocess.run(
+        ["git", "-C", clone_dir, "diff", "--cached", "--quiet"],
+        capture_output=True
+    )
+
+    if result.returncode == 0:
+        # No changes to commit
+        print("No changes to commit.")
+        return
+
+    # Commit and push
     subprocess.run(["git", "-C", clone_dir, "commit", "-m", commit_message], check=True)
-    subprocess.run([
-        "git", "-C", clone_dir, "push",
-        repo_url.replace("https://", f"https://{token}@")
-    ], check=True)
+    subprocess.run(["git", "-C", clone_dir, "push"], check=True)
+
 
 
 
