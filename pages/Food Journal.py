@@ -202,13 +202,13 @@ else:
         """,
     ): 
                 today=st.date_input("Select A Date", today)
-                username = getName()[1]
+                uid = getName()[1]
                 st.write(username)
                 conn=sqlite3.connect(DB_PATH)
                 c=conn.cursor()
                 c.execute(
-                    """SELECT * FROM food_log WHERE date(date) = ? AND username = ?""",
-                    (today, username)
+                    """SELECT * FROM food_log WHERE date(date) = ? AND uid = ?""",
+                    (today, uid)
                 )
                 meals_today = c.fetchall()
                 rows = c.fetchall() 
