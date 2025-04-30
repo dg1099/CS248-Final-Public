@@ -14,10 +14,7 @@ st.set_page_config(layout="wide")
 
 DB_PATH= clone_private_repo()
 
-conn = sqlite3.connect(DB_PATH)
-cursor = conn.cursor()
-cursor.execute("SELECT * FROM food_log")
-st.write(cursor.fetchall())
+
 
 st.markdown(
     """
@@ -247,6 +244,12 @@ else:
                     st.write("Nothing was logged")
                 for food3 in dinner: 
                     st.markdown(food3[5],help=f"Calories in Meal: {food3[6]}")
+
+                st.subheader("Snack",divider=True)
+                if len(snack)==0:
+                    st.write("Nothing was logged")
+                for food4 in dinner: 
+                    st.markdown(food4[5],help=f"Calories in Meal: {food4[6]}")
 
 
         #Make a double for loop to loop from the specific date range and they display all the meals for all the days 
