@@ -9,29 +9,6 @@ from datetime import datetime
 from Dashboard import clone_private_repo
 
 import subprocess
-import subprocess
-
-def push_changes_to_repo(clone_dir, commit_message="Update database"):
-    # Stage all changes
-    subprocess.run(["git", "-C", clone_dir, "add", "."], check=True)
-
-    # Check if there are any staged changes
-    result = subprocess.run(
-        ["git", "-C", clone_dir, "diff", "--cached", "--quiet"],
-        capture_output=True
-    )
-
-    if result.returncode == 0:
-        # No changes to commit
-        print("No changes to commit.")
-        return
-
-    # Commit and push
-    subprocess.run(["git", "-C", clone_dir, "commit", "-m", commit_message], check=True)
-    subprocess.run(["git", "-C", clone_dir, "push"], check=True)
-
-
-
 
 
 DB_PATH= clone_private_repo()
@@ -429,5 +406,4 @@ else:
                 fig=nutrient_breakdown(email[1])
                 st.plotly_chart(fig)
 
-push_changes_to_repo("/tmp/private_repo", commit_message="Add new food log entry")       
 
