@@ -1,6 +1,7 @@
 import streamlit as st
 import sqlite3
 import requests
+from Dashboard import DB_PATH
 
 @st.cache_data(ttl=3600)
 def get_user_info(access_token):
@@ -53,7 +54,7 @@ def render_user_profile():
 
     
 def create_user(email):
-    conn = sqlite3.connect("food_tracker.db")
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
     # Check if the user already exists
