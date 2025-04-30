@@ -257,9 +257,10 @@ else:
                         "description",
                         "allergens",
                         "date"]]
+        
 
         cleandf= cleandf.loc[(cleandf["date"].str.split("T").str[0]==str(st.session_state["date"]))]
-        
+        cleandf=cleandf.drop_duplicates(subset=["name"])
         
         # This drop all the rows with items that dont have your prefreneces 
         drop_row=[]
