@@ -11,6 +11,7 @@ from userAuth.user_profile import getName
 st.set_page_config(layout="wide")# Setting the page size as defult wide( looks better :) )from userAuth.user_profile import getName
 
 
+#Fixed errors
 #----------------------------CSS LAYOUT------------------------------------#\
 
 st.markdown(
@@ -67,7 +68,7 @@ st.markdown("""
 # ADDING TO FOOD LOG #
 ######################
 
-def add_to_food_log(meal_id, uid, meal_type, food_name, calories, protein, fats, carbohydrates, date, location,db_path='food_tracker.db'):
+def add_to_food_log(meal_id, uid, meal_type, food_name, calories, protein, fats, carbohydrates, date, location,db_path=DB_PATH):
     try:
         conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
