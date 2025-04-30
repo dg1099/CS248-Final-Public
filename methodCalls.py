@@ -205,7 +205,7 @@ def displayMenu(location,file1,file2):
                     current_hour = datetime.now().hour
 
 
-                    st.write(df.columns)
+                    
                     if drinkb:
                         st.session_state[f"drink{location}"].append(session_key1)
                         meal_name = df["Drink Name"].iloc[ind] if pd.notnull(df["Drink Name"].iloc[ind]) else "Unknown"
@@ -223,6 +223,7 @@ def displayMenu(location,file1,file2):
                             meal_type = "Dinner"
                         else:
                             meal_type = "Snack"
+
                         st.write(meal_type)
                         add_to_food_log(
                             meal_id,
