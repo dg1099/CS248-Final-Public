@@ -277,6 +277,7 @@ else:
                 date_obj = datetime.datetime.strptime(date, '%Y-%m-%d').date()
                 st.subheader(date_obj.strftime('%A'),divider=True)
                 for item in data:
+                    st.write(item)
                     if item[2]==date:
                         st.markdown(item[5],help=f"Calories in Meal: {item[6]}")
     with monthly:
