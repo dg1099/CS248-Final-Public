@@ -113,7 +113,7 @@ def displayMenu(location,file1,file2):
                             meal_type = "Breakfast"
                         elif 11 <= current_hour < 15:
                             meal_type = "Lunch"
-                        elif 15 <= current_hour < 21:
+                        elif 15 <= current_hour < 24:
                             meal_type = "Dinner"
                         else:
                             meal_type = "Snack"
@@ -203,6 +203,7 @@ def displayMenu(location,file1,file2):
 
                     from datetime import datetime
                     current_hour = datetime.now().hour
+                    st.write(current_hour)
 
 
                     
@@ -218,7 +219,7 @@ def displayMenu(location,file1,file2):
                             meal_type = "Breakfast"
                         elif 11 <= current_hour < 15:
                             meal_type = "Lunch"
-                        elif 15 <= current_hour < 21:
+                        elif 15 <= current_hour < 24:
                             meal_type = "Dinner"
                         else:
                             meal_type = "Snack"
