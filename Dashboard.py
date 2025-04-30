@@ -258,6 +258,7 @@ with stylable_container(
         fav_option=st.selectbox("Select A Hall!",options)
     with col2:
         st.write("")
+        st.write("")
         st.popover("Dining Hall visits Breakdown! ")
     date=datetime.now().date()
     timenow=datetime.now()
