@@ -248,7 +248,7 @@ else:
                 st.subheader("Snack",divider=True)
                 if len(snack)==0:
                     st.write("Nothing was logged")
-                for food4 in dinner: 
+                for food4 in snack: 
                     st.markdown(food4[5],help=f"Calories in Meal: {food4[6]}")
 
 

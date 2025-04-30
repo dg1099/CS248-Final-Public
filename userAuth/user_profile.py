@@ -93,17 +93,19 @@ def create_user(email):
 
 def getName():
     """Render user profile photo and greeting, if user opts in."""
-    access_token = st.session_state.get("access_token")  # User access token here 
+    access_token = st.session_state.get("access_token")  # User access token
     if not access_token:
-        return
-
-    # Get user info
-    user = get_user_info(access_token)
-    email = user.get("email", "unknown@example.com")
+        return ("Unknown", "unknown@example.com")
 
     if "fake_user_name" in st.session_state:
         first_name = st.session_state["fake_user_name"]
+        email = "fake@example.com"
     else:
+        user = get_user_info(access_token)
+        if not user:
+            return ("Unknown", "unknown@example.com")
+        email = user.get("email", "unknown@example.com")
         first_name = user.get("given_name") or user.get("name", "there").split()[0]
 
     return (first_name, email)
+
