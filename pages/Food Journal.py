@@ -270,7 +270,6 @@ else:
             dates=[]
 
             for item in data:
-                st.write(item)
                 if item[2] not in dates:
                     dates.append(item[2])
         
