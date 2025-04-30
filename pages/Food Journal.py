@@ -167,7 +167,13 @@ else:
             }
         """,
     ):
-        st.subheader("Whats in your journal!",help="Hover over question marks to display meal calorie amount")
+        col1,col2,col3=st.columns(3)
+        with col1:
+            st.write("")
+        with col2:
+            st.subheader("Whats in your journal!",help="Hover over question marks to display meal calorie amount")
+        with col3:
+            st.write("")
         #This holds all the meals logged by the user for that specific date selected 
         today = datetime.now().date()
     
