@@ -2,13 +2,16 @@ import plotly.express as px
 import pandas as pd
 import sqlite3
 import plotly.graph_objects as go
+from Dashboard import clone_private_repo
 
-conn = sqlite3.connect('food_tracker.db')
+DB_PATH= clone_private_repo()
+
+conn = sqlite3.connect(DB_PATH)
 
 c = conn.cursor()
 
 def spider_graph(uid):
-    conn = sqlite3.connect('food_tracker.db')
+    conn = sqlite3.connect(DB_PATH)
 
     c = conn.cursor()
     c.execute("SELECT SUM(protein), SUM(fats), SUM(carbohydrates) FROM food_log WHERE uid = ?", (uid, ))
@@ -34,7 +37,7 @@ def spider_graph(uid):
 
 def average_calories_by_meal(uid):
 
-    conn = sqlite3.connect('food_tracker.db')
+    conn = sqlite3.connect(DB_PATH)
 
     c = conn.cursor()
     c.execute("SELECT meal_type, AVG(calories) FROM food_log WHERE uid = ? GROUP BY meal_type ", (uid, ))
@@ -50,7 +53,7 @@ def average_calories_by_meal(uid):
     return fig
 
 def nutrient_breakdown(uid):
-    conn = sqlite3.connect('food_tracker.db')
+    conn = sqlite3.connect(DB_PATH)
 
     c = conn.cursor()
     c.execute("SELECT SUM(protein), SUM(fats), SUM(carbohydrates) FROM food_log WHERE uid = ?", (uid, ))
@@ -85,7 +88,7 @@ def nutrient_breakdown(uid):
     return fig
 
 def location_nutrient_breakdown (uid):
-    conn = sqlite3.connect('food_tracker.db')
+    conn = sqlite3.connect(DB_PATH)
 
     c = conn.cursor()
     c.execute("SELECT SUM(protein), SUM(fats), SUM(carbohydrates), location_id FROM food_log WHERE uid = ? GROUP BY location_id", (uid, ))
@@ -106,7 +109,7 @@ def location_nutrient_breakdown (uid):
 def location_nutrient_breakdown (uid):
     # this would work best if only used for the month/all time
 
-    conn = sqlite3.connect('food_tracker.db')
+    conn = sqlite3.connect(DB_PATH)
 
     c = conn.cursor()
     c.execute("SELECT SUM(protein), SUM(fats), SUM(carbohydrates), location_id FROM food_log WHERE uid = ? GROUP BY location_id", (uid, ))
@@ -129,7 +132,7 @@ def location_nutrient_breakdown (uid):
     return fig
 
 def common_dining(uid):
-    conn = sqlite3.connect('food_tracker.db')
+    conn = sqlite3.connect(DB_PATH)
 
     c = conn.cursor()
     c.execute("SELECT location_id FROM food_log WHERE uid = ?", (uid, ))
