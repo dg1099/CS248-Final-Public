@@ -14,13 +14,6 @@ st.set_page_config(layout="wide")
 
 DB_PATH= clone_private_repo()
 
-conn = sqlite3.connect(DB_PATH)
-cursor = conn.cursor()
-cursor.execute("SELECT * FROM food_log")
-st.write(cursor.fetchall())
-conn.close()
-
-
 
 st.markdown(
     """
