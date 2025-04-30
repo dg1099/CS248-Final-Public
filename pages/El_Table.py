@@ -18,7 +18,7 @@ st.markdown(
     """
 <style>
 [data-testid="stSidebarContent"] {
-    color: sienna;
+    color: white;
     background-color: #622572;
     border-radius: 25px;
     border-color: black;

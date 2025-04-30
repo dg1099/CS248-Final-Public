@@ -19,7 +19,7 @@ st.markdown(
     """
 <style>
 [data-testid="stSidebarContent"] {
-    color: sienna;
+    color: white;
     background-color: #622572;
     border-radius: 25px;
     border-color: black;
@@ -411,7 +411,6 @@ else:
 
                             sentiment_mapping = ["1", "2", "3", "4", "5"]
                             selected = st.feedback("stars",key=session_key+"rating")
-                            st.write(getName()[1])
 
                             submitted = st.form_submit_button("Submit")
 
