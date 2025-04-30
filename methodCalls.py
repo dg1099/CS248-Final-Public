@@ -107,7 +107,7 @@ def displayMenu(location,file1,file2):
 
                         add_to_food_log(
                             meal_id,
-                            getName()[0],
+                            getName()[1],
                             "Snack",
                             meal_name,
                             calories,
@@ -196,7 +196,7 @@ def displayMenu(location,file1,file2):
 
                         add_to_food_log(
                             meal_id,
-                            getName()[0],
+                            getName()[1],
                             "Snack",
                             meal_name,
                             calories,
