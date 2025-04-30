@@ -264,6 +264,9 @@ else:
                         "description",
                         "allergens",
                         "date"]]
+        
+        st.write(cleandf)
+
         cleandf=cleandf.drop_duplicates(subset=["name"])
         st.write(cleandf)
 
