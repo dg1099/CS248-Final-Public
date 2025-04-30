@@ -199,6 +199,9 @@ def displayMenu(location,file1,file2):
                     date = current_date.strftime("%Y-%m-%d")
                     meal_id = f"{date.replace('-', '')}{ind}"
                     # Save button press result into the session dict
+                    current_hour = datetime.now().hour
+
+
 
                     if drinkb:
                         st.session_state[f"drink{location}"].append(session_key1)
@@ -207,7 +210,7 @@ def displayMenu(location,file1,file2):
                         protein = df["Protein"].iloc[ind] if pd.notnull(df["Protein"].iloc[ind]) else 0
                         fat = df["Fat"].iloc[ind] if pd.notnull(df["Fat"].iloc[ind]) else 0
                         carbs = df["Carbohydrates"].iloc[ind] if pd.notnull(df["Carbohydrates"].iloc[ind]) else 0
-                        current_hour = datetime.now().hour
+                        
                         
                         if 5 <= current_hour < 11:
                             meal_type = "Breakfast"
@@ -217,7 +220,7 @@ def displayMenu(location,file1,file2):
                             meal_type = "Dinner"
                         else:
                             meal_type = "Snack"
-
+                        st.write(meal_type)
                         add_to_food_log(
                             meal_id,
                             getName()[1],
