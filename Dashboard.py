@@ -188,8 +188,7 @@ with st.expander("Welcome!"):
                         border: 4px solid PapayaWhip;
                         border-radius: 0.5rem;
                         background: #b89927;
-                        background: linear-gradient(90deg,rgba(184, 153, 39, 1) 0%, rgba(113, 20, 163, 1) 91%);
-                        background-color: #2E8B57;
+                        background-color: thistle;
                         padding: calc(1em - 1px)
                             
                     }
@@ -222,8 +221,7 @@ with stylable_container(
                     border: 4px solid PapayaWhip;
                     border-radius: 0.5rem;
                     background: #b89927;
-                    background: linear-gradient(90deg,rgba(184, 153, 39, 1) 0%, rgba(113, 20, 163, 1) 91%);
-                    background-color: #2E8B57;
+                    background-color: thistle;
                     padding: calc(1em - 1px)
                          
                 }
