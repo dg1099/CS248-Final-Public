@@ -265,6 +265,7 @@ else:
                         "allergens",
                         "date"]]
         cleandf=cleandf.drop_duplicates(subset=["name"])
+        st.write(cleandf)
 
         cleandf= cleandf.loc[(cleandf["date"].str.split("T").str[0]==str(st.session_state["date"]))]
         
@@ -278,7 +279,7 @@ else:
                 print(currentpref)
                 if item1["name"] in currentpref:
                     drop_row.append(index)
-        st.write(drop_row)
+        
         cleandf=cleandf.drop(drop_row)
 
         if cleandf.empty:
