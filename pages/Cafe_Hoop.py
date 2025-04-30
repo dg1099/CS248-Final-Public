@@ -28,7 +28,7 @@ st.markdown(
     <style>
     .stApp {
         opacity: 100;
-        background-image: url("https://png.pngtree.com/thumb_back/fh260/background/20210421/pngtree-cream-purple-vintage-paper-texture-premium-quality-background-image_636174.jpg");
+        background-image: url("https://img.freepik.com/premium-vector/hand-painted-watercolor-blue-abstract-background_278222-7243.jpg?semt=ais_hybrid&w=740");
     }
     </style>
     """,
