@@ -199,6 +199,8 @@ def displayMenu(location,file1,file2):
                     date = current_date.strftime("%Y-%m-%d")
                     meal_id = f"{date.replace('-', '')}{ind}"
                     # Save button press result into the session dict
+
+                    from datetime import datetime
                     current_hour = datetime.now().hour
 
 
