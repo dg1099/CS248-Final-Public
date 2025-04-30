@@ -128,7 +128,7 @@ st.html(
     border-color: black;
     border-style: solid;
     border-width: 7px;
-    background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKbLTTsUKicvGQW4Slw5fPU1Dsxkg99l45Lw&s");
+    background-image: url("https://static.vecteezy.com/system/resources/previews/008/359/817/non_2x/beautiful-and-bright-yellow-and-purple-color-gradient-background-combination-soft-and-smooth-texture-free-vector.jpg");
 }
 </style>
 """
@@ -138,7 +138,7 @@ st.markdown(
     """
     <style>
     .stApp {
-        background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKbLTTsUKicvGQW4Slw5fPU1Dsxkg99l45Lw&s");
+        background-image: url("https://static.vecteezy.com/system/resources/previews/008/359/817/non_2x/beautiful-and-bright-yellow-and-purple-color-gradient-background-combination-soft-and-smooth-texture-free-vector.jpg");
     }
     </style>
     """,
