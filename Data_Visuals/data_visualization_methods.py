@@ -151,7 +151,8 @@ def common_dining(uid):
         counts,
         x="# of Visits",
         y="Dining Hall",
-        orientation='h'  # horizontal
+        orientation='h',  # horizontal
+        color_discrete_sequence=["purple"]
     )
 
     fig.update_layout(yaxis=dict(categoryorder='total ascending'))  # most common at top
