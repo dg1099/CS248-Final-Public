@@ -22,12 +22,12 @@ def clone_private_repo():
 
     if not token or not repo_url:
         raise ValueError("Missing GITHUB_TOKEN or PRIVATE_DB_REPO in secrets!")
-    
-    clone_url = repo_url.replace("https://", f"https://{token}@")
-    clone_dir = "/db/food_tracker.db"
+
+    # Correct: clone into a folder
+    clone_dir = "/tmp/private_repo"
 
     if not os.path.exists(clone_dir):
-        subprocess.run(["git", "clone", clone_url, clone_dir], check=True)
+        subprocess.run(["git", "clone", repo_url.replace("https://", f"https://{token}@"), clone_dir], check=True)
 
     return os.path.join(clone_dir, db_file_name)
 
