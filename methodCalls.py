@@ -4,9 +4,31 @@ from userAuth.user_profile import getName
 from Dashboard import change_allergens
 from Dashboard import get_user_allergens
 from streamlit_extras.stylable_container import stylable_container
-
+import sqlite3
+from Dashboard import DB_PATH
+import datetime
 
 def displayMenu(location,file1,file2):
+    def add_to_food_log(meal_id, uid, meal_type, food_name, calories, protein, fats, carbohydrates, date, location,db_path= DB_PATH):
+        try:
+            conn = sqlite3.connect(db_path)
+            cursor = conn.cursor()
+
+            cursor.execute('''
+                INSERT INTO food_log (
+                    meal_id, date, uid, meal_type,
+                    food_name, calories, protein, fats, carbohydrates,location_id
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ''', (
+                meal_id, date, uid, meal_type,
+                food_name, calories, protein, fats, carbohydrates,location
+            ))
+
+            conn.commit()
+            conn.close()
+        except Exception as e:
+            st.error(f"An error occurred while saving to the journal: {e}")
+    
     tab1,tab2=st.tabs(["Meals","Drinks"])
 
     df = pd.read_csv(file1)
@@ -70,11 +92,32 @@ def displayMenu(location,file1,file2):
 
                     drinkb=st.button("Add To Journal", key=session_key,use_container_width=True)
                     
+                    #date
+                    current_date = datetime.date.today()
+                    date = current_date.strftime("%Y-%m-%d")
+                    meal_id = f"{date.replace('-', '')}{idx}"
                     # Save button press result into the session dict
-                    
-
                     if drinkb:
                         st.session_state[f"meals{location}"].append(session_key)
+                        meal_name = df["Meal Name"].iloc[idx] if pd.notnull(df["Meal Name"].iloc[idx]) else "Unknown"
+                        calories = df["Calories"].iloc[idx] if pd.notnull(df["Calories"].iloc[idx]) else 0
+                        protein = df["Protein"].iloc[idx] if pd.notnull(df["Protein"].iloc[idx]) else 0
+                        fat = df["Fat"].iloc[idx] if pd.notnull(df["Fat"].iloc[idx]) else 0
+                        carbs = df["Carbohydrates"].iloc[idx] if pd.notnull(df["Carbohydrates"].iloc[idx]) else 0
+
+                        add_to_food_log(
+                            meal_id,
+                            getName()[0],
+                            "Snack",
+                            meal_name,
+                            calories,
+                            protein,
+                            fat,
+                            carbs,
+                            date,
+                            location,
+                            db_path=DB_PATH
+                        )
                     if session_key in st.session_state[f"meals{location}"]:
                         st.warning("Added to Journal")
             st.write(st.session_state[f"meals{location}"])
@@ -137,12 +180,33 @@ def displayMenu(location,file1,file2):
                     session_key1 = f"{drink}_{ind}_added"
 
                     drinkb=st.button("Add To Journal", key=session_key1,use_container_width=True)
-                    
+                    #date
+                    current_date = datetime.date.today()
+                    date = current_date.strftime("%Y-%m-%d")
+                    meal_id = f"{date.replace('-', '')}{ind}"
                     # Save button press result into the session dict
-                    
 
                     if drinkb:
                         st.session_state[f"drink{location}"].append(session_key1)
+                        meal_name = df["Drink Name"].iloc[ind] if pd.notnull(df["Meal Name"].iloc[ind]) else "Unknown"
+                        calories = df["Calories"].iloc[ind] if pd.notnull(df["Calories"].iloc[ind]) else 0
+                        protein = df["Protein"].iloc[ind] if pd.notnull(df["Protein"].iloc[ind]) else 0
+                        fat = df["Fat"].iloc[ind] if pd.notnull(df["Fat"].iloc[ind]) else 0
+                        carbs = df["Carbohydrates"].iloc[ind] if pd.notnull(df["Carbohydrates"].iloc[ind]) else 0
+
+                        add_to_food_log(
+                            meal_id,
+                            getName()[0],
+                            "Snack",
+                            meal_name,
+                            calories,
+                            protein,
+                            fat,
+                            carbs,
+                            date,
+                            location,
+                            db_path=DB_PATH
+                        )
                     if session_key1 in st.session_state[f"drink{location}"]:
                         st.warning("Added to Journal")
                 
@@ -151,6 +215,7 @@ def displayMenu(location,file1,file2):
                                 
         st.write(st.session_state[f"meals{location}"])
         st.write(st.session_state[f"drink{location}"])
+
 
 def displayPreference(location):
     
