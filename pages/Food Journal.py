@@ -202,6 +202,8 @@ else:
         """,
     ): 
                 today=st.date_input("Select A Date", today)
+                username = getName()[1]
+                st.write(username)
                 conn=sqlite3.connect(DB_PATH)
                 c=conn.cursor()
                 c.execute(""" SELECT * FROM food_log WHERE date(date) = ? """, (today,))
