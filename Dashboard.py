@@ -221,7 +221,7 @@ with stylable_container(
                     border: 4px solid PapayaWhip;
                     border-radius: 0.5rem;
                     background: #b89927;
-                    background-color: thistle;
+                    background-color: #CFBACF;
                     padding: calc(1em - 1px)
                          
                 }
