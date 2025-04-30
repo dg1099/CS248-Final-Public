@@ -265,9 +265,7 @@ else:
                         "allergens",
                         "date"]]
         
-        st.write(cleandf)
-
-        cleandf=cleandf.drop_duplicates(subset=["name"])
+        
         st.write(cleandf)
 
         cleandf= cleandf.loc[(cleandf["date"].str.split("T").str[0]==str(st.session_state["date"]))]
