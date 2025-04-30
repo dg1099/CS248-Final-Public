@@ -137,7 +137,7 @@ def get_protein_goal(username):
 #----------------------------PAGE LAYOUT------------------------------------#
 
 
-email=getName()
+email=getName()[0]
 
 
 if "access_token" not in st.session_state:
