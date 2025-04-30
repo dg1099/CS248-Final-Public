@@ -86,7 +86,7 @@ def displayMenu(location,file1,file2):
                 with col1:
                     st.write(meal)
                 with col2:
-                    if ingr != 'No Info':
+                    if type(ingr) != str:
                         ingr = round(ingr, 2)
                     st.write(str(ingr))
                 with col3:
