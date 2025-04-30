@@ -13,6 +13,10 @@ import subprocess
 st.set_page_config(layout="wide")
 
 DB_PATH= clone_private_repo()
+conn = sqlite3.connect(DB_PATH)
+cursor = conn.cursor()
+cursor.execute("SELECT * FROM rating")
+st.write(cursor.fetchall())
 
 
 
