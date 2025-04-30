@@ -278,7 +278,7 @@ else:
                 print(currentpref)
                 if item1["name"] in currentpref:
                     drop_row.append(index)
-        
+        st.write(drop_row)
         cleandf=cleandf.drop(drop_row)
 
         if cleandf.empty:
