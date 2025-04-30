@@ -155,10 +155,21 @@ else:
     #current_protein_goal = get_protein_goal(username)
 
    
-
-    st.subheader("Whats in your journal!",help="Hover over question marks to display meal calorie amount")
-    #This holds all the meals logged by the user for that specific date selected 
-    today = datetime.now().date()
+    with stylable_container(
+        key="table3we",
+        css_styles="""
+            {
+                border: 4px solid black;
+                background: linear-gradient(90deg, rgba(184, 153, 39, 1) 0%, rgba(113, 20, 163, 1) 91%);
+                border-radius: 0.5rem;
+                padding: 1em;
+                color: white; /* Optional: make text easier to see */
+            }
+        """,
+    ):
+        st.subheader("Whats in your journal!",help="Hover over question marks to display meal calorie amount")
+        #This holds all the meals logged by the user for that specific date selected 
+        today = datetime.now().date()
     
 
     
