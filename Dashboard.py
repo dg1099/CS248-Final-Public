@@ -128,7 +128,6 @@ st.html(
     border-color: black;
     border-style: solid;
     border-width: 7px;
-    background-image: url("https://static.vecteezy.com/system/resources/previews/008/359/817/non_2x/beautiful-and-bright-yellow-and-purple-color-gradient-background-combination-soft-and-smooth-texture-free-vector.jpg");
 }
 </style>
 """
@@ -263,7 +262,7 @@ with stylable_container(
         st.write("")
         st.write("")
         with st.popover("Dining Hall visits Breakdown! "):
-            st.plotly_chart(Data_Visuals.data_visualization_methods.common_dining(getName()[1]))
+            st.plotly_chart(Data_Visuals.data_visualization_methods.common_dining(getName[1]))
             
     date=datetime.now().date()
     timenow=datetime.now()
@@ -301,7 +300,7 @@ with stylable_container(
                 st.write(item[1])
 
 
-        elif 10 <= current_hour < 17:
+        elif 10 <= current_hour < 14:
             selected_time="Lunch"
             st.warning(f"For {selected_time} at {fav_option}")
 
@@ -330,7 +329,7 @@ with stylable_container(
             cleandf= cleandf.loc[(cleandf["date"].str.split("T").str[0]==str(date))]
             for item in cleandf["name"].items():
                 st.write(item[1])
-        elif 17 <= current_hour < 24:
+        elif 14 <= current_hour < 21:
             selected_time="Dinner"
             st.warning(f"For {selected_time} at {fav_option}")
 

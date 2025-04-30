@@ -16,7 +16,7 @@ st.markdown(
     border-color: black;
     border-style: solid;
     border-width: 7px;
-    background-image: url("https://png.pngtree.com/thumb_back/fh260/background/20210421/pngtree-cream-purple-vintage-paper-texture-premium-quality-background-image_636174.jpg");
+    background-image: url("https://static.vecteezy.com/system/resources/previews/008/359/817/non_2x/beautiful-and-bright-yellow-and-purple-color-gradient-background-combination-soft-and-smooth-texture-free-vector.jpg");
 }
 </style>
 """,
@@ -28,7 +28,7 @@ st.markdown(
     <style>
     .stApp {
         opacity: 100;
-        background-image: url("https://i.pinimg.com/736x/82/cd/99/82cd994dc039cd21874b6d88e1e9910a.jpg");
+        background-image: url("https://static.vecteezy.com/system/resources/previews/008/359/817/non_2x/beautiful-and-bright-yellow-and-purple-color-gradient-background-combination-soft-and-smooth-texture-free-vector.jpg");
     }
     </style>
     """,
