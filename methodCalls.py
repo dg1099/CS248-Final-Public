@@ -86,9 +86,7 @@ def displayMenu(location,file1,file2):
                 with col1:
                     st.write(meal)
                 with col2:
-                    if ingr != 'No Info':
-                        ingr = round(float(ingr), 2)
-                    st.write(str(ingr))
+                    st.write(ingr)
                 with col3:
                     session_key = f"{meal}_{idx}_added"
 
@@ -122,7 +120,7 @@ def displayMenu(location,file1,file2):
                         )
                     if session_key in st.session_state[f"meals{location}"]:
                         st.warning("Added to Journal")
-            
+            st.write(st.session_state[f"meals{location}"])
 
     with tab2: 
         with stylable_container(
@@ -215,7 +213,8 @@ def displayMenu(location,file1,file2):
                 
                 
                                 
-        
+        st.write(st.session_state[f"meals{location}"])
+        st.write(st.session_state[f"drink{location}"])
 
 
 def displayPreference(location):
