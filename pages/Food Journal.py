@@ -165,7 +165,7 @@ else:
         css_styles="""
             {
                 border: 4px solid black;
-                background: linear-gradient(90deg, rgba(184, 153, 39, 1) 0%, rgba(113, 20, 163, 1) 91%);
+                background: linear-gradient(90deg, rgba(252, 186, 3, 1) 0%, rgba(113, 20, 163, 1) 91%);
                 border-radius: 0.5rem;
                 padding: 1em;
                 color: white; /* Optional: make text easier to see */
@@ -194,7 +194,7 @@ else:
         css_styles="""
             {
                 border: 4px solid black;
-                background: linear-gradient(90deg, rgba(184, 153, 39, 1) 0%, rgba(113, 20, 163, 1) 91%);
+                background: linear-gradient(90deg, rgba(252, 186, 3, 1) 0%, rgba(113, 20, 163, 1) 91%);
                 border-radius: 0.5rem;
                 padding: 1em;
                 color: white; /* Optional: make text easier to see */
@@ -264,7 +264,7 @@ else:
         css_styles="""
             {
                 border: 4px solid black;
-                background: linear-gradient(90deg, rgba(184, 153, 39, 1) 0%, rgba(113, 20, 163, 1) 91%);
+                background: linear-gradient(90deg, rgba(252, 186, 3, 1) 0%, rgba(113, 20, 163, 1) 91%);
                 border-radius: 0.5rem;
                 padding: 1em;
                 color: white; /* Optional: make text easier to see */
@@ -318,7 +318,7 @@ else:
         css_styles="""
             {
                 border: 4px solid black;
-                background: linear-gradient(90deg, rgba(184, 153, 39, 1) 0%, rgba(113, 20, 163, 1) 91%);
+                background: linear-gradient(90deg, rgba(252, 186, 3, 1) 0%, rgba(113, 20, 163, 1) 91%);
                 border-radius: 0.5rem;
                 padding: 1em;
                 color: white; /* Optional: make text easier to see */
