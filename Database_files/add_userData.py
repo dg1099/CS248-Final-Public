@@ -1,5 +1,27 @@
 import sqlite3
 from datetime import datetime
+import os
+import subprocess
+import streamlit as st
+
+def clone_private_repo():
+    token = st.secrets["github"]["GITHUB_TOKEN"]
+    repo_url = st.secrets["github"]["PRIVATE_DB_REPO"]
+    db_file_name = st.secrets.get("DB_FILE_NAME", "food_tracker.db")
+
+    if not token or not repo_url:
+        raise ValueError("Missing GITHUB_TOKEN or PRIVATE_DB_REPO in secrets!")
+
+    # Correct: clone into a folder
+    clone_dir = "/tmp/private_repo"
+
+    if not os.path.exists(clone_dir):
+        subprocess.run(["git", "clone", repo_url.replace("https://", f"https://{token}@"), clone_dir], check=True)
+
+    return os.path.join(clone_dir, db_file_name)
+
+# Call this once in your app
+DB_PATH = clone_private_repo()
 
 ##################### UPDATING AND GETTING allergens########################
 def change_allergens(username, allergens):
@@ -7,7 +29,7 @@ def change_allergens(username, allergens):
     pref_string = ",".join(allergens)
 
     # Connect to your database
-    conn = sqlite3.connect("food_tracker.db")  # change to your actual DB file
+    conn = sqlite3.connect(DB_PATH )  # change to your actual DB file
     cursor = conn.cursor()
 
     try:
@@ -24,7 +46,7 @@ def change_allergens(username, allergens):
         conn.close()
 
 def get_allergens(username):
-    conn = sqlite3.connect("food_tracker.db")
+    conn = sqlite3.connect(DB_PATH )
     cursor = conn.cursor()
 
     try:
@@ -41,13 +63,13 @@ def get_allergens(username):
 # ADDING TO FOOD LOG #
 ######################
 
-def get_db_connection(db_path='food_tracker.db'):
-    return sqlite3.connect(db_path)
+def get_db_connection(DB_PATH ):
+    return sqlite3.connect(DB_PATH)
 
 def add_to_food_log(
     meal_id, uid, meal_type, food_name,
     calories, protein, fats, carbohydrates,location,
-    db_path='food_tracker.db'
+    db_path=DB_PATH 
 ):
     conn = get_db_connection(db_path)
     cursor = conn.cursor()
@@ -71,7 +93,7 @@ def add_to_food_log(
 
 #This will update the prefrences 
 def update_preference(username, new_preference):
-    conn = sqlite3.connect("food_tracker.db")
+    conn = sqlite3.connect(DB_PATH )
     cursor = conn.cursor()
 
     # Update the preferences field with the new preference for the specified user
@@ -88,7 +110,7 @@ def update_preference(username, new_preference):
 
 #Get the prefrences of the user for their favorite halls 
 def get_preference(username):
-    conn = sqlite3.connect("food_tracker.db")
+    conn = sqlite3.connect(DB_PATH )
     cursor = conn.cursor()
 
     # Query to fetch the preferences for the specified user
