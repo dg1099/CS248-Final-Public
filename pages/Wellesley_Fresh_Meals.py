@@ -15,24 +15,6 @@ st.set_page_config(layout="wide")# Setting the page size as defult wide( looks b
 
 import subprocess
 
-def push_changes_to_repo(clone_dir, commit_message="Update database"):
-    # Stage all changes
-    subprocess.run(["git", "-C", clone_dir, "add", "."], check=True)
-
-    # Check if there are any staged changes
-    result = subprocess.run(
-        ["git", "-C", clone_dir, "diff", "--cached", "--quiet"],
-        capture_output=True
-    )
-
-    if result.returncode == 0:
-        # No changes to commit
-        print("No changes to commit.")
-        return
-
-    # Commit and push
-    subprocess.run(["git", "-C", clone_dir, "commit", "-m", commit_message], check=True)
-    subprocess.run(["git", "-C", clone_dir, "push"], check=True)
 
 
 #Fixed errors
@@ -303,7 +285,7 @@ else:
             st.warning("No meal options match your current preferences!")
             st.stop()
 
-
+        st.write(cleandf)
         st.session_state["dataframe"] = cleandf
 
         
@@ -486,7 +468,7 @@ else:
     st.write(st.session_state["wellesleymeal"])  # Remove duplicates
     st.write(st.session_state["dataframe"])
 
-push_changes_to_repo("/tmp/private_repo", commit_message="Add new food log entry")
+
 
 
 
