@@ -86,7 +86,7 @@ def displayMenu(location,file1,file2):
                 with col1:
                     st.write(meal)
                 with col2:
-                    st.write(str(ingr))
+                    st.write(int(ingr))
                 with col3:
                     session_key = f"{meal}_{idx}_added"
 
