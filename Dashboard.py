@@ -128,6 +128,7 @@ st.html(
     border-color: black;
     border-style: solid;
     border-width: 7px;
+    background-image: url("https://static.vecteezy.com/system/resources/previews/008/359/817/non_2x/beautiful-and-bright-yellow-and-purple-color-gradient-background-combination-soft-and-smooth-texture-free-vector.jpg");
 }
 </style>
 """
