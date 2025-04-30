@@ -41,13 +41,6 @@ def clone_private_repo():
 # Call this once in your app
 DB_PATH = clone_private_repo()
 
-import sqlite3
-conn = sqlite3.connect(DB_PATH)
-cursor = conn.cursor()
-cursor.execute("SELECT * FROM food_log")
-st.write(cursor.fetchall())
-
-st.write()
 
 import subprocess
 
