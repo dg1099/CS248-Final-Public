@@ -411,6 +411,7 @@ else:
 
                             sentiment_mapping = ["1", "2", "3", "4", "5"]
                             selected = st.feedback("stars",key=session_key+"rating")
+                            st.write(getName()[1])
 
                             submitted = st.form_submit_button("Submit")
 
