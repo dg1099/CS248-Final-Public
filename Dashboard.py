@@ -128,6 +128,7 @@ st.html(
     border-color: black;
     border-style: solid;
     border-width: 7px;
+    background-image: url("https://static.vecteezy.com/system/resources/previews/008/359/817/non_2x/beautiful-and-bright-yellow-and-purple-color-gradient-background-combination-soft-and-smooth-texture-free-vector.jpg");
 }
 </style>
 """
@@ -184,11 +185,10 @@ with st.expander("Welcome!"):
                 css_styles=["""
                 
                     {
-                        border: 4px solid black;
+                        border: 4px solid PapayaWhip;
                         border-radius: 0.5rem;
                         background: #b89927;
-                        background: linear-gradient(90deg,rgba(184, 153, 39, 1) 0%, rgba(113, 20, 163, 1) 91%);
-                        background-color: #2E8B57;
+                        background-color: thistle;
                         padding: calc(1em - 1px)
                             
                     }
@@ -218,11 +218,10 @@ with stylable_container(
             css_styles=["""
             
                 {
-                    border: 4px solid black;
+                    border: 4px solid PapayaWhip;
                     border-radius: 0.5rem;
                     background: #b89927;
-                    background: linear-gradient(90deg,rgba(184, 153, 39, 1) 0%, rgba(113, 20, 163, 1) 91%);
-                    background-color: #2E8B57;
+                    background-color: #E0C5E0;
                     padding: calc(1em - 1px)
                          
                 }

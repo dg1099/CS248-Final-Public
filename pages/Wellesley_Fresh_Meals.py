@@ -20,7 +20,7 @@ st.markdown(
 <style>
 [data-testid="stSidebarContent"] {
     color: white;
-    background-color: #622572;
+    background-color: plum;
     border-radius: 25px;
     border-color: black;
     border-style: solid;
@@ -54,7 +54,7 @@ st.markdown("""
     }
     .equal-height-box {
         flex: 1;
-        background-color: #2E8B57;
+        background-color: plum;
         padding: calc(1em - 1px);
         border: 4px solid black;
         border-radius: 0.5rem;
