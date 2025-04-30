@@ -250,10 +250,14 @@ with stylable_container(
     # else:
     #     options=["Lulu","Bates","Stone D","Tower"]
     #     fav_option=st.selectbox("Select A Hall!",options)
-    
-    options=["Lulu","Bates","Stone D","Tower"]
-    fav_option=st.selectbox("Select A Hall!",options)
+    col1,col2=st.columns(2)
 
+
+    options=["Lulu","Bates","Stone D","Tower"]
+    with col1:
+        fav_option=st.selectbox("Select A Hall!",options)
+    with col2:
+        st.popover("Take a peek at which Dinning Hall you visit most! ")
     date=datetime.now().date()
     timenow=datetime.now()
     current_hour=timenow.hour
