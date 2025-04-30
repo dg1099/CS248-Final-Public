@@ -6,7 +6,9 @@ from Data_Visuals.data_visualization_methods import spider_graph, average_calori
 from userAuth.user_profile import getName
 import sqlite3
 from datetime import datetime
+from Dashboard import clone_private_repo
 
+DB_PATH= clone_private_repo()
 st.set_page_config(layout="wide")
 
 st.markdown(
@@ -174,7 +176,7 @@ else:
         """,
     ): 
                 today=st.date_input("Select A Date", today)
-                conn=sqlite3.connect("food_tracker.db")
+                conn=sqlite3.connect(DB_PATH)
                 c=conn.cursor()
                 c.execute(""" SELECT * FROM food_log WHERE date(date) = ? """, (today,))
                 meals_today = c.fetchall()
@@ -247,7 +249,7 @@ else:
                 st.stop()
 
 
-            conn = sqlite3.connect('food_tracker.db')
+            conn = sqlite3.connect(DB_PATH)
             c = conn.cursor()
             c.execute(""" SELECT * FROM food_log WHERE date(date) BETWEEN ? AND ? """, (d[0], d[1]))
             data=c.fetchall()
@@ -294,7 +296,7 @@ else:
                 st.stop()
 
 
-            conn = sqlite3.connect('food_tracker.db')
+            conn = sqlite3.connect(DB_PATH)
             c = conn.cursor()
             c.execute(""" SELECT * FROM food_log WHERE date(date) BETWEEN ? AND ? """, (d[0], d[1]))
             data=c.fetchall()
