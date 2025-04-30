@@ -195,6 +195,7 @@ def displayMenu(location,file1,file2):
 
                     drinkb=st.button("Add To Journal", key=session_key1,use_container_width=True)
                     #date
+                    import datetime
                     current_date = datetime.date.today()
                     date = current_date.strftime("%Y-%m-%d")
                     meal_id = f"{date.replace('-', '')}{ind}"
