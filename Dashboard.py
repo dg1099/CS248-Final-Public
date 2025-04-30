@@ -46,7 +46,8 @@ conn = sqlite3.connect(DB_PATH)
 cursor = conn.cursor()
 cursor.execute("SELECT * FROM user")
 st.write(cursor.fetchall())
-st.write(getName()[0])
+name=getName()[0]
+st.write()
 
 def push_changes_to_repo(clone_dir, commit_message="Update database"):
     token = st.secrets["github"]["GITHUB_TOKEN"]
