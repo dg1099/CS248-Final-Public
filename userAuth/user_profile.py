@@ -93,19 +93,17 @@ def create_user(email):
 
 def getName():
     """Render user profile photo and greeting, if user opts in."""
-    access_token = st.session_state.get("access_token") #User access token here 
+    access_token = st.session_state.get("access_token")  # User access token here 
     if not access_token:
         return
 
+    # Get user info
+    user = get_user_info(access_token)
+    email = user.get("email", "unknown@example.com")
 
-    #Dont need this feature right nwo 
-    #show_profile = st.sidebar.checkbox("Show profile info", value=True) 
-
-    #This will display the users google profile picture 
     if "fake_user_name" in st.session_state:
         first_name = st.session_state["fake_user_name"]
     else:
-        user = get_user_info(access_token)
-        email = user.get("email")
         first_name = user.get("given_name") or user.get("name", "there").split()[0]
-    return (first_name,email) 
+
+    return (first_name, email)

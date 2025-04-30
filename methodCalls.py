@@ -7,6 +7,7 @@ from streamlit_extras.stylable_container import stylable_container
 import sqlite3
 from Dashboard import DB_PATH
 import datetime
+from datetime import datetime
 
 def displayMenu(location,file1,file2):
     def add_to_food_log(meal_id, uid, meal_type, food_name, calories, protein, fats, carbohydrates, date, location,db_path= DB_PATH):
@@ -86,15 +87,14 @@ def displayMenu(location,file1,file2):
                 with col1:
                     st.write(meal)
                 with col2:
-                    if ingr != 'No Info':
-                        ingr = round(float(ingr), 2)
-                    st.write(str(ingr))
+                    st.write(ingr)
                 with col3:
                     session_key = f"{meal}_{idx}_added"
 
                     drinkb=st.button("Add To Journal", key=session_key,use_container_width=True)
                     
                     #date
+                    import datetime
                     current_date = datetime.date.today()
                     date = current_date.strftime("%Y-%m-%d")
                     meal_id = f"{date.replace('-', '')}{idx}"
@@ -106,11 +106,23 @@ def displayMenu(location,file1,file2):
                         protein = df["Protein"].iloc[idx] if pd.notnull(df["Protein"].iloc[idx]) else 0
                         fat = df["Fat"].iloc[idx] if pd.notnull(df["Fat"].iloc[idx]) else 0
                         carbs = df["Carbohydrates"].iloc[idx] if pd.notnull(df["Carbohydrates"].iloc[idx]) else 0
+                        from datetime import datetime
+                        current_hour = datetime.now().hour
+                        
+                        if 5 <= current_hour < 11:
+                            meal_type = "Breakfast"
+                        elif 11 <= current_hour < 15:
+                            meal_type = "Lunch"
+                        elif 15 <= current_hour < 21:
+                            meal_type = "Dinner"
+                        else:
+                            meal_type = "Snack"
+
 
                         add_to_food_log(
                             meal_id,
-                            getName()[0],
-                            "Snack",
+                            getName()[1],
+                            meal_type,
                             meal_name,
                             calories,
                             protein,
@@ -183,23 +195,40 @@ def displayMenu(location,file1,file2):
 
                     drinkb=st.button("Add To Journal", key=session_key1,use_container_width=True)
                     #date
+                    import datetime
                     current_date = datetime.date.today()
                     date = current_date.strftime("%Y-%m-%d")
                     meal_id = f"{date.replace('-', '')}{ind}"
                     # Save button press result into the session dict
 
+                    from datetime import datetime
+                    current_hour = datetime.now().hour
+
+
+                    
                     if drinkb:
                         st.session_state[f"drink{location}"].append(session_key1)
-                        meal_name = df["Drink Name"].iloc[ind] if pd.notnull(df["Meal Name"].iloc[ind]) else "Unknown"
+                        meal_name = df["Drink Name"].iloc[ind] if pd.notnull(df["Drink Name"].iloc[ind]) else "Unknown"
                         calories = df["Calories"].iloc[ind] if pd.notnull(df["Calories"].iloc[ind]) else 0
                         protein = df["Protein"].iloc[ind] if pd.notnull(df["Protein"].iloc[ind]) else 0
                         fat = df["Fat"].iloc[ind] if pd.notnull(df["Fat"].iloc[ind]) else 0
                         carbs = df["Carbohydrates"].iloc[ind] if pd.notnull(df["Carbohydrates"].iloc[ind]) else 0
+                        
+                        
+                        if 5 <= current_hour < 11:
+                            meal_type = "Breakfast"
+                        elif 11 <= current_hour < 15:
+                            meal_type = "Lunch"
+                        elif 15 <= current_hour < 21:
+                            meal_type = "Dinner"
+                        else:
+                            meal_type = "Snack"
 
+                        st.write(meal_type)
                         add_to_food_log(
                             meal_id,
-                            getName()[0],
-                            "Snack",
+                            getName()[1],
+                            meal_type,
                             meal_name,
                             calories,
                             protein,

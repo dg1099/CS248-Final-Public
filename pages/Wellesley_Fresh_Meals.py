@@ -8,10 +8,11 @@ import sqlite3
 from methodCalls import displayPreference
 from Dashboard import DB_PATH
 from userAuth.user_profile import getName
-st.set_page_config(layout="wide")# Setting the page size as defult wide( looks better :) )from userAuth.user_profile import getName
+import wellesley_fresh_api 
+
+# Setting the page size as defult wide( looks better :) )from userAuth.user_profile import getName
 
 
-#Fixed errors
 #----------------------------CSS LAYOUT------------------------------------#\
 
 st.markdown(
@@ -68,7 +69,7 @@ st.markdown("""
 # ADDING TO FOOD LOG #
 ######################
 
-def add_to_food_log(meal_id, uid, meal_type, food_name, calories, protein, fats, carbohydrates, date, location,db_path=DB_PATH):
+def add_to_food_log(meal_id, uid, meal_type, food_name, calories, protein, fats, carbohydrates, date, location,db_path='food_tracker.db'):
     try:
         conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
@@ -91,16 +92,15 @@ def add_to_food_log(meal_id, uid, meal_type, food_name, calories, protein, fats,
 ######################
 # ADD A RATING TO DB #
 ######################
-def insert_rating(rating, meal_id, uid):
+def insert_rating(mealname, uid, rating, comment, emotion):
 
     # Insert into the database
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
-
     cursor.execute("""
-        INSERT INTO rating (meal_id, uid, rating)
-        VALUES (?, ?, ?);
-    """, (meal_id, uid, rating))
+            INSERT INTO rating (meal, uid, rating, comment, emotion)
+            VALUES (?, ?, ?, ?, ?)
+        """, (mealname, uid, rating, comment, emotion))
 
     conn.commit()
     conn.close()
@@ -143,6 +143,8 @@ else:
         ):
             st.subheader("Pick Meal Time!")
             
+            
+
             breakfast=st.button("Breakfast")
             lunch=st.button("Lunch")
             dinner=st.button('Dinner')
@@ -154,8 +156,7 @@ else:
                 st.session_state["selected_time"] = "Lunch"
             elif dinner:
                 st.session_state["selected_time"] = "Dinner"
-            if breakfast or lunch or dinner:
-                st.warning(f"You chose {st.session_state["selected_time"]}")
+            
 
             
 
@@ -181,6 +182,8 @@ else:
             bates=st.button("Bates")
             stone=st.button("Stone D")
 
+            
+
             # This makes sure that we keep track in the session state dictionary what hall studnets are eating at 
             if lulu:
                 st.session_state["selected_hall"] = "Lulu"
@@ -191,9 +194,7 @@ else:
             elif stone:
                 st.session_state["selected_hall"] = "Stone D"
             
-            if lulu or tower or stone:
-                st.warning(f"You chose {st.session_state["selected_hall"]}")
-
+            
             
     # This is the container that will generate the menu based on the meal time and dining hall selected by the user
     # and the date they selected.
@@ -228,8 +229,6 @@ else:
         st.session_state["wellesleymeal"] = []
 
 
-    
-    
 # This is the main logic of the app that will generate the menu based on the meal time and dining hall selected by the user
 # and the date they selected.
     if generate:
@@ -258,10 +257,10 @@ else:
                         "description",
                         "allergens",
                         "date"]]
-        cleandf=cleandf.drop_duplicates(subset=["name"])
+        
 
         cleandf= cleandf.loc[(cleandf["date"].str.split("T").str[0]==str(st.session_state["date"]))]
-        
+        cleandf=cleandf.drop_duplicates(subset=["name"])
         
         # This drop all the rows with items that dont have your prefreneces 
         drop_row=[]
@@ -387,6 +386,15 @@ else:
                     #Star rating popover in streamlit 
                     with st.popover("Rating",icon="👋"):
                         with st.form(key=f"{mealname}_{idx}_"):
+                            # Define emoji-to-label mapping
+                            emoji_labels = {
+                                "😡": "Horrible",
+                                "😕": "Okay",
+                                "😐": "Neutral",
+                                "🙂": "Happy",
+                                "😍": "Love"
+                            }
+
                             comment=st.text_input("Add your meal comment here!",key=f"{mealname}_")
                             st.write("How do you feel about this?")
 
@@ -398,6 +406,7 @@ else:
 
                             # Show result
                             if selected_emoji:
+                                emotion_label = emoji_labels[selected_emoji]
                                 st.write(f"You selected: {selected_emoji}")
 
                             sentiment_mapping = ["1", "2", "3", "4", "5"]
@@ -407,14 +416,15 @@ else:
 
                             if submitted:
                                 st.markdown(f"You selected {sentiment_mapping[selected]} star(s).")
-
+                                insert_rating(mealname, getName()[1], sentiment_mapping[selected], comment, emotion_label)
+                                
                                 #This stores all the rating made into a session state 
                                 if session_key not in st.session_state["starrating"]:
                                     st.session_state["starrating"].append(session_key+"_"+sentiment_mapping[selected]+"_"+comment+"_"+str(selected_emoji))
                                     rat = st.session_state["starrating"][len(st.session_state["starrating"])-1][-1]
                                     print(f"######## RATING: {rat} ########")
-                        
-                    #TODO add to    
+
+                                     
 
                     # Add to session state if not already added
                     if mealb and session_key not in st.session_state["wellesleymeal"]:
@@ -459,8 +469,7 @@ else:
                     # Show confirmation
                     if session_key in st.session_state["wellesleymeal"]:
                         st.warning("Added to Journal")
-    st.write(st.session_state["wellesleymeal"])  # Remove duplicates
-    st.write(st.session_state["dataframe"])
+    
 
 
 

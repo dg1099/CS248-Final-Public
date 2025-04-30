@@ -8,8 +8,12 @@ import sqlite3
 from datetime import datetime
 from Dashboard import clone_private_repo
 
-DB_PATH= clone_private_repo()
+import subprocess
+
 st.set_page_config(layout="wide")
+
+DB_PATH= clone_private_repo()
+
 
 st.markdown(
     """
@@ -151,10 +155,27 @@ else:
     #current_protein_goal = get_protein_goal(username)
 
    
-
-    st.subheader("Whats in your journal!",help="Hover over question marks to display meal calorie amount")
-    #This holds all the meals logged by the user for that specific date selected 
-    today = datetime.now().date()
+    with stylable_container(
+        key="table3sdsDwe",
+        css_styles="""
+            {
+                border: 4px solid black;
+                background: linear-gradient(90deg, rgba(184, 153, 39, 1) 0%, rgba(113, 20, 163, 1) 91%);
+                border-radius: 0.5rem;
+                padding: 1em;
+                color: white; /* Optional: make text easier to see */
+            }
+        """,
+    ):
+        col1,col2,col3=st.columns(3)
+        with col1:
+            st.write("")
+        with col2:
+            st.subheader("Whats in your journal!",help="Hover over question marks to display meal calorie amount")
+        with col3:
+            st.write("")
+        #This holds all the meals logged by the user for that specific date selected 
+        today = datetime.now().date()
     
 
     
@@ -176,9 +197,13 @@ else:
         """,
     ): 
                 today=st.date_input("Select A Date", today)
+                uid = getName()[1]
                 conn=sqlite3.connect(DB_PATH)
                 c=conn.cursor()
-                c.execute(""" SELECT * FROM food_log WHERE date(date) = ? """, (today,))
+                c.execute(
+                    """SELECT * FROM food_log WHERE date(date) = ? AND uid = ?""",
+                    (today, uid)
+                )
                 meals_today = c.fetchall()
                 rows = c.fetchall() 
                 c.close()
@@ -186,14 +211,17 @@ else:
                 breakfast=[]
                 lunch=[]
                 dinner=[]
+                snack=[]
 
                 for item in meals_today:
                     if item[4]=="Breakfast":
                         breakfast.append(item)
                     elif item[4]=="Lunch":
                         lunch.append(item)
-                    else:
+                    elif item[4]=="Dinner":
                         dinner.append(item)
+                    else:
+                        snack.append(item)
 
 
             
@@ -251,7 +279,10 @@ else:
 
             conn = sqlite3.connect(DB_PATH)
             c = conn.cursor()
-            c.execute(""" SELECT * FROM food_log WHERE date(date) BETWEEN ? AND ? """, (d[0], d[1]))
+            c.execute(
+                """SELECT * FROM food_log WHERE date(date) BETWEEN ? AND ? AND uid = ?""",
+                (d[0], d[1], uid)
+            )
             data=c.fetchall()
             c.close()
 
@@ -267,6 +298,7 @@ else:
                 date_obj = datetime.datetime.strptime(date, '%Y-%m-%d').date()
                 st.subheader(date_obj.strftime('%A'),divider=True)
                 for item in data:
+    
                     if item[2]==date:
                         st.markdown(item[5],help=f"Calories in Meal: {item[6]}")
     with monthly:
@@ -298,7 +330,10 @@ else:
 
             conn = sqlite3.connect(DB_PATH)
             c = conn.cursor()
-            c.execute(""" SELECT * FROM food_log WHERE date(date) BETWEEN ? AND ? """, (d[0], d[1]))
+            c.execute(
+                """SELECT * FROM food_log WHERE date(date) BETWEEN ? AND ? AND uid = ?""",
+                (d[0], d[1], uid)
+            )
             data=c.fetchall()
             c.close()
 
@@ -393,5 +428,4 @@ else:
                 fig=nutrient_breakdown(email[1])
                 st.plotly_chart(fig)
 
-        
 
