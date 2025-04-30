@@ -7,13 +7,17 @@ from userAuth.user_profile import getName
 import sqlite3
 from datetime import datetime
 from Dashboard import clone_private_repo
-
+import pandas as pd
 import subprocess
 
 st.set_page_config(layout="wide")
 
 DB_PATH= clone_private_repo()
 
+conn = sqlite3.connect(DB_PATH)
+cursor = conn.cursor()
+cursor.execute("SELECT * FROM food_log")
+st.write(cursor.fetchall())
 
 st.markdown(
     """
@@ -365,11 +369,16 @@ else:
                 st.session_state["calorieGoal"]=calorieGoal
                 st.session_state["protienGoal"]=proteinGoal
 
-                # Update the database if the goals have changed
-                #if calorieGoal != current_calorie_goal:
-                    #change_calorieGoal(username, calorieGoal)
-                #if proteinGoal != current_protein_goal:
-                    #change_proteinGoal(username, proteinGoal)
+                #Current Values
+                current_calorie_goal = get_calorie_goal(getName()[1])
+                current_protein_goal = get_protein_goal(getName()[1])
+                
+                #Update the database if the goals have changed
+                if calorieGoal != current_calorie_goal:
+                    change_calorieGoal(username, calorieGoal)
+                if proteinGoal != current_protein_goal:
+                    change_proteinGoal(username, proteinGoal)
+
 
         goals={
         "Calories Goal": st.session_state["calorieGoal"],
