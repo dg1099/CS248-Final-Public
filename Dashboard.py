@@ -128,7 +128,7 @@ st.html(
     border-color: black;
     border-style: solid;
     border-width: 7px;
-    background-image: url("https://images.unsplash.com/photo-1686593686409-43456910d65c?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cHVycGxlJTIwYmFja2dyb3VuZHxlbnwwfHwwfHx8MA%3D%3D");
+    background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKbLTTsUKicvGQW4Slw5fPU1Dsxkg99l45Lw&s");
 }
 </style>
 """
@@ -138,7 +138,7 @@ st.markdown(
     """
     <style>
     .stApp {
-        background-image: url("https://images.unsplash.com/photo-1686593686409-43456910d65c?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cHVycGxlJTIwYmFja2dyb3VuZHxlbnwwfHwwfHx8MA%3D%3D");
+        background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKbLTTsUKicvGQW4Slw5fPU1Dsxkg99l45Lw&s");
     }
     </style>
     """,
