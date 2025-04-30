@@ -240,18 +240,20 @@ with stylable_container(
     st.subheader("Whats Happening in the Halls right now!")
     st.warning("Please log your meals in the Wellesley Fresh Meals Tab")
 
-    with st.expander("Take a sneek peek at your most frequented hall!"):
-        st.write("hey")
-    email=getName()[1]
-    fav_hall=get_preference(email)
-    if fav_hall!=None:
-        options=["Lulu","Bates","Stone D","Tower"]
-        default_fav=options.index(fav_hall)
-        fav_option=st.selectbox("Select A Hall!",options,index=default_fav)
-    else:
-        options=["Lulu","Bates","Stone D","Tower"]
-        fav_option=st.selectbox("Select A Hall!",options)
+    # with st.expander("Take a sneek peek at your most frequented hall!"):
+    #     st.write("hey")
+    # email=getName()[1]
+    # fav_hall=get_preference(email)
+
+    # if fav_hall!=None:
+        
+    # else:
+    #     options=["Lulu","Bates","Stone D","Tower"]
+    #     fav_option=st.selectbox("Select A Hall!",options)
     
+    options=["Lulu","Bates","Stone D","Tower"]
+    fav_option=st.selectbox("Select A Hall!",options)
+
     date=datetime.now().date()
     timenow=datetime.now()
     current_hour=timenow.hour
@@ -349,4 +351,7 @@ with stylable_container(
         else:
             st.warning("All Dining Halls are closed!")
 
+
+
             
+
