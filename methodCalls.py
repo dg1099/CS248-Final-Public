@@ -7,6 +7,7 @@ from streamlit_extras.stylable_container import stylable_container
 import sqlite3
 from Dashboard import DB_PATH
 import datetime
+from datetime import datetime
 
 def displayMenu(location,file1,file2):
     def add_to_food_log(meal_id, uid, meal_type, food_name, calories, protein, fats, carbohydrates, date, location,db_path= DB_PATH):
@@ -214,7 +215,7 @@ def displayMenu(location,file1,file2):
                             meal_type = "Dinner"
                         else:
                             meal_type = "Snack"
-                            
+
                         add_to_food_log(
                             meal_id,
                             getName()[1],
