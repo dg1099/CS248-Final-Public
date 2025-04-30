@@ -367,7 +367,7 @@ else:
                 
                 with col1:
                     with stylable_container(
-        key=f"table3{mealname}{calories}",
+        key=f"table3{mealname}{calories}{idx}",
         css_styles="""
             {
                 border: 4px solid black;
