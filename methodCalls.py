@@ -203,6 +203,7 @@ def displayMenu(location,file1,file2):
 
                     from datetime import datetime
                     current_hour = datetime.now().hour
+                    st.write(current_hour)
 
 
                     
