@@ -21,8 +21,6 @@ import os
 import subprocess
 
 
-
-
 def clone_private_repo():
     token = st.secrets["github"]["GITHUB_TOKEN"]
     repo_url = st.secrets["github"]["PRIVATE_DB_REPO"]
@@ -41,9 +39,6 @@ def clone_private_repo():
 
 # Call this once in your app
 DB_PATH = clone_private_repo()
-
-
-import subprocess
 
 
 ############################################################################
@@ -268,8 +263,8 @@ with stylable_container(
         st.write("")
         st.write("")
         with st.popover("Dining Hall visits Breakdown! "):
-            st.plotly_chart(Data_Visuals.data_visualization_methods.common_dining(getName()[1]))
-
+            st.plotly_chart(Data_Visuals.data_visualization_methods.common_dining(getName[1]))
+            
     date=datetime.now().date()
     timenow=datetime.now()
     current_hour=timenow.hour
@@ -366,6 +361,7 @@ with stylable_container(
                 st.write(item[1])
         else:
             st.warning("All Dining Halls are closed!")
+
 
 
             
