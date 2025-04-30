@@ -8,7 +8,26 @@ import sqlite3
 from methodCalls import displayPreference
 from Dashboard import DB_PATH
 from userAuth.user_profile import getName
+import subprocess
+
+
 st.set_page_config(layout="wide")# Setting the page size as defult wide( looks better :) )from userAuth.user_profile import getName
+
+def push_changes_to_repo(clone_dir, commit_message="Update database"):
+    token = st.secrets["github"]["GITHUB_TOKEN"]
+    repo_url = st.secrets["github"]["PRIVATE_DB_REPO"]
+
+    # Configure Git identity
+    subprocess.run(["git", "-C", clone_dir, "config", "user.email", "streamlit@app.com"], check=True)
+    subprocess.run(["git", "-C", clone_dir, "config", "user.name", "Streamlit Bot"], check=True)
+
+    # Add, commit, and push changes
+    subprocess.run(["git", "-C", clone_dir, "add", "."], check=True)
+    subprocess.run(["git", "-C", clone_dir, "commit", "-m", commit_message], check=True)
+    subprocess.run([
+        "git", "-C", clone_dir, "push",
+        repo_url.replace("https://", f"https://{token}@")
+    ], check=True)
 
 
 #Fixed errors
@@ -462,6 +481,7 @@ else:
     st.write(st.session_state["wellesleymeal"])  # Remove duplicates
     st.write(st.session_state["dataframe"])
 
+push_changes_to_repo("/tmp/private_repo", commit_message="Add new food log entry")
 
 
 

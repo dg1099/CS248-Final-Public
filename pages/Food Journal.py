@@ -8,6 +8,26 @@ import sqlite3
 from datetime import datetime
 from Dashboard import clone_private_repo
 
+import subprocess
+def push_changes_to_repo(clone_dir, commit_message="Update database"):
+    token = st.secrets["github"]["GITHUB_TOKEN"]
+    repo_url = st.secrets["github"]["PRIVATE_DB_REPO"]
+
+    # Configure Git identity
+    subprocess.run(["git", "-C", clone_dir, "config", "user.email", "streamlit@app.com"], check=True)
+    subprocess.run(["git", "-C", clone_dir, "config", "user.name", "Streamlit Bot"], check=True)
+
+    # Add, commit, and push changes
+    subprocess.run(["git", "-C", clone_dir, "add", "."], check=True)
+    subprocess.run(["git", "-C", clone_dir, "commit", "-m", commit_message], check=True)
+    subprocess.run([
+        "git", "-C", clone_dir, "push",
+        repo_url.replace("https://", f"https://{token}@")
+    ], check=True)
+
+
+
+
 DB_PATH= clone_private_repo()
 st.set_page_config(layout="wide")
 
@@ -393,5 +413,5 @@ else:
                 fig=nutrient_breakdown(email[1])
                 st.plotly_chart(fig)
 
-        
+push_changes_to_repo("/tmp/private_repo", commit_message="Add new food log entry")       
 

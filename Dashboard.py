@@ -21,6 +21,7 @@ import os
 import subprocess
 
 
+
 def clone_private_repo():
     token = st.secrets["github"]["GITHUB_TOKEN"]
     repo_url = st.secrets["github"]["PRIVATE_DB_REPO"]
@@ -39,6 +40,28 @@ def clone_private_repo():
 
 # Call this once in your app
 DB_PATH = clone_private_repo()
+
+import sqlite3
+conn = sqlite3.connect(DB_PATH)
+cursor = conn.cursor()
+cursor.execute("SELECT * FROM user")
+st.write(cursor.fetchall())
+
+def push_changes_to_repo(clone_dir, commit_message="Update database"):
+    token = st.secrets["github"]["GITHUB_TOKEN"]
+    repo_url = st.secrets["github"]["PRIVATE_DB_REPO"]
+
+    # Configure Git identity
+    subprocess.run(["git", "-C", clone_dir, "config", "user.email", "streamlit@app.com"], check=True)
+    subprocess.run(["git", "-C", clone_dir, "config", "user.name", "Streamlit Bot"], check=True)
+
+    # Add, commit, and push changes
+    subprocess.run(["git", "-C", clone_dir, "add", "."], check=True)
+    subprocess.run(["git", "-C", clone_dir, "commit", "-m", commit_message], check=True)
+    subprocess.run([
+        "git", "-C", clone_dir, "push",
+        repo_url.replace("https://", f"https://{token}@")
+    ], check=True)
 
 
 ############################################################################
@@ -362,7 +385,7 @@ with stylable_container(
         else:
             st.warning("All Dining Halls are closed!")
 
-
+push_changes_to_repo("/tmp/private_repo", commit_message="Add new food log entry")
 
             
 
