@@ -12,6 +12,13 @@ import subprocess
 
 
 DB_PATH= clone_private_repo()
+
+conn = sqlite3.connect(DB_PATH)
+cursor = conn.cursor()
+cursor.execute("SELECT * FROM user")
+st.write(cursor.fetchall())
+
+
 st.set_page_config(layout="wide")
 
 st.markdown(

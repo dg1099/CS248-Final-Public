@@ -120,7 +120,7 @@ def displayMenu(location,file1,file2):
                         )
                     if session_key in st.session_state[f"meals{location}"]:
                         st.warning("Added to Journal")
-            st.write(st.session_state[f"meals{location}"])
+            
 
     with tab2: 
         with stylable_container(
@@ -213,8 +213,7 @@ def displayMenu(location,file1,file2):
                 
                 
                                 
-        st.write(st.session_state[f"meals{location}"])
-        st.write(st.session_state[f"drink{location}"])
+        
 
 
 def displayPreference(location):
