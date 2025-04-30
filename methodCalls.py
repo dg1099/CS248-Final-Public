@@ -214,7 +214,6 @@ def displayMenu(location,file1,file2):
                         fat = df["Fat"].iloc[ind] if pd.notnull(df["Fat"].iloc[ind]) else 0
                         carbs = df["Carbohydrates"].iloc[ind] if pd.notnull(df["Carbohydrates"].iloc[ind]) else 0
                         
-                        
                         if 5 <= current_hour < 11:
                             meal_type = "Breakfast"
                         elif 11 <= current_hour < 15:
