@@ -204,7 +204,7 @@ def displayMenu(location,file1,file2):
                     current_hour = datetime.now().hour
 
 
-
+                    st.write(df.columns)
                     if drinkb:
                         st.session_state[f"drink{location}"].append(session_key1)
                         meal_name = df["Drink Name"].iloc[ind] if pd.notnull(df["Meal Name"].iloc[ind]) else "Unknown"
