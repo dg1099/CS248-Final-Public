@@ -1,7 +1,28 @@
 import streamlit as st
 import sqlite3
 import requests
-from Dashboard import DB_PATH
+import os
+import subprocess
+
+
+def clone_private_repo():
+    token = st.secrets["github"]["GITHUB_TOKEN"]
+    repo_url = st.secrets["github"]["PRIVATE_DB_REPO"]
+    db_file_name = st.secrets.get("DB_FILE_NAME", "food_tracker.db")
+
+    if not token or not repo_url:
+        raise ValueError("Missing GITHUB_TOKEN or PRIVATE_DB_REPO in secrets!")
+
+    # Correct: clone into a folder
+    clone_dir = "/tmp/private_repo"
+
+    if not os.path.exists(clone_dir):
+        subprocess.run(["git", "clone", repo_url.replace("https://", f"https://{token}@"), clone_dir], check=True)
+
+    return os.path.join(clone_dir, db_file_name)
+
+# Call this once in your app
+DB_PATH = clone_private_repo()
 
 @st.cache_data(ttl=3600)
 def get_user_info(access_token):
