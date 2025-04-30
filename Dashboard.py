@@ -17,7 +17,7 @@ import wellesley_fresh_api
 import os
 import subprocess
 
-st.write(st.secrets)
+
 def clone_private_repo():
     token = st.secrets["github"]["GITHUB_TOKEN"]
     repo_url = st.secrets["github"]["PRIVATE_DB_REPO"]
