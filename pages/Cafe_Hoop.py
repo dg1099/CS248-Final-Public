@@ -5,6 +5,17 @@ from methodCalls import displayMenu
 from methodCalls import displayPreference
 
 #----------------------------CSS LAYOUT------------------------------------#\
+# This is to fix the sizing of our app logo 
+st.markdown("""    
+<style>            
+img[data-testid="stLogo"] {
+            height: 3.2rem;
+}          
+</style.
+""",
+unsafe_allow_html=True
+)
+st.logo("assets/R.D.Y. to Eat.png",icon_image="assets/R.D.Y. to Eat.png")
 
 st.markdown(
     """
@@ -58,7 +69,7 @@ st.markdown("""
 
 
 if "access_token" not in st.session_state:
-    st.warning("Please first login!")
+    st.warning("Please first login! Click on our logo to the left to open the sidebar to login!")
     #Stop from everything else from being loaded up if they have not loggedin 
 else: 
     

@@ -69,6 +69,17 @@ def clone_private_repo():
 # Call this once in your app
 DB_PATH = clone_private_repo()
 
+
+# This is to fix the sizing of our app logo 
+st.markdown("""    
+<style>            
+img[data-testid="stLogo"] {
+            height: 3.2rem;
+}          
+</style.
+""",
+unsafe_allow_html=True
+)
 st.logo("assets/R.D.Y. to Eat.png",icon_image="assets/R.D.Y. to Eat.png")
 ############################################################################
 ##################### UPDATING AND GETTING allergens########################
@@ -213,7 +224,7 @@ with cent_co:
 login_sidebar()
 
 if "access_token" not in st.session_state:
-    st.warning("Please first login!")
+    st.warning("Please first login! Click on our logo to the left to open the sidebar to login!")
     st.stop() #Stop from everything else from being loaded up if they have not loggedin 
 
 # This is to fix the sizing of our app logo 
