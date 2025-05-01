@@ -353,7 +353,7 @@ else:
                     if month==date:
                         st.markdown(item[5],help=f"Calories in Meal: {item[6]}")
 
-
+    with st.e
 
     with st.expander("See your graphs!"):
         with headCol2:
