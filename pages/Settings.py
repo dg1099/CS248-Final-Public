@@ -176,7 +176,17 @@ unsafe_allow_html=True
 )
 st.logo("assets/R.D.Y. to Eat.png",icon_image="assets/R.D.Y. to Eat.png")
 
+with st.expander("✨ Page Overview!"):
+    st.write("""
+    **Welcome to Your Settings Page!** ⚙️
 
+    - 📛 Set or update your **Username** for a personalized experience  
+    - 🏠 Choose your **Favorite Dining Hall** (Lulu, Tower, Bates, or Stone D)  
+    - 🚫 Select your **Allergens & Dietary Preferences** to customize meal options  
+    - 💾 Click **Save Settings** to update your profile and meal filters  
+
+    Changes here help tailor your dining experience by automatically filtering meals and saving your hall preferences across the app!
+    """)
 
 
 with stylable_container(
