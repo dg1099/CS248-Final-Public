@@ -651,7 +651,7 @@ else:
     with st.expander("Visualize Your Nutrients Breakdown"):
         tab1,tab2=st.tabs(["Bar Graph Breakdown","Spider graph Breakdown"])
         with tab1:
-            st.plotly_chart(nutrient_breakdown())
+            st.plotly_chart(nutrient_breakdown(getName()[1]))
         with tab2: 
             # Get the graph and summary text
             fig, summary_text = location_nutrient_breakdown(uid=getName()[1])
