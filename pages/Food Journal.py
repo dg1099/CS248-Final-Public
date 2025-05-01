@@ -126,85 +126,6 @@ def nutrient_breakdown(uid):
     return fig
     
 
-def calorie_goal(uid, date):
-    conn = sqlite3.connect(DB_PATH)
-    c = conn.cursor()
-
-    cal_goal = get_calorie_goal(uid)
-
-    # Filter calories by date
-    c.execute("""
-        SELECT SUM(calories)
-        FROM food_log
-        WHERE uid = ? AND date = ?
-    """, (uid, date))
-    
-    result = c.fetchone()
-    consumed = result[0] if result[0] else 0
-
-    if consumed < cal_goal:
-        labels = ['Calories Consumed', 'Remaining']
-        values = [consumed, cal_goal - consumed]
-        colors = ["#FFB6C1", "#FFDAB9"]
-        outcome_text = f"🔥 {consumed:.0f} kcal consumed. You have {cal_goal - consumed:.0f} kcal remaining."
-    elif consumed == cal_goal:
-        labels = ['Calories Consumed']
-        values = [cal_goal]
-        colors = ["#FFB6C1"]
-        outcome_text = f"✅ {consumed:.0f} kcal consumed. You've met your goal exactly!"
-    else:
-        labels = ['Calories Goal', 'Over Limit']
-        values = [cal_goal, consumed - cal_goal]
-        colors = ["#FFB6C1", "#FFDAB9"]
-        outcome_text = f"⚠️ {consumed:.0f} kcal consumed. You went over your goal by {consumed - cal_goal:.0f} kcal."
-
-    # Create the pie chart
-    fig = go.Figure(data=[go.Pie(labels=labels, values=values, marker=dict(colors=colors))])
-    fig.update_traces(textinfo='label+percent')
-    fig.update_layout(title_text=f"Calorie Tracker for {date}: {consumed:.0f} / {cal_goal:.0f} kcal")
-    
-    return fig, outcome_text
-
-
-def protein_goal(uid, date):
-    conn = sqlite3.connect(DB_PATH)
-    c = conn.cursor()
-
-    goal = get_protein_goal(uid)
-
-    # Filter protein by date
-    c.execute("""
-        SELECT SUM(protein)
-        FROM food_log
-        WHERE uid = ? AND date = ?
-    """, (uid, date))
-
-    result = c.fetchone()
-    consumed = result[0] if result[0] else 0
-
-    if consumed < goal:
-        labels = ['Protein Consumed', 'Remaining']
-        values = [consumed, goal - consumed]
-        colors = ["#FFB6C1", "#FAFAD2"]
-        outcome_text = f"💪 {consumed:.0f}g protein consumed. You need {goal - consumed:.0f}g more."
-    elif consumed == goal:
-        labels = ['Protein Consumed']
-        values = [goal]
-        colors = ["#FFB6C1"]
-        outcome_text = f"✅ {consumed:.0f}g protein consumed. You've met your goal!"
-    else:
-        labels = ['Protein Goal', 'Over Limit']
-        values = [goal, consumed - goal]
-        colors = ["#FFB6C1", "#FFDAB9"]
-        outcome_text = f"⚠️ {consumed:.0f}g protein consumed. You went over your goal by {consumed - goal:.0f}g."
-
-    # Create pie chart
-    fig = go.Figure(data=[go.Pie(labels=labels, values=values, marker=dict(colors=colors))])
-    fig.update_traces(textinfo='label+percent')
-    fig.update_layout(title_text=f"Protein Tracker for {date}: {consumed:.0f}g / {goal:.0f}g")
-
-    return fig, outcome_text
-
 
 def common_dining(uid):
     conn = sqlite3.connect(DB_PATH)
@@ -341,7 +262,84 @@ def get_protein_goal(username):
     finally:
         conn.close()
 
+def calorie_goal(uid, date):
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
 
+    cal_goal = get_calorie_goal(uid)
+
+    # Filter calories by date
+    c.execute("""
+        SELECT SUM(calories)
+        FROM food_log
+        WHERE uid = ? AND date = ?
+    """, (uid, date))
+    
+    result = c.fetchone()
+    consumed = result[0] if result[0] else 0
+
+    if consumed < cal_goal:
+        labels = ['Calories Consumed', 'Remaining']
+        values = [consumed, cal_goal - consumed]
+        colors = ["#FFB6C1", "#FFDAB9"]
+        outcome_text = f"🔥 {consumed:.0f} kcal consumed. You have {cal_goal - consumed:.0f} kcal remaining."
+    elif consumed == cal_goal:
+        labels = ['Calories Consumed']
+        values = [cal_goal]
+        colors = ["#FFB6C1"]
+        outcome_text = f"✅ {consumed:.0f} kcal consumed. You've met your goal exactly!"
+    else:
+        labels = ['Calories Goal', 'Over Limit']
+        values = [cal_goal, consumed - cal_goal]
+        colors = ["#FFB6C1", "#FFDAB9"]
+        outcome_text = f"⚠️ {consumed:.0f} kcal consumed. You went over your goal by {consumed - cal_goal:.0f} kcal."
+
+    # Create the pie chart
+    fig = go.Figure(data=[go.Pie(labels=labels, values=values, marker=dict(colors=colors))])
+    fig.update_traces(textinfo='label+percent')
+    fig.update_layout(title_text=f"Calorie Tracker for {date}: {consumed:.0f} / {cal_goal:.0f} kcal")
+    
+    return fig, outcome_text
+
+
+def protein_goal(uid, date):
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+
+    goal = get_protein_goal(uid)
+
+    # Filter protein by date
+    c.execute("""
+        SELECT SUM(protein)
+        FROM food_log
+        WHERE uid = ? AND date = ?
+    """, (uid, date))
+
+    result = c.fetchone()
+    consumed = result[0] if result[0] else 0
+
+    if consumed < goal:
+        labels = ['Protein Consumed', 'Remaining']
+        values = [consumed, goal - consumed]
+        colors = ["#FFB6C1", "#FAFAD2"]
+        outcome_text = f"💪 {consumed:.0f}g protein consumed. You need {goal - consumed:.0f}g more."
+    elif consumed == goal:
+        labels = ['Protein Consumed']
+        values = [goal]
+        colors = ["#FFB6C1"]
+        outcome_text = f"✅ {consumed:.0f}g protein consumed. You've met your goal!"
+    else:
+        labels = ['Protein Goal', 'Over Limit']
+        values = [goal, consumed - goal]
+        colors = ["#FFB6C1", "#FFDAB9"]
+        outcome_text = f"⚠️ {consumed:.0f}g protein consumed. You went over your goal by {consumed - goal:.0f}g."
+
+    # Create pie chart
+    fig = go.Figure(data=[go.Pie(labels=labels, values=values, marker=dict(colors=colors))])
+    fig.update_traces(textinfo='label+percent')
+    fig.update_layout(title_text=f"Protein Tracker for {date}: {consumed:.0f}g / {goal:.0f}g")
+
+    return fig, outcome_text
 
 #----------------------------PAGE LAYOUT------------------------------------#
 
