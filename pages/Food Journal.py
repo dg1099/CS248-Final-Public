@@ -65,6 +65,35 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 ##################### UPDATING AND GETTING CALORIE/PROTEIN GOALS ########################
+
+def common_dining(uid):
+    conn = sqlite3.connect(DB_PATH)
+
+    c = conn.cursor()
+    c.execute("SELECT location_id FROM food_log WHERE uid = ?", (uid, ))
+
+    rows = c.fetchall()
+
+    df = pd.DataFrame(rows, columns=["Dining Hall"])
+    counts = df["Dining Hall"].value_counts().reset_index()
+    counts.columns = ["Dining Hall", "# of Visits"]
+
+    # 3. Sort in descending order
+    counts = counts.sort_values("# of Visits", ascending=False)
+
+    # 4. Plot horizontal bar chart
+    fig = px.bar(
+        counts,
+        x="# of Visits",
+        y="Dining Hall",
+        orientation='h',  # horizontal
+        color_discrete_sequence=["lightpink"]
+    )
+
+    fig.update_layout(yaxis=dict(categoryorder='total ascending'))  # most common at top
+    
+    return fig
+
 def location_nutrient_breakdown (uid):
             # this would work best if only used for the month/all time
             
@@ -384,7 +413,8 @@ else:
     with st.expander("Average Calories Per Meal Category"):
         plot2=average_calories_by_meal(email[1])
         st.plotly_chart(plot2,use_container_width=True)
-    
+    with st.expander("Where can you been found on campus!"):
+        st.plotly_chart(common_dining(getName()[1]))
     
     
     with st.expander("See your graphs!"):
