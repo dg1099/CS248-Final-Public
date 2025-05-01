@@ -11,6 +11,7 @@ import plotly.express as px
 import pandas as pd
 import sqlite3
 import plotly.graph_objects as go
+import pytz
 
 
 def common_dining(uid):
@@ -336,7 +337,10 @@ with stylable_container(
     #     fav_option=st.selectbox("Select A Hall!",options)
     col1,col2=st.columns(2)
     
-    
+    import pytz
+
+    # Set your timezone (example: 'America/New_York')
+    timezone = pytz.timezone('America/New_York')    
 
     options=["Lulu","Bates","Stone D","Tower"]
     with col1:
@@ -346,6 +350,9 @@ with stylable_container(
         st.write("")
         with st.popover("Dining Hall visits Breakdown! "):
             st.plotly_chart(common_dining(getName()[1]))
+
+    now = datetime.now(timezone)
+         
     date=datetime.now().date()
     timenow=datetime.now()
     current_hour=timenow.hour
