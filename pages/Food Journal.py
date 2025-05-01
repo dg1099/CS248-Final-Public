@@ -120,8 +120,8 @@ def nutrient_breakdown(uid):
         family='Lexend',
         size=14
     ),
-    paper_bgcolor='rgba(0, 0, 0, 0)',  # Background of the entire figure
-    plot_bgcolor='rgba(0, 0, 0, 0)',   # Background of plotting area
+    paper_bgcolor='rgba(255, 255, 255, 255)',  # Background of the entire figure
+    plot_bgcolor='rgba(255, 255, 255, 255)',   # Background of plotting area
 )
     return fig
     
@@ -182,7 +182,7 @@ def location_nutrient_breakdown(uid):
     )
     
     # Create the polar chart
-    fig = px.bar_polar(df_long, r="Amount", theta="Dining Hall", color="Nutrient", template="plotly_dark",
+    fig = px.bar_polar(df_long, r="Amount", theta="Dining Hall", color="Nutrient", template="plotly_white",
                        color_discrete_sequence=["#FFB6C1", "#FFDAB9", "#FAFAD2"])
     
     # Prepare the summary text for display
