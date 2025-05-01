@@ -158,3 +158,35 @@ def common_dining(uid):
     fig.update_layout(yaxis=dict(categoryorder='total ascending'))  # most common at top
     
     return fig
+
+def calorie_goal(uid):
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    
+    c.execute("SELECT SUM(calories), calorie_goal FROM food_log WHERE uid = ?", (uid,))
+    row = c.fetchone()
+    conn.close()
+
+    consumed = row[0]
+    goal = row[1]
+
+    if consumed < goal:
+        labels = ['Calories Consumed', 'Remaining']
+        values = [consumed, goal - consumed]
+        colors = ['#FFA07A', '#90EE90']
+    elif consumed == goal:
+        labels = ['Calories Consumed']
+        values = [goal]
+        colors = ['#FFA07A']
+    else:
+        labels = ['Calorie Goal', 'Over Limit']
+        values = [goal, consumed - goal]
+        colors = ['#FFA07A', '#FF6347']
+
+    fig = go.Figure(data=[go.Pie(labels=labels, values=values, marker=dict(colors=colors))])
+    fig.update_traces(textinfo='label+percent')
+    fig.update_layout(title_text=f"Calorie Tracker: {consumed:.0f} / {goal:.0f} kcal")
+    return fig
+
+def protein_goal():
+    pass
