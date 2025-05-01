@@ -63,6 +63,18 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+# This is to fix the sizing of our app logo 
+st.markdown("""    
+<style>            
+img[data-testid="stLogo"] {
+            height: 3.2rem;
+}          
+</style.
+""",
+unsafe_allow_html=True
+)
+st.logo("assets/R.D.Y. to Eat.png",icon_image="assets/R.D.Y. to Eat.png")
+
 ##################### UPDATING AND GETTING CALORIE/PROTEIN GOALS ########################
 def average_calories_by_meal(uid):
 

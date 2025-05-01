@@ -15,6 +15,17 @@ from Database_files.add_userData import update_preference
 import os
 import subprocess
 
+# This is to fix the sizing of our app logo 
+st.markdown("""    
+<style>            
+img[data-testid="stLogo"] {
+            height: 3.2rem;
+}          
+</style.
+""",
+unsafe_allow_html=True
+)
+st.logo("assets/R.D.Y. to Eat.png",icon_image="assets/R.D.Y. to Eat.png")
 
 def clone_private_repo():
     token = st.secrets["github"]["GITHUB_TOKEN"]

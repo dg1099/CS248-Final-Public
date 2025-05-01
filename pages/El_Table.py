@@ -13,6 +13,17 @@ from methodCalls import displayPreference
 # Setting the page size as defult wide( looks better :) )
 
 #----------------------------CSS LAYOUT------------------------------------#\
+# This is to fix the sizing of our app logo 
+st.markdown("""    
+<style>            
+img[data-testid="stLogo"] {
+            height: 3.2rem;
+}          
+</style.
+""",
+unsafe_allow_html=True
+)
+st.logo("assets/R.D.Y. to Eat.png",icon_image="assets/R.D.Y. to Eat.png")
 
 st.markdown(
     """
