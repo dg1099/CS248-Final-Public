@@ -123,7 +123,7 @@ st.html(
 <style>
 [data-testid="stSidebarContent"] {
     color: white;
-    background-color: plum;
+    background-color: #dcb4cc;
     border-radius: 25px;
     border-color: black;
     border-style: solid;
