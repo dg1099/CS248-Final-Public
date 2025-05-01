@@ -86,7 +86,7 @@ def location_nutrient_breakdown (uid):
             )
 
             fig = px.bar_polar(df_long, r="Amount", theta="Dining Hall", color="Nutrient", template="plotly_dark",
-                        color_discrete_sequence=["#EF476F", "#FFD166", "#06D6A0"])
+                        color_discrete_sequence=["#FFB6C1", "#FFDAB9", "#FFC0CB"])
             
             return fig
 
