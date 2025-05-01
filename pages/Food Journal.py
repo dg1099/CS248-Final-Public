@@ -71,7 +71,7 @@ def calorie_goal(uid):
 
     cal_goal = get_calorie_goal(uid)
     c.execute("""
-        SELECT SUM(protein)
+        SELECT SUM(calories)
         FROM food_log
         WHERE uid = ?
         """, (uid,))
@@ -89,6 +89,39 @@ def calorie_goal(uid):
     else:
         labels = ['Calories Goal', 'Over Limit']
         values = [cal_goal, consumed - cal_goal]
+        colors = ['#FFA07A', '#FF6347']
+
+    # Create the pie chart
+    fig = go.Figure(data=[go.Pie(labels=labels, values=values, marker=dict(colors=colors))])
+    fig.update_traces(textinfo='label+percent')
+    fig.update_layout(title_text=f"Calorie Tracker: {consumed:.0f} / {cal_goal:.0f} kcal")
+    
+    return fig
+
+def protein_goal(uid):
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+
+    goal = get_protein_goal(uid)
+    c.execute("""
+        SELECT SUM(protein)
+        FROM food_log
+        WHERE uid = ?
+        """, (uid,))
+    
+    consumed = c.fetchone()[0]
+    
+    if consumed < goal:
+        labels = ['Protein Consumed', 'Remaining']
+        values = [consumed, goal - consumed]
+        colors = ['#FFA07A', '#90EE90']
+    elif consumed == goal:
+        labels = ['Protein Consumed']
+        values = [goal]
+        colors = ['#FFA07A']
+    else:
+        labels = ['Protein Goal', 'Over Limit']
+        values = [goal, consumed - goal]
         colors = ['#FFA07A', '#FF6347']
 
     # Create the pie chart
@@ -238,8 +271,8 @@ else:
         st.subheader(f"Hello, {getName()[0]}",divider=True)
     username = getName()[1]
     print(username)
-    #current_calorie_goal = get_calorie_goal(username)
-    #current_protein_goal = get_protein_goal(username)
+    current_calorie_goal = get_calorie_goal(username)
+    current_protein_goal = get_protein_goal(username)
 
    
     with stylable_container(
@@ -499,8 +532,8 @@ else:
         col1,col2=st.columns(2)
         with col1:
             st.plotly_chart(calorie_goal(getName()[1]))
-        # with col2:
-        #     st.plotly_chart(protein_goal(getName()[1]))
+        with col2:
+            st.plotly_chart(protein_goal(getName()[1]))
     with st.expander("Visualize Your Nutrients Breakdown"):
         st.plotly_chart(location_nutrient_breakdown (getName()[1]))
     
