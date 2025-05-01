@@ -47,4 +47,4 @@ We forgot to make the team_log.md file, but we completed milestone 1 and met in 
 
 **Yuneydy:**
 
-**Dianna:**
+**Dianna:** This week I mainly focused on the data visualizations. It was interesting interacitng with the database to get all of the information, but I got the hang of it after a while. I made a lot of graphs, some of which I think turned out better than others. I am very proud of this radar graph I made that breaks down the nutrients by dining hall. I think the other main thing I did was help deploy the app. I made the public and private repos and deployed as much of the app as I could, then tried to fix the streamlit secrets and such. However, it was Ruth and Yuneydy who ended up asking for help on how to finally connect the database. Additionally, I helped fix some of the website since it was a bit hard to read at times. Then I helped Ruth with the final formatting of the app, as well as getting my friend's feedback for quick last-minute changes. 
