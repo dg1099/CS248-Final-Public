@@ -108,9 +108,9 @@ def nutrient_breakdown(uid):
     values=values,
     hole=.5,  # To create a donut shape
     marker=dict(colors=[
-        '#9B4D9C',  # Light purple for Protein
-        '#6A2C9C',  # Medium purple for Fats
-        '#3E0E75'   # Dark purple for Carbs
+        "#FFB6C1",  # Light purple for Protein
+        "#FAFAD2",  # Medium purple for Fats
+        "#FFDAB9"   # Dark purple for Carbs
         ]),
     )])
     fig.update_layout(
@@ -120,8 +120,8 @@ def nutrient_breakdown(uid):
         family='Lexend',
         size=14
     ),
-    paper_bgcolor='rgba(0, 0, 0, 0)',  # Background of the entire figure
-    plot_bgcolor='rgba(0, 0, 0, 0)',   # Background of plotting area
+    paper_bgcolor='rgba(255, 255, 255, 255)',  # Background of the entire figure
+    plot_bgcolor='rgba(255, 255, 255, 255)',   # Background of plotting area
 )
     return fig
     
@@ -182,7 +182,7 @@ def location_nutrient_breakdown(uid):
     )
     
     # Create the polar chart
-    fig = px.bar_polar(df_long, r="Amount", theta="Dining Hall", color="Nutrient", template="plotly_dark",
+    fig = px.bar_polar(df_long, r="Amount", theta="Dining Hall", color="Nutrient", template="plotly_white",
                        color_discrete_sequence=["#FFB6C1", "#FFDAB9", "#FAFAD2"])
     
     # Prepare the summary text for display
@@ -281,7 +281,7 @@ def calorie_goal(username, date):
     if consumed < cal_goal:
         labels = ['Calories Consumed', 'Remaining']
         values = [consumed, cal_goal - consumed]
-        colors = ["#FFB6C1", "#FFDAB9"]
+        colors = ["#FFB6C1", "#FAFAD2"]
         outcome_text = f"🔥 {consumed:.0f} kcal consumed. You have {cal_goal - consumed:.0f} kcal remaining."
     elif consumed == cal_goal:
         labels = ['Calories Consumed']
