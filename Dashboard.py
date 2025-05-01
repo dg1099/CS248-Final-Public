@@ -1,5 +1,4 @@
 import streamlit as st
-import Data_Visuals.data_visualization_methods
 from userAuth.auth import google_login
 from userAuth.user_profile import render_user_profile
 from streamlit_extras.stylable_container import stylable_container
