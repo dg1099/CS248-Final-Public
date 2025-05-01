@@ -70,7 +70,7 @@ def average_calories_by_meal(uid):
     conn = sqlite3.connect(DB_PATH)
 
     c = conn.cursor()
-    c.execute("SELECT meal_type, calories FROM food_log WHERE uid = ? GROUP BY meal_type", (uid, ))
+    c.execute("SELECT meal_type, AVG(calories) FROM food_log WHERE uid = ? GROUP BY meal_type", (uid, ))
     rows = c.fetchall()
     st.write(rows)
     df = pd.DataFrame(rows, columns=['Meal', 'Avg. Calories (kcal)'])
@@ -564,7 +564,7 @@ else:
         st.plotly_chart(location_nutrient_breakdown (getName()[1]))
     
     with st.expander("Average Calories Per Meal Category"):
-        plot2=average_calories_by_meal(email[1])
+        plot2=average_calories_by_meal(getName()[1])
         st.plotly_chart(plot2,use_container_width=True)
     with st.expander("Where can you been found on campus!"):
         st.plotly_chart(common_dining(getName()[1]))
