@@ -296,7 +296,7 @@ with stylable_container(
     top_rated = topRated()
     st.subheader("🌠Top 5 Dishes across Wellesley!")
     for dish in top_rated:
-       st.markdown(f"✨{dish[0]} with a rating of {'🌟' * dish[1]}",help=f"Rating of {dish[1]} ")
+       st.markdown(f"✨{dish[0]} with a rating of "+ '🌟' * int(dish[1]),help=f"Rating of {dish[1]} ")
 
 
 with stylable_container(
