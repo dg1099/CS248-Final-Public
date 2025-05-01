@@ -7,6 +7,10 @@ import sqlite3
 from datetime import datetime
 import pandas as pd
 import wellesley_fresh_api
+import plotly.express as px
+import pandas as pd
+import sqlite3
+import plotly.graph_objects as go
 
 
 def common_dining(uid):
@@ -286,7 +290,7 @@ with stylable_container(
         st.write("")
         st.write("")
         with st.popover("Dining Hall visits Breakdown! "):
-            st.write("")
+            st.plotly_chart(common_dining(getName()[1]))
     date=datetime.now().date()
     timenow=datetime.now()
     current_hour=timenow.hour
