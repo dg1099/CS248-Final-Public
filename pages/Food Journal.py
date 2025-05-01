@@ -64,24 +64,21 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 ##################### UPDATING AND GETTING CALORIE/PROTEIN GOALS ########################
-
 def average_calories_by_meal(uid):
 
     conn = sqlite3.connect(DB_PATH)
 
     c = conn.cursor()
-    c.execute("SELECT meal_type, AVG(calories) FROM food_log WHERE uid = ? GROUP BY meal_type ", (uid, ))
+    c.execute("SELECT meal_type, AVG(calories) FROM food_log WHERE uid = ? GROUP BY meal_type", (uid, ))
     rows = c.fetchall()
-
-    data = [list(row) for row in rows]
-    df = pd.DataFrame(data, columns=['Meal', 'Avg. Calories (kcal)'])
+    
+    df = pd.DataFrame(rows, columns=['Meal', 'Avg. Calories (kcal)'])
     fig = px.bar(df,title="Avg. Calories", x='Meal', y='Avg. Calories (kcal)')
-              # Fill color (semi-transparent purple)
+              
     fig.update_traces(
-    marker=dict(color='rgba(113, 20, 163, 0.6)')  # Semi-transparent purple
+    marker=dict(color="#FFB6C1") 
 )
     return fig
-
 
 def calorie_goal(uid):
     conn = sqlite3.connect(DB_PATH)
@@ -89,7 +86,7 @@ def calorie_goal(uid):
 
     cal_goal = get_calorie_goal(uid)
     c.execute("""
-        SELECT SUM(protein)
+        SELECT SUM(calories)
         FROM food_log
         WHERE uid = ?
         """, (uid,))
@@ -99,20 +96,53 @@ def calorie_goal(uid):
     if consumed < cal_goal:
         labels = ['Calories Consumed', 'Remaining']
         values = [consumed, cal_goal - consumed]
-        colors = ['#FFA07A', '#90EE90']
+        colors = ["#FFB6C1", "#FFDAB9"]
     elif consumed == cal_goal:
         labels = ['Calories Consumed']
         values = [cal_goal]
-        colors = ['#FFA07A']
+        colors = ["#FFB6C1"]
     else:
         labels = ['Calories Goal', 'Over Limit']
         values = [cal_goal, consumed - cal_goal]
-        colors = ['#FFA07A', '#FF6347']
+        colors = ["#FFB6C1", "#FFDAB9"]
 
     # Create the pie chart
     fig = go.Figure(data=[go.Pie(labels=labels, values=values, marker=dict(colors=colors))])
     fig.update_traces(textinfo='label+percent')
     fig.update_layout(title_text=f"Calorie Tracker: {consumed:.0f} / {cal_goal:.0f} kcal")
+    
+    return fig
+
+def protein_goal(uid):
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+
+    goal = get_protein_goal(uid)
+    c.execute("""
+        SELECT SUM(protein)
+        FROM food_log
+        WHERE uid = ?
+        """, (uid,))
+    
+    consumed = c.fetchone()[0]
+    
+    if consumed < goal:
+        labels = ['Protein Consumed', 'Remaining']
+        values = [consumed, goal - consumed]
+        colors = ["#FFB6C1", "#FAFAD2"]
+    elif consumed == goal:
+        labels = ['Protein Consumed']
+        values = [goal]
+        colors = ["#FFB6C1"]
+    else:
+        labels = ['Protein Goal', 'Over Limit']
+        values = [goal, consumed - goal]
+        colors = ["#FFB6C1", "#FFDAB9"]
+
+    # Create the pie chart
+    fig = go.Figure(data=[go.Pie(labels=labels, values=values, marker=dict(colors=colors))])
+    fig.update_traces(textinfo='label+percent')
+    fig.update_layout(title_text=f"Calorie Tracker: {consumed:.0f} / {goal:.0f} kcal")
     
     return fig
 
@@ -256,8 +286,8 @@ else:
         st.subheader(f"Hello, {getName()[0]}",divider=True)
     username = getName()[1]
     print(username)
-    #current_calorie_goal = get_calorie_goal(username)
-    #current_protein_goal = get_protein_goal(username)
+    current_calorie_goal = get_calorie_goal(username)
+    current_protein_goal = get_protein_goal(username)
 
    
     with stylable_container(
@@ -526,13 +556,13 @@ else:
         col1,col2=st.columns(2)
         with col1:
             st.plotly_chart(calorie_goal(getName()[1]))
-        # with col2:
-        #     st.plotly_chart(protein_goal(getName()[1]))
+        with col2:
+            st.plotly_chart(protein_goal(getName()[1]))
     with st.expander("Visualize Your Nutrients Breakdown"):
         st.plotly_chart(location_nutrient_breakdown (getName()[1]))
     
     with st.expander("Average Calories Per Meal Category"):
-        plot2=average_calories_by_meal(email[1])
+        plot2=average_calories_by_meal(getName()[1])
         st.plotly_chart(plot2,use_container_width=True)
     with st.expander("Where can you been found on campus!"):
         st.plotly_chart(common_dining(getName()[1]))
