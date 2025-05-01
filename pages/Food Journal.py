@@ -108,9 +108,9 @@ def nutrient_breakdown(uid):
     values=values,
     hole=.5,  # To create a donut shape
     marker=dict(colors=[
-        '#9B4D9C',  # Light purple for Protein
-        '#6A2C9C',  # Medium purple for Fats
-        '#3E0E75'   # Dark purple for Carbs
+        "#FFB6C1",  # Light purple for Protein
+        "#FAFAD2",  # Medium purple for Fats
+        "#FFDAB9"   # Dark purple for Carbs
         ]),
     )])
     fig.update_layout(
@@ -145,7 +145,7 @@ def calorie_goal(uid, date):
     if consumed < cal_goal:
         labels = ['Calories Consumed', 'Remaining']
         values = [consumed, cal_goal - consumed]
-        colors = ["#FFB6C1", "#FFDAB9"]
+        colors = ["#FFB6C1", "#FAFAD2"]
         outcome_text = f"🔥 {consumed:.0f} kcal consumed. You have {cal_goal - consumed:.0f} kcal remaining."
     elif consumed == cal_goal:
         labels = ['Calories Consumed']
