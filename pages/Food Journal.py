@@ -381,7 +381,12 @@ else:
     with st.expander("Visualize Your Nutrients Breakdown"):
         st.plotly_chart(location_nutrient_breakdown (getName()[1]))
     
-
+    with st.expander("Average Calories Per Meal Category"):
+        plot2=average_calories_by_meal(email[1])
+        st.plotly_chart(plot2,use_container_width=True)
+    
+    
+    
     with st.expander("See your graphs!"):
         with headCol2:
             with st.popover("Meal Goals",use_container_width=True):
@@ -436,8 +441,7 @@ else:
             """
         ]
     ):
-                plot2=average_calories_by_meal(email[1])
-                st.plotly_chart(plot2,use_container_width=True)
+                
 
         with colcarbs:
             st.subheader("Nutrient Breakdown")
