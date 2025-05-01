@@ -69,15 +69,34 @@ def calorie_goal(uid):
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
 
+    cal_goal = get_calorie_goal(uid)
     c.execute("""
-        SELECT SUM(f.calories), u.calorie_goal
-        FROM food_log f
-        JOIN user u ON u.uid = f.uid
-        WHERE f.uid = ?
-        GROUP BY u.uid
-    """, (uid,))
+        SELECT SUM(protein)
+        FROM food_log
+        WHERE uid = ?
+        """, (uid,))
     
-    st.write(c.fetchone())
+    consumed = c.fetchone()[0]
+    
+    if consumed < cal_goal:
+        labels = ['Calories Consumed', 'Remaining']
+        values = [consumed, cal_goal - consumed]
+        colors = ['#FFA07A', '#90EE90']
+    elif consumed == cal_goal:
+        labels = ['Calories Consumed']
+        values = [cal_goal]
+        colors = ['#FFA07A']
+    else:
+        labels = ['Calories Goal', 'Over Limit']
+        values = [cal_goal, consumed - cal_goal]
+        colors = ['#FFA07A', '#FF6347']
+
+    # Create the pie chart
+    fig = go.Figure(data=[go.Pie(labels=labels, values=values, marker=dict(colors=colors))])
+    fig.update_traces(textinfo='label+percent')
+    fig.update_layout(title_text=f"Calorie Tracker: {consumed:.0f} / {cal_goal:.0f} kcal")
+    
+    return fig
 
 def protein_goal(uid):
     conn = sqlite3.connect(DB_PATH)
