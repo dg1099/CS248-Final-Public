@@ -24,8 +24,6 @@ st.markdown(
     """
 <style>
 [data-testid="stSidebarContent"] {
-    color: white;
-    background-color: #622572;
     border-radius: 25px;
     border-style: solid;
     border-width: 7px;
@@ -58,13 +56,12 @@ st.markdown("""
     }
     .equal-height-box {
         flex: 1;
-        background-color: #2E8B57;
         padding: calc(1em - 1px);
-        border: 4px solid black;
         border-radius: 0.5rem;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
     }
     </style>
 """, unsafe_allow_html=True)
@@ -166,7 +163,6 @@ else:
                 background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
                 border-radius: 0.5rem;
                 padding: 1em;
-                color: white; /* Optional: make text easier to see */
             }
         """,
     ):
@@ -194,7 +190,6 @@ else:
                 background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
                 border-radius: 0.5rem;
                 padding: 1em;
-                color: white; /* Optional: make text easier to see */
             }
         """,
     ): 
@@ -263,7 +258,6 @@ else:
                 background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
                 border-radius: 0.5rem;
                 padding: 1em;
-                color: white; /* Optional: make text easier to see */
             }
         """,
     ):      
@@ -316,7 +310,6 @@ else:
                 background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
                 border-radius: 0.5rem;
                 padding: 1em;
-                color: white; /* Optional: make text easier to see */
             }
         """,
     ):      
@@ -395,9 +388,8 @@ else:
         css_styles=[
             """
             {
-                border: 6px solid black;
                 border-radius: 1rem;
-                background-color: white;
+                background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
             }
             """
         ]
@@ -411,9 +403,8 @@ else:
         css_styles=[
             """
             {
-                border: 6px solid black;
                 border-radius: 1rem;
-                background-color: white;
+                background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
             }
             """
         ]
@@ -428,9 +419,8 @@ else:
         css_styles=[
             """
             {
-                border: 6px solid black;
                 border-radius: 1rem;
-                background-color: black;
+                background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
             }
             """
         ]
