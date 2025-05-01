@@ -289,15 +289,15 @@ else:
 
         # Execute the query
         cursor.execute("""
-            SELECT uid, emotion, comment
+            SELECT uid, emotion, comment,meal
             FROM rating
             WHERE emotion = 'Love' AND uid = ?
         """, (specific_uid,))
 
         # Fetch and print results
         results = cursor.fetchall()
-        for row in results:
-            st.write(row)
+        for (name,emotion,comment,meal) in results:
+            st.write(name)
 
         # Clean up
         cursor.close()
