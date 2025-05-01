@@ -98,7 +98,7 @@ def location_nutrient_breakdown (uid):
     data = [list(row) + [sum(row[0:2])] for row in rows]
     df = pd.DataFrame(data, columns=['Protein', 'Fats', 'Carbs', 'Total Nutrients', 'Dining Hall'])
 
-    fig = px.bar_polar(df, r="Total Nutrients", theta="Dining Hall", color="Protein", template="plotly_dark",
+    fig = px.bar_polar(df, r="Total Nutrients", theta="Dining Hall", color="Protein", template="plotly_white",
                 color_discrete_sequence= px.colors.sequential.Plasma_r)
     
     return fig
