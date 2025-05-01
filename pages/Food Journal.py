@@ -72,13 +72,12 @@ def average_calories_by_meal(uid):
     c = conn.cursor()
     c.execute("SELECT meal_type, AVG(calories) FROM food_log WHERE uid = ? GROUP BY meal_type", (uid, ))
     rows = c.fetchall()
-    st.write(rows)
+    
     df = pd.DataFrame(rows, columns=['Meal', 'Avg. Calories (kcal)'])
-    st.write(df)
     fig = px.bar(df,title="Avg. Calories", x='Meal', y='Avg. Calories (kcal)')
-              # Fill color (semi-transparent purple)
+              
     fig.update_traces(
-    marker=dict(color='rgba(113, 20, 163, 0.6)')  # Semi-transparent purple
+    marker=dict(color="#FFB6C1") 
 )
     return fig
 
