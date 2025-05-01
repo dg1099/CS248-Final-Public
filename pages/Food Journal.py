@@ -411,26 +411,26 @@ else:
 
 
             
-                st.subheader("Breakfast",divider=True)
+                st.subheader("Breakfast 🥞",divider=True)
                 if len(breakfast)==0:
                         st.write("Nothing was logged")
                 for food in breakfast: 
                     st.markdown(food[5],help=f"Calories in Meal: {food[6]}")
                     
                 
-                st.subheader("Lunch",divider=True)
+                st.subheader("Lunch 🍚",divider=True)
                 if len(lunch)==0:
                     st.write("Nothing was logged")
                 for food2 in lunch: 
                     st.markdown(food2[5],help=f"Calories in Meal: {food2[6]}")
 
-                st.subheader("Dinner",divider=True)
+                st.subheader("Dinner 🍝",divider=True)
                 if len(dinner)==0:
                     st.write("Nothing was logged")
                 for food3 in dinner: 
                     st.markdown(food3[5],help=f"Calories in Meal: {food3[6]}")
 
-                st.subheader("Snack",divider=True)
+                st.subheader("Snack 🍟",divider=True)
                 if len(snack)==0:
                     st.write("Nothing was logged")
                 for food4 in snack: 
