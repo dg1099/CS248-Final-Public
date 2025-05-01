@@ -34,7 +34,7 @@ def common_dining(uid):
         x="# of Visits",
         y="Dining Hall",
         orientation='h',  # horizontal
-        color_discrete_sequence=["purple"]
+        color_discrete_sequence=["lightpink"]
     )
 
     fig.update_layout(yaxis=dict(categoryorder='total ascending'))  # most common at top
@@ -108,7 +108,21 @@ def get_user_allergens(username):
     finally:
         conn.close()
 
-##################### UPDATING AND GETTING CALORIE GOALS ########################
+##################### SHOWING TOP 5 MEALS ########################
+def topRated():
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    query = '''
+        SELECT meal, AVG(rating) as avg_rating
+        FROM rating
+        GROUP BY meal
+        HAVING AVG(rating) > 4
+        LIMIT 5
+    '''
+    cursor.execute(query)
+    results = cursor.fetchall()
+    conn.close()
+    return results
 
 #-----------------------IMPORTANT METHODS FOR SITE-----------------------------#
 
@@ -161,7 +175,6 @@ st.html(
     color: white;
     background-color: #dcb4cc;
     border-radius: 25px;
-    border-color: black;
     border-style: solid;
     border-width: 7px;
     background-image: url("https://static.vecteezy.com/system/resources/previews/008/359/817/non_2x/beautiful-and-bright-yellow-and-purple-color-gradient-background-combination-soft-and-smooth-texture-free-vector.jpg");
@@ -252,7 +265,6 @@ with stylable_container(
             css_styles=["""
             
                 {
-                    border: 4px solid PapayaWhite;
                     border-radius: 0.5rem;
                     background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
                     padding: calc(1em - 1px)
@@ -285,7 +297,11 @@ with stylable_container(
     #     options=["Lulu","Bates","Stone D","Tower"]
     #     fav_option=st.selectbox("Select A Hall!",options)
     col1,col2=st.columns(2)
-
+    
+    top_rated = topRated()
+    st.subheader("Top 5 Dishes!")
+    for dish in top_rated:
+        st.write(f"{dish[0]} with a rating of {dish[1]}")
 
     options=["Lulu","Bates","Stone D","Tower"]
     with col1:
@@ -392,7 +408,7 @@ with stylable_container(
         else:
             st.warning("All Dining Halls are closed!")
 
-
+        
 
             
 

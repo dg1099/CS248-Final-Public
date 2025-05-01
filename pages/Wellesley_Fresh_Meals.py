@@ -22,7 +22,6 @@ st.markdown(
     color: white;
     background-color: plum;
     border-radius: 25px;
-    border-color: black;
     border-style: solid;
     border-width: 7px;
     background-image: url("https://static.vecteezy.com/system/resources/previews/008/359/817/non_2x/beautiful-and-bright-yellow-and-purple-color-gradient-background-combination-soft-and-smooth-texture-free-vector.jpg");
@@ -215,7 +214,6 @@ else:
 
             #Makes it so the calander is already on the current date
             d = st.date_input("Meal Date", "today")
-            st.write("You Picked:", d)
             
             st.session_state["date"] = d
             st.write("")
@@ -319,7 +317,7 @@ else:
             st.markdown(
                 f"""
                 <h2 style="
-                    background: linear-gradient(90deg, #ff8a00, #e52e71);
+                    background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
 
                     You chose {st.session_state['selected_hall']} for {st.session_state['selected_time']}
                 </h2>
@@ -359,7 +357,7 @@ else:
             {
                 border: 4px solid black;
                 background: #b89927;
-                background: linear-gradient(90deg,rgba(184, 153, 39, 1) 0%, rgba(113, 20, 163, 1) 91%);
+                background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
                 border-radius: 0.5rem;
                 background-color: #2E8B57;
                 padding: calc(1em - 1px)
