@@ -291,6 +291,9 @@ else:
         #This holds all the meals logged by the user for that specific date selected 
         today = datetime.now().date()
     
+    with st.expander("These are the meals you loved ❤️"):
+        st.write("")
+
 
     
 
@@ -467,23 +470,7 @@ else:
                     month=date_obj.strftime('%B')
                     if month==date:
                         st.markdown(item[5],help=f"Calories in Meal: {item[6]}")
-    with st.expander("See you Calorie and Protien Goals"):
-        col1,col2=st.columns(2)
-        with col1:
-            st.plotly_chart(calorie_goal(getName()[1]))
-        with col2:
-            st.plotly_chart(protein_goal(getName()[1]))
-    with st.expander("Visualize Your Nutrients Breakdown"):
-        st.plotly_chart(location_nutrient_breakdown (getName()[1]))
-    
-    with st.expander("Average Calories Per Meal Category"):
-        plot2=average_calories_by_meal(email[1])
-        st.plotly_chart(plot2,use_container_width=True)
-    with st.expander("Where can you been found on campus!"):
-        st.plotly_chart(common_dining(getName()[1]))
-    
-    
-   
+
     with headCol2:
         with st.popover("Meal Goals",use_container_width=True):
             calorieGoal=st.slider("Calorie Goals:", 1,3000)
@@ -503,11 +490,29 @@ else:
                 change_proteinGoal(username, proteinGoal)
 
 
-    goals={
-    "Calories Goal": st.session_state["calorieGoal"],
-    "Protein Goal": st.session_state["protienGoal"]
-}
-    colprotien,colcalorie,colcarbs=st.columns(3)
+            goals={
+            "Calories Goal": st.session_state["calorieGoal"],
+            "Protein Goal": st.session_state["protienGoal"]
+        }
+            colprotien,colcalorie,colcarbs=st.columns(3)
+            
+    with st.expander("See you Calorie and Protien Goals"):
+        col1,col2=st.columns(2)
+        with col1:
+            st.plotly_chart(calorie_goal(getName()[1]))
+        with col2:
+            st.plotly_chart(protein_goal(getName()[1]))
+    with st.expander("Visualize Your Nutrients Breakdown"):
+        st.plotly_chart(location_nutrient_breakdown (getName()[1]))
+    
+    with st.expander("Average Calories Per Meal Category"):
+        plot2=average_calories_by_meal(email[1])
+        st.plotly_chart(plot2,use_container_width=True)
+    with st.expander("Where can you been found on campus!"):
+        st.plotly_chart(common_dining(getName()[1]))
+    
+    
+   
     
         
 
