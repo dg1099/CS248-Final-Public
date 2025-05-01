@@ -111,8 +111,19 @@ def nutrient_breakdown(uid):
         '#9B4D9C',  # Light purple for Protein
         '#6A2C9C',  # Medium purple for Fats
         '#3E0E75'   # Dark purple for Carbs
-    ]),
-)])
+        ]),
+    )])
+    fig.update_layout(
+    title='Nutritional Breakdown',  # Optional title
+    font=dict(
+        color='white',                 # Font color
+        family='Lexend',
+        size=14
+    ),
+    paper_bgcolor='rgba(0, 0, 0, 0)',  # Background of the entire figure
+    plot_bgcolor='rgba(0, 0, 0, 0)',   # Background of plotting area
+)
+    return fig
     
 
 def calorie_goal(uid, date):

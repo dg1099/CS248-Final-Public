@@ -69,8 +69,8 @@ def nutrient_breakdown(uid):
         '#9B4D9C',  # Light purple for Protein
         '#6A2C9C',  # Medium purple for Fats
         '#3E0E75'   # Dark purple for Carbs
-    ]),
-)])
+        ]),
+    )])
    
              # Fill color (semi-transparent purple)
     
