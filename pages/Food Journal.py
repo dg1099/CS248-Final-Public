@@ -2,7 +2,6 @@ import streamlit as st
 from streamlit_extras.stylable_container import stylable_container
 from userAuth.user_profile import getName
 import matplotlib.pyplot as plt
-from Data_Visuals.data_visualization_methods import spider_graph, average_calories_by_meal, nutrient_breakdown
 from userAuth.user_profile import getName
 import sqlite3
 from datetime import datetime
