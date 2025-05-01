@@ -40,3 +40,11 @@ We forgot to make the team_log.md file, but we completed milestone 1 and met in 
 **Yuneydy:** I worked mainly on adding the database and adding the different tables we needed for our database. Because we had to continuously change them I had to reset and debig issues we would have when someone pulled and then kept the old version. Additionally, I made the create_user() function to add users into our database when they first log in and then added it into user profile creation as well as setting up the food log to only contain the values we would add to it. Once I had that completed, I also created a function for users to add allergens to their profile that would save into the database. Lastly, I made sure to add the user's id as their email so that it could be universally called more efficiently in the app.
 
 **Dianna:** This week I continued with the Spoonacular API, as I was not content with my results from last week. I saved all the ingredients and dishes/drinks to a database sine El Table and Cafe Hoop used a lot of the same ingredients. Additionally, I used 'parseIngredients' instead of get ingredient info, as it was very hit or miss. 'parseIngredients' was much more reliable, so I remade the database and got estimates of all the dishes for their calories, fats, proteins, and carbs. It was very difficult and I had many failed attempts, but I think it was worth it in the end. Afterwards, I began working on the data visualizations and created code for 4 different kinds of graphs. It works well and uses our databases to make each graph for the user. I am very proud of the menus I made for El Table and Cafe Hoop, and the last thing we need to do with them is to combine it with the food_tracker.db so that it cna be properly added to the user's food journal. I also created the repos to deploy the app, but I worked with everyone in the group to actually deploy it since we were all a bit confused. 
+
+**Week 4**
+
+**Ruth:**
+
+**Yuneydy:**
+
+**Dianna:**
