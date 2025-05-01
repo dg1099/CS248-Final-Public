@@ -112,21 +112,24 @@ def calorie_goal(uid, date):
         labels = ['Calories Consumed', 'Remaining']
         values = [consumed, cal_goal - consumed]
         colors = ["#FFB6C1", "#FFDAB9"]
+        outcome_text = f"🔥 {consumed:.0f} kcal consumed. You have {cal_goal - consumed:.0f} kcal remaining."
     elif consumed == cal_goal:
         labels = ['Calories Consumed']
         values = [cal_goal]
         colors = ["#FFB6C1"]
+        outcome_text = f"✅ {consumed:.0f} kcal consumed. You've met your goal exactly!"
     else:
         labels = ['Calories Goal', 'Over Limit']
         values = [cal_goal, consumed - cal_goal]
         colors = ["#FFB6C1", "#FFDAB9"]
+        outcome_text = f"⚠️ {consumed:.0f} kcal consumed. You went over your goal by {consumed - cal_goal:.0f} kcal."
 
     # Create the pie chart
     fig = go.Figure(data=[go.Pie(labels=labels, values=values, marker=dict(colors=colors))])
     fig.update_traces(textinfo='label+percent')
     fig.update_layout(title_text=f"Calorie Tracker for {date}: {consumed:.0f} / {cal_goal:.0f} kcal")
     
-    return fig
+    return fig, outcome_text
 
 
 def protein_goal(uid, date):
@@ -581,10 +584,11 @@ else:
             date_str = selected_date.strftime("%Y-%m-%d")
 
             # Generate and display chart
-            fig = calorie_goal(uid=getName()[1], date=date_str)
+            fig,outcome = calorie_goal(uid=getName()[1], date=date_str)
             st.plotly_chart(fig)
+            st.write(outcome)
         with col2:
-            selected_date = st.date_input("📅 Choose a date", datetime.now(),key="hsdhwbdhwb")
+            selected_date = st.date_input("📅 Choose a date", datetime.now(),key="GVGHVGHJVJHvj")
             date_str = selected_date.strftime("%Y-%m-%d")
             fig = protein_goal(uid=getName()[1], date=date_str)
             st.plotly_chart(fig)
