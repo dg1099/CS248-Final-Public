@@ -92,19 +92,22 @@ def average_calories_by_meal(uid):
 )
     return fig
 
-def calorie_goal(uid):
+def calorie_goal(uid, date):
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
 
     cal_goal = get_calorie_goal(uid)
+
+    # Filter calories by date
     c.execute("""
         SELECT SUM(calories)
         FROM food_log
-        WHERE uid = ?
-        """, (uid,))
+        WHERE uid = ? AND date = ?
+    """, (uid, date))
     
-    consumed = c.fetchone()[0]
-    
+    result = c.fetchone()
+    consumed = result[0] if result[0] else 0
+
     if consumed < cal_goal:
         labels = ['Calories Consumed', 'Remaining']
         values = [consumed, cal_goal - consumed]
@@ -121,9 +124,10 @@ def calorie_goal(uid):
     # Create the pie chart
     fig = go.Figure(data=[go.Pie(labels=labels, values=values, marker=dict(colors=colors))])
     fig.update_traces(textinfo='label+percent')
-    fig.update_layout(title_text=f"Calorie Tracker: {consumed:.0f} / {cal_goal:.0f} kcal")
+    fig.update_layout(title_text=f"Calorie Tracker for {date}: {consumed:.0f} / {cal_goal:.0f} kcal")
     
     return fig
+
 
 def protein_goal(uid, date):
     conn = sqlite3.connect(DB_PATH)
@@ -573,7 +577,12 @@ else:
     with st.expander("See you Calorie and Protein Goals"):
         col1,col2=st.columns(2)
         with col1:
-            st.plotly_chart(calorie_goal(getName()[1]))
+            selected_date = st.date_input("📅 Choose a date", datetime.now())
+            date_str = selected_date.strftime("%Y-%m-%d")
+
+            # Generate and display chart
+            fig = calorie_goal(uid=getName()[1], date=date_str)
+            st.plotly_chart(fig)
         with col2:
             selected_date = st.date_input("📅 Choose a date", datetime.now())
             date_str = selected_date.strftime("%Y-%m-%d")
