@@ -108,7 +108,21 @@ def get_user_allergens(username):
     finally:
         conn.close()
 
-##################### UPDATING AND GETTING CALORIE GOALS ########################
+##################### SHOWING TOP 5 MEALS ########################
+def topRated():
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    query = '''
+        SELECT meal, AVG(rating) as avg_rating
+        FROM rating
+        GROUP BY meal
+        HAVING AVG(rating) > 4
+        LIMIT 5
+    '''
+    cursor.execute(query)
+    results = cursor.fetchall()
+    conn.close()
+    return results
 
 #-----------------------IMPORTANT METHODS FOR SITE-----------------------------#
 
@@ -276,7 +290,11 @@ with stylable_container(
     #     options=["Lulu","Bates","Stone D","Tower"]
     #     fav_option=st.selectbox("Select A Hall!",options)
     col1,col2=st.columns(2)
-
+    
+    top_rated = topRated()
+    st.subheader("Top 5 Dishes!")
+    for dish in top_rated:
+        st.write(f"{dish[0]} with a rating of {dish[1]}")
 
     options=["Lulu","Bates","Stone D","Tower"]
     with col1:
@@ -383,7 +401,7 @@ with stylable_container(
         else:
             st.warning("All Dining Halls are closed!")
 
-
+        
 
             
 
