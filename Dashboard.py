@@ -7,6 +7,10 @@ import sqlite3
 from datetime import datetime
 import pandas as pd
 import wellesley_fresh_api
+import plotly.express as px
+import pandas as pd
+import sqlite3
+import plotly.graph_objects as go
 
 
 def common_dining(uid):
@@ -30,7 +34,7 @@ def common_dining(uid):
         x="# of Visits",
         y="Dining Hall",
         orientation='h',  # horizontal
-        color_discrete_sequence=["purple"]
+        color_discrete_sequence=["lightpink"]
     )
 
     fig.update_layout(yaxis=dict(categoryorder='total ascending'))  # most common at top
@@ -224,10 +228,8 @@ with st.expander("Welcome!"):
                 css_styles=["""
                 
                     {
-                        border: 4px solid #8259a0;
                         border-radius: 0.5rem;
-                        background: #b89927;
-                        background-color: #ece0ea;
+                        background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
                         padding: calc(1em - 1px);
                             
                     }
@@ -257,10 +259,8 @@ with stylable_container(
             css_styles=["""
             
                 {
-                    border: 4px solid #8259a0;
                     border-radius: 0.5rem;
-                    background: #b89927;
-                    background-color: #ece0ea;
+                    background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
                     padding: calc(1em - 1px)
                          
                 }
@@ -304,7 +304,7 @@ with stylable_container(
         st.write("")
         st.write("")
         with st.popover("Dining Hall visits Breakdown! "):
-            st.write("")
+            st.plotly_chart(common_dining(getName()[1]))
     date=datetime.now().date()
     timenow=datetime.now()
     current_hour=timenow.hour

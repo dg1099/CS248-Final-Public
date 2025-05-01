@@ -87,7 +87,11 @@ def displayMenu(location,file1,file2):
                 with col1:
                     st.write(meal)
                 with col2:
-                    st.write(ingr)
+                    if ingr != "No Info":
+                        cals = str(round(float(ingr), 2))
+                        st.write(cals)
+                    else:
+                        st.write(ingr)
                 with col3:
                     session_key = f"{meal}_{idx}_added"
 
