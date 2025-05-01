@@ -4,8 +4,7 @@ from userAuth.user_profile import render_user_profile
 from streamlit_extras.stylable_container import stylable_container
 from streamlit_extras.app_logo import add_logo
 from userAuth.user_profile import getName
-from Database_files.add_userData import get_preference
-import Data_Visuals  
+from Database_files.add_userData import get_preference  
 import sqlite3
 from datetime import datetime
 import pandas as pd
