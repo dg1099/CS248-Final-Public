@@ -122,6 +122,7 @@ if "access_token" not in st.session_state:
     #Stop from everything else from being loaded up if they have not loggedin 
 else: 
     
+
     headCol1,headCol2=st.columns([8,2])
 
     #This is our header column so we can also have a popout section for prefrences
@@ -130,7 +131,17 @@ else:
     with headCol2:
         currentpref=displayPreference("wellesleyfresh")
 
+    with st.expander("✨ Page Overview!"):
+        st.write("""
+        **Welcome to the Dining Hall Menu Generator!** 🍽️
 
+        - 🕐 Pick your **Meal Time** (Breakfast, Lunch, Dinner)  
+        - 🏠 Choose your **Dining Hall** (Lulu, Tower, Bates, Stone D)  
+        - 📅 Select a **Date** to view the menu  
+        - 📋 Hit **Generate!** to see meals that match your preferences  
+        - ❌ Automatically filters out meals based on your dietary preferences  
+        - ✅ Add selected meals to your personal food log
+        """)
     
     # This is the columns that layout meal and dining hall options 
     col1,col2,col3=st.columns(3)
