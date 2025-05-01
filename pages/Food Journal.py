@@ -77,6 +77,8 @@ def calorie_goal(uid):
         """, (uid,))
     
     consumed = c.fetchone()[0]
+
+    print(consumed)
     
     if consumed < cal_goal:
         labels = ['Calories Consumed', 'Remaining']
