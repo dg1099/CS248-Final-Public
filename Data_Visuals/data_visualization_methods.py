@@ -129,6 +129,11 @@ def location_nutrient_breakdown (uid):
     fig = px.bar_polar(df_long, r="Amount", theta="Dining Hall", color="Nutrient", template="plotly_white",
                 color_discrete_sequence=["#EF476F", "#FFD166", "#06D6A0"])
     
+    fig.update_layout(
+        paper_bgcolor='white',  # Set the background of the entire plot (outside the plotting area)
+        plot_bgcolor='white',   # Set the background of the plot area (inside the radial plot)
+    )
+
     return fig
 
 def common_dining(uid):
