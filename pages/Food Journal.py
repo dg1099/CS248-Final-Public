@@ -138,7 +138,7 @@ def protein_goal(uid, date):
 
     goal = get_protein_goal(uid)
 
-    # Query for only the given date
+    # Filter protein by date
     c.execute("""
         SELECT SUM(protein)
         FROM food_log
@@ -152,21 +152,25 @@ def protein_goal(uid, date):
         labels = ['Protein Consumed', 'Remaining']
         values = [consumed, goal - consumed]
         colors = ["#FFB6C1", "#FAFAD2"]
+        outcome_text = f"💪 {consumed:.0f}g protein consumed. You need {goal - consumed:.0f}g more."
     elif consumed == goal:
         labels = ['Protein Consumed']
         values = [goal]
         colors = ["#FFB6C1"]
+        outcome_text = f"✅ {consumed:.0f}g protein consumed. You've met your goal!"
     else:
         labels = ['Protein Goal', 'Over Limit']
         values = [goal, consumed - goal]
         colors = ["#FFB6C1", "#FFDAB9"]
+        outcome_text = f"⚠️ {consumed:.0f}g protein consumed. You went over your goal by {consumed - goal:.0f}g."
 
-    # Create the pie chart
+    # Create pie chart
     fig = go.Figure(data=[go.Pie(labels=labels, values=values, marker=dict(colors=colors))])
     fig.update_traces(textinfo='label+percent')
-    fig.update_layout(title_text=f"Protein Tracker for {date}: {consumed:.0f} / {goal:.0f} g")
+    fig.update_layout(title_text=f"Protein Tracker for {date}: {consumed:.0f}g / {goal:.0f}g")
 
-    return fig
+    return fig, outcome_text
+
 
 def common_dining(uid):
     conn = sqlite3.connect(DB_PATH)
@@ -590,8 +594,9 @@ else:
         with col2:
             selected_date = st.date_input("📅 Choose a date", datetime.now(),key="GVGHVGHJVJHvj")
             date_str = selected_date.strftime("%Y-%m-%d")
-            fig = protein_goal(uid=getName()[1], date=date_str)
+            fig,outcome = protein_goal(uid=getName()[1], date=date_str)
             st.plotly_chart(fig)
+            st.write(outcome)
 
     with st.expander("Visualize Your Nutrients Breakdown"):
         st.plotly_chart(location_nutrient_breakdown (getName()[1]))
