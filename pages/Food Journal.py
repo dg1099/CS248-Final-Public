@@ -9,6 +9,10 @@ from datetime import datetime
 from Dashboard import clone_private_repo
 import pandas as pd
 import subprocess
+import plotly.express as px
+import pandas as pd
+import sqlite3
+import plotly.graph_objects as go
 
 st.set_page_config(layout="wide")
 
