@@ -69,7 +69,14 @@ def calorie_goal(uid):
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     
-    c.execute("SELECT SUM(calories), calorie_goal FROM food_log WHERE uid = ?", (uid,))
+    c.execute("""
+        SELECT SUM(f.calories), u.calorie_goal
+        FROM food_log f
+        JOIN user u ON u.uid = f.uid
+        WHERE f.uid = ?
+        GROUP BY u.uid
+    """, (uid,))
+
     row = c.fetchone()
     conn.close()
 
@@ -98,7 +105,14 @@ def protein_goal(uid):
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     
-    c.execute("SELECT SUM(protein), protein_goal FROM food_log WHERE uid = ?", (uid,))
+    c.execute("""
+        SELECT SUM(f.protein), u.protein_goal
+        FROM food_log f
+        JOIN user u ON u.uid = f.uid
+        WHERE f.uid = ?
+        GROUP BY u.uid
+        """, (uid,))
+
     row = c.fetchone()
     conn.close()
 
