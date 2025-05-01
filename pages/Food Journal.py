@@ -72,7 +72,7 @@ def average_calories_by_meal(uid):
     c = conn.cursor()
     c.execute("SELECT meal_type, AVG(calories) FROM food_log WHERE uid = ? GROUP BY meal_type", (uid, ))
     rows = c.fetchall()
-    
+
     df = pd.DataFrame(rows, columns=['Meal', 'Avg. Calories (kcal)'])
     fig = px.bar(df,title="Avg. Calories", x='Meal', y='Avg. Calories (kcal)')
               
@@ -553,7 +553,7 @@ else:
         }
             colprotien,colcalorie,colcarbs=st.columns(3)
             
-    with st.expander("See you Calorie and Protien Goals"):
+    with st.expander("See you Calorie and Protein Goals"):
         col1,col2=st.columns(2)
         with col1:
             st.plotly_chart(calorie_goal(getName()[1]))
