@@ -68,14 +68,22 @@ st.markdown("""
 def calorie_goal(uid):
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
+
+    # SQL query to get the sum of calories from food_log and the calorie_goal from the user table
+    c.execute("""
+        SELECT SUM(f.calories), u.calorie_goal
+        FROM food_log f
+        JOIN user u ON u.uid = f.uid
+        WHERE f.uid = ?
+        GROUP BY u.uid
+    """, (uid,))
     
-    c.execute("SELECT SUM(calories), calorie_goal FROM food_log WHERE uid = ?", (uid,))
     row = c.fetchone()
-    conn.close()
 
     consumed = row[0]
     goal = row[1]
 
+    # Handle different cases for under, equal, and over goal
     if consumed < goal:
         labels = ['Calories Consumed', 'Remaining']
         values = [consumed, goal - consumed]
@@ -85,22 +93,30 @@ def calorie_goal(uid):
         values = [goal]
         colors = ['#FFA07A']
     else:
-        labels = ['Calorie Goal', 'Over Limit']
+        labels = ['Calories Goal', 'Over Limit']
         values = [goal, consumed - goal]
         colors = ['#FFA07A', '#FF6347']
 
+    # Create the pie chart
     fig = go.Figure(data=[go.Pie(labels=labels, values=values, marker=dict(colors=colors))])
     fig.update_traces(textinfo='label+percent')
     fig.update_layout(title_text=f"Calorie Tracker: {consumed:.0f} / {goal:.0f} kcal")
+    
     return fig
 
 def protein_goal(uid):
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     
-    c.execute("SELECT SUM(protein), protein_goal FROM food_log WHERE uid = ?", (uid,))
+    c.execute("""
+        SELECT SUM(f.protein), u.protein_goal
+        FROM food_log f
+        JOIN user u ON u.uid = f.uid
+        WHERE f.uid = ?
+        GROUP BY u.uid
+        """, (uid,))
+
     row = c.fetchone()
-    conn.close()
 
     if row is None or row[0] is None:
         print("No data found.")
