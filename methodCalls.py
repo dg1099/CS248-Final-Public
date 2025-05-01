@@ -43,7 +43,7 @@ def displayMenu(location,file1,file2):
                     border: 4px solid black;
                     border-radius: 0.5rem;
                     background: #b89927;
-                    background: linear-gradient(90deg,rgba(184, 153, 39, 1) 0%, rgba(113, 20, 163, 1) 91%);
+                    background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
                     background-color: #2E8B57;
                     padding: calc(1em - 1px)
                         
@@ -149,7 +149,7 @@ def displayMenu(location,file1,file2):
                     border: 4px solid black;
                     border-radius: 0.5rem;
                     background: #b89927;
-                    background: linear-gradient(90deg,rgba(184, 153, 39, 1) 0%, rgba(113, 20, 163, 1) 91%);
+                    background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
                     background-color: #2E8B57;
                     padding: calc(1em - 1px)
                          
@@ -259,7 +259,7 @@ def displayPreference(location):
                 {
                     border: 4px solid black;
                     background: #b89927;
-                    background: linear-gradient(90deg,rgba(184, 153, 39, 1) 0%, rgba(113, 20, 163, 1) 91%);
+                    background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
                     background-color: #2E8B57;
                     padding: calc(1em - 1px)
                          

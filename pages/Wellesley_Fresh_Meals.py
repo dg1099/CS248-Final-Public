@@ -317,7 +317,7 @@ else:
             st.markdown(
                 f"""
                 <h2 style="
-                    background: linear-gradient(90deg, #ff8a00, #e52e71);
+                    background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
 
                     You chose {st.session_state['selected_hall']} for {st.session_state['selected_time']}
                 </h2>
@@ -357,7 +357,7 @@ else:
             {
                 border: 4px solid black;
                 background: #b89927;
-                background: linear-gradient(90deg,rgba(184, 153, 39, 1) 0%, rgba(113, 20, 163, 1) 91%);
+                background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
                 border-radius: 0.5rem;
                 background-color: #2E8B57;
                 padding: calc(1em - 1px)
