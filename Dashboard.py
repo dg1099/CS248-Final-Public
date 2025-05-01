@@ -282,7 +282,7 @@ with stylable_container(
                     
             ):
     top_rated = topRated()
-    st.subheader("Top 5 Dishes!")
+    st.subheader("Top 5 Dishes across Wellesley!")
     for dish in top_rated:
         st.write(f"{dish[0]} with a rating of {dish[1]}")
 
