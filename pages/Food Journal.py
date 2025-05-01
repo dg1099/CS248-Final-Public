@@ -81,15 +81,15 @@ def calorie_goal(uid):
     if consumed < cal_goal:
         labels = ['Calories Consumed', 'Remaining']
         values = [consumed, cal_goal - consumed]
-        colors = ['#FFA07A', '#90EE90']
+        colors = ["#FFB6C1", "#FFDAB9"]
     elif consumed == cal_goal:
         labels = ['Calories Consumed']
         values = [cal_goal]
-        colors = ['#FFA07A']
+        colors = ["#FFB6C1"]
     else:
         labels = ['Calories Goal', 'Over Limit']
         values = [cal_goal, consumed - cal_goal]
-        colors = ['#FFA07A', '#FF6347']
+        colors = ["#FFB6C1", "#FFDAB9"]
 
     # Create the pie chart
     fig = go.Figure(data=[go.Pie(labels=labels, values=values, marker=dict(colors=colors))])
@@ -114,15 +114,15 @@ def protein_goal(uid):
     if consumed < goal:
         labels = ['Protein Consumed', 'Remaining']
         values = [consumed, goal - consumed]
-        colors = ['#FFA07A', '#90EE90']
+        colors = ["#FFB6C1", "#FAFAD2"]
     elif consumed == goal:
         labels = ['Protein Consumed']
         values = [goal]
-        colors = ['#FFA07A']
+        colors = ["#FFB6C1"]
     else:
         labels = ['Protein Goal', 'Over Limit']
         values = [goal, consumed - goal]
-        colors = ['#FFA07A', '#FF6347']
+        colors = ["#FFB6C1", "#FFDAB9"]
 
     # Create the pie chart
     fig = go.Figure(data=[go.Pie(labels=labels, values=values, marker=dict(colors=colors))])
