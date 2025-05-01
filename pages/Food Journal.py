@@ -8,6 +8,7 @@ from datetime import datetime
 from Dashboard import clone_private_repo
 import pandas as pd
 import subprocess
+import plotly.graph_objects as go
 import plotly.express as px
 import pandas as pd
 import sqlite3
@@ -91,6 +92,39 @@ def average_calories_by_meal(uid):
     marker=dict(color="#FFB6C1") 
 )
     return fig
+
+def nutrient_breakdown(uid):
+    conn = sqlite3.connect(DB_PATH)
+
+    c = conn.cursor()
+    c.execute("SELECT SUM(protein), SUM(fats), SUM(carbohydrates) FROM food_log WHERE uid = ?", (uid, ))
+    row = c.fetchone()
+    
+    labels = ['Protein', 'Fats', 'Carbs']
+    values = [row[0], row[1], row[2]]
+
+    fig = go.Figure(data=[go.Pie(
+    labels=labels,
+    values=values,
+    hole=.5,  # To create a donut shape
+    marker=dict(colors=[
+        '#9B4D9C',  # Light purple for Protein
+        '#6A2C9C',  # Medium purple for Fats
+        '#3E0E75'   # Dark purple for Carbs
+        ]),
+    )])
+    fig.update_layout(
+    title='Nutritional Breakdown',  # Optional title
+    font=dict(
+        color='white',                 # Font color
+        family='Lexend',
+        size=14
+    ),
+    paper_bgcolor='rgba(0, 0, 0, 0)',  # Background of the entire figure
+    plot_bgcolor='rgba(0, 0, 0, 0)',   # Background of plotting area
+)
+    return fig
+    
 
 def calorie_goal(uid, date):
     conn = sqlite3.connect(DB_PATH)
@@ -622,14 +656,18 @@ else:
             st.write(outcome)
 
     with st.expander("Visualize Your Nutrients Breakdown"):
-        # Get the graph and summary text
-        fig, summary_text = location_nutrient_breakdown(uid=getName()[1])
+        tab1,tab2=st.tabs(["Bar Graph Breakdown","Spider graph Breakdown"])
+        with tab1:
+            st.plotly_chart(nutrient_breakdown(getName()[1]))
+        with tab2: 
+            # Get the graph and summary text
+            fig, summary_text = location_nutrient_breakdown(uid=getName()[1])
 
-        # Display the graph
-        st.plotly_chart(fig)
+            # Display the graph
+            st.plotly_chart(fig)
 
-        # Display the summary text extracted from the graph data
-        st.markdown(summary_text)
+            # Display the summary text extracted from the graph data
+            st.markdown(summary_text)
     
     with st.expander("Average Calories Per Meal Category"):
         plot2=average_calories_by_meal(getName()[1])
