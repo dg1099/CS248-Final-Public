@@ -215,7 +215,7 @@ with st.expander("Welcome!"):
                 
                     {
                         border-radius: 0.5rem;
-                        background-image: linear-gradient(-20deg, #e9defa 0%, #fbfcdb 100%);
+                        background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
                         padding: calc(1em - 1px);
                             
                     }
@@ -246,8 +246,7 @@ with stylable_container(
             
                 {
                     border-radius: 0.5rem;
-                    background: #b89927;
-                    background-color: #f7dfef;
+                    background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
                     padding: calc(1em - 1px)
                          
                 }
