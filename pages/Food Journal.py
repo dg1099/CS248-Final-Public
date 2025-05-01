@@ -77,8 +77,6 @@ def calorie_goal(uid):
         """, (uid,))
     
     consumed = c.fetchone()[0]
-
-    print(consumed)
     
     if consumed < cal_goal:
         labels = ['Calories Consumed', 'Remaining']
@@ -98,45 +96,6 @@ def calorie_goal(uid):
     fig.update_traces(textinfo='label+percent')
     fig.update_layout(title_text=f"Calorie Tracker: {consumed:.0f} / {cal_goal:.0f} kcal")
     
-    return fig
-
-def protein_goal(uid):
-    conn = sqlite3.connect(DB_PATH)
-    c = conn.cursor()
-    
-    c.execute("""
-        SELECT SUM(f.protein), u.protein_goal
-        FROM food_log f
-        JOIN user u ON u.uid = f.uid
-        WHERE f.uid = ?
-        GROUP BY u.uid
-        """, (uid,))
-
-    row = c.fetchone()
-
-    if row is None or row[0] is None:
-        print("No data found.")
-        return
-
-    consumed = row[0]
-    goal = row[1]
-
-    if consumed < goal:
-        labels = ['Protein Consumed', 'Remaining']
-        values = [consumed, goal - consumed]
-        colors = ['#87CEEB', '#D3D3D3']  # Blue for protein, gray for remaining
-    elif consumed == goal:
-        labels = ['Protein Consumed']
-        values = [goal]
-        colors = ['#87CEEB']
-    else:
-        labels = ['Protein Goal', 'Over Limit']
-        values = [goal, consumed - goal]
-        colors = ['#87CEEB', '#FF6347']  # Red for excess
-
-    fig = go.Figure(data=[go.Pie(labels=labels, values=values, marker=dict(colors=colors))])
-    fig.update_traces(textinfo='label+percent')
-    fig.update_layout(title_text=f"Protein Tracker: {consumed:.0f} / {goal:.0f}g")
     return fig
 
 def common_dining(uid):
