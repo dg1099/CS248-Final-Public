@@ -184,10 +184,11 @@ with st.expander("Welcome!"):
                 css_styles=["""
                 
                     {
-                        border: 4px solid PapayaWhip;
+                        border: 4px solid #8259a0;
                         border-radius: 0.5rem;
-                        background-color: #fbebd3;
-                        padding: calc(1em - 1px)
+                        background: #b89927;
+                        background-color: #ece0ea;
+                        padding: calc(1em - 1px);
                             
                     }
                     """,
@@ -216,10 +217,10 @@ with stylable_container(
             css_styles=["""
             
                 {
-                    border: 4px solid PapayaWhip;
+                    border: 4px solid #8259a0;
                     border-radius: 0.5rem;
                     background: #b89927;
-                    background-color: #E0C5E0;
+                    background-color: #ece0ea;
                     padding: calc(1em - 1px)
                          
                 }

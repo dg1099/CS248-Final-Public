@@ -131,11 +131,10 @@ else:
             key="container_with_border2313",
             css_styles="""
                 {
-                    border: 4px solid black;
+                    border: 4px solid #8259a0;
                     border-radius: 0.5rem;
                     background: #b89927;
-                    background: linear-gradient(90deg,rgba(184, 153, 39, 1) 0%, rgba(113, 20, 163, 1) 91%);
-                    background-color: #2E8B57;
+                    background-color: #ece0ea;
                     padding: calc(1em - 1px)
                          
                 }
@@ -165,10 +164,9 @@ else:
             key="container_with_border1",
             css_styles="""
                 {
-                    border: 4px solid black;
+                    border: 4px solid #8259a0;
                     border-radius: 0.5rem;
-                    background: #b89927;
-                    background: linear-gradient(90deg,rgba(184, 153, 39, 1) 0%, rgba(113, 20, 163, 1) 91%);
+                    background: #ece0ea;
                     padding: calc(1em - 1px)
                       
                 }
@@ -203,11 +201,10 @@ else:
             key="container_with_border2",
             css_styles="""
                 {
-                    border: 4px solid black;
+                    border: 4px solid #8259a0;
                     background: #b89927;
-                    background: linear-gradient(90deg,rgba(184, 153, 39, 1) 0%, rgba(113, 20, 163, 1) 91%);
                     border-radius: 0.5rem;
-                    background-color: #2E8B57;
+                    background-color: #ece0ea;
                     padding: calc(1em - 1px)
                     
                     
@@ -298,11 +295,10 @@ else:
             css_styles=["""
             
                 {
-                    border: 4px solid black;
+                    border: 4px solid #8259a0;
                     border-radius: 0.5rem;
                     background: #b89927;
-                    background: linear-gradient(90deg,rgba(184, 153, 39, 1) 0%, rgba(113, 20, 163, 1) 91%);
-                    background-color: #2E8B57;
+                    background-color: #ece0ea;
                     padding: calc(1em - 1px)
                          
                 }
