@@ -216,8 +216,7 @@ with st.expander("Welcome!"):
                     {
                         border: 4px solid #8259a0;
                         border-radius: 0.5rem;
-                        background: #b89927;
-                        background-color: #ffcc99;
+                        background-image: linear-gradient(to top, #feada6 0%, #f5efef 100%);
                         padding: calc(1em - 1px);
                             
                     }
