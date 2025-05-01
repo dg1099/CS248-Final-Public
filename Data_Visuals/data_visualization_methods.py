@@ -40,7 +40,7 @@ def average_calories_by_meal(uid):
     conn = sqlite3.connect(DB_PATH)
 
     c = conn.cursor()
-    c.execute("SELECT meal_type, AVG(calories) FROM food_log WHERE uid = ? GROUP BY meal_type ", (uid, ))
+    c.execute("SELECT meal_type, AVG(calories) FROM food_log WHERE uid = ? GROUP BY meal_type", (uid, ))
     rows = c.fetchall()
 
     df = pd.DataFrame(rows, columns=['Meal', 'Avg. Calories (kcal)'])
