@@ -378,7 +378,8 @@ else:
                     if month==date:
                         st.markdown(item[5],help=f"Calories in Meal: {item[6]}")
 
-    with st.expander("Visualize Your Nutrients Breakdown "):
+    with st.expander("Visualize Your Nutrients Breakdown"):
+        st.write("Hye")
         location_nutrient_breakdown (getName()[1])
     
 
