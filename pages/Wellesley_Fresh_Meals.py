@@ -346,7 +346,6 @@ else:
         key=f"table3{mealname}{calories}",
         css_styles="""
             {
-                background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
                 border-radius: 0.5rem;
                 padding: calc(1em - 1px)
             }
