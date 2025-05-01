@@ -19,8 +19,6 @@ st.markdown(
     """
 <style>
 [data-testid="stSidebarContent"] {
-    color: white;
-    background-color: plum;
     border-radius: 25px;
     border-style: solid;
     border-width: 7px;
@@ -53,7 +51,7 @@ st.markdown("""
     }
     .equal-height-box {
         flex: 1;
-        background-color: plum;
+        background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
         padding: calc(1em - 1px);
         border: 4px solid black;
         border-radius: 0.5rem;
@@ -130,10 +128,8 @@ else:
             key="container_with_border2313",
             css_styles="""
                 {
-                    border: 4px solid #8259a0;
                     border-radius: 0.5rem;
-                    background: #b89927;
-                    background-color: #ece0ea;
+                    background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
                     padding: calc(1em - 1px)
                          
                 }
@@ -163,9 +159,8 @@ else:
             key="container_with_border1",
             css_styles="""
                 {
-                    border: 4px solid #8259a0;
                     border-radius: 0.5rem;
-                    background: #ece0ea;
+                    background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
                     padding: calc(1em - 1px)
                       
                 }
@@ -200,10 +195,8 @@ else:
             key="container_with_border2",
             css_styles="""
                 {
-                    border: 4px solid #8259a0;
-                    background: #b89927;
                     border-radius: 0.5rem;
-                    background-color: #ece0ea;
+                    background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
                     padding: calc(1em - 1px)
                     
                     
@@ -293,10 +286,8 @@ else:
             css_styles=["""
             
                 {
-                    border: 4px solid #8259a0;
                     border-radius: 0.5rem;
-                    background: #b89927;
-                    background-color: #ece0ea;
+                    background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
                     padding: calc(1em - 1px)
                          
                 }
@@ -355,11 +346,8 @@ else:
         key=f"table3{mealname}{calories}",
         css_styles="""
             {
-                border: 4px solid black;
-                background: #b89927;
                 background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
                 border-radius: 0.5rem;
-                background-color: #2E8B57;
                 padding: calc(1em - 1px)
             }
             """,
