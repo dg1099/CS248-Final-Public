@@ -261,6 +261,33 @@ with st.expander("Welcome!"):
                 on your food journey!""")
 
 with stylable_container(
+                key=f"container_with_bordew2323e23e",
+                css_styles=["""
+                
+                    {
+                        border-radius: 0.5rem;
+                        background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
+                        padding: calc(1em - 1px);
+                            
+                    }
+                    """,
+                    """
+                    div[data-testid="stMarkdownContainer"] p {
+                        font-family: 'Lexend', sans-serif;
+                        font-size: 1.1rem;
+                        font-weight: 500;
+                    }
+                    """],
+
+                    
+            ):
+    top_rated = topRated()
+    st.subheader("Top 5 Dishes!")
+    for dish in top_rated:
+        st.write(f"{dish[0]} with a rating of {dish[1]}")
+
+
+with stylable_container(
             key="container_with_border23",
             css_styles=["""
             
@@ -298,10 +325,7 @@ with stylable_container(
     #     fav_option=st.selectbox("Select A Hall!",options)
     col1,col2=st.columns(2)
     
-    top_rated = topRated()
-    st.subheader("Top 5 Dishes!")
-    for dish in top_rated:
-        st.write(f"{dish[0]} with a rating of {dish[1]}")
+    
 
     options=["Lulu","Bates","Stone D","Tower"]
     with col1:
