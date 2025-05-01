@@ -231,12 +231,12 @@ def location_nutrient_breakdown(uid):
                        color_discrete_sequence=["#FFB6C1", "#FFDAB9", "#FAFAD2"])
     
     # Prepare the summary text for display
-    summary_text = "### Nutrient Breakdown by Dining Hall\n"
+    summary_text = "### ✨Nutrient Breakdown by Dining Hall\n"
     summary_text += "Here’s a summary of the total **Protein**, **Fats**, and **Carbohydrates** you’ve consumed by each dining hall:\n\n"
 
     # Loop through each dining hall and nutrient type
     for _, row in df.iterrows():
-        summary_text += f"**{row['Dining Hall']}**:\n"
+        summary_text += f"**{row['Dining Hall']}💙**:\n"
         summary_text += f"- Protein: {row['Protein (g)']:.0f}g\n"
         summary_text += f"- Fats: {row['Fats (g)']:.0f}g\n"
         summary_text += f"- Carbohydrates: {row['Carbs (g)']:.0f}g\n\n"
