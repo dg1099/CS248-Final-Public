@@ -379,8 +379,7 @@ else:
                         st.markdown(item[5],help=f"Calories in Meal: {item[6]}")
 
     with st.expander("Visualize Your Nutrients Breakdown"):
-        st.write("Hye")
-        location_nutrient_breakdown (getName()[1])
+        st.plotly_chart(location_nutrient_breakdown (getName()[1]))
     
 
     with st.expander("See your graphs!"):
