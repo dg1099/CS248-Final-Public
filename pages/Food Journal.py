@@ -126,6 +126,142 @@ def nutrient_breakdown(uid):
     return fig
     
 
+
+def common_dining(uid):
+    conn = sqlite3.connect(DB_PATH)
+
+    c = conn.cursor()
+    c.execute("SELECT location_id FROM food_log WHERE uid = ?", (uid, ))
+
+    rows = c.fetchall()
+
+    df = pd.DataFrame(rows, columns=["Dining Hall"])
+    counts = df["Dining Hall"].value_counts().reset_index()
+    counts.columns = ["Dining Hall", "# of Visits"]
+
+    # 3. Sort in descending order
+    counts = counts.sort_values("# of Visits", ascending=False)
+
+    # 4. Plot horizontal bar chart
+    fig = px.bar(
+        counts,
+        x="# of Visits",
+        y="Dining Hall",
+        orientation='h',  # horizontal
+        color_discrete_sequence=["lightpink"]
+    )
+
+    fig.update_layout(yaxis=dict(categoryorder='total ascending'))  # most common at top
+    
+    return fig
+
+def location_nutrient_breakdown(uid):
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    
+    # Query to get total protein, fats, and carbs per dining hall
+    c.execute("""
+        SELECT SUM(protein), SUM(fats), SUM(carbohydrates), location_id 
+        FROM food_log 
+        WHERE uid = ? 
+        GROUP BY location_id
+    """, (uid,))
+
+    rows = c.fetchall()
+    
+    # Convert data into a pandas DataFrame
+    df = pd.DataFrame(rows, columns=['Protein (g)', 'Fats (g)', 'Carbs (g)', 'Dining Hall'])
+    
+    # Melt the dataframe for polar chart plotting
+    df_long = pd.melt(
+        df,
+        id_vars=['Dining Hall'],
+        value_vars=['Protein (g)', 'Fats (g)', 'Carbs (g)'],
+        var_name='Nutrient',
+        value_name='Amount'
+    )
+    
+    # Create the polar chart
+    fig = px.bar_polar(df_long, r="Amount", theta="Dining Hall", color="Nutrient", template="plotly_dark",
+                       color_discrete_sequence=["#FFB6C1", "#FFDAB9", "#FAFAD2"])
+    
+    # Prepare the summary text for display
+    summary_text = "### ✨Nutrient Breakdown by Dining Hall\n"
+    summary_text += "Here’s a summary of the total **Protein**, **Fats**, and **Carbohydrates** you’ve consumed by each dining hall:\n\n"
+
+    # Loop through each dining hall and nutrient type
+    for _, row in df.iterrows():
+        summary_text += f"**{row['Dining Hall']}💙**:\n"
+        summary_text += f"- Protein: {row['Protein (g)']:.0f}g\n"
+        summary_text += f"- Fats: {row['Fats (g)']:.0f}g\n"
+        summary_text += f"- Carbohydrates: {row['Carbs (g)']:.0f}g\n\n"
+    
+    return fig, summary_text
+
+
+def change_calorieGoal(username, calorieGoal):
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute(
+            "UPDATE user SET calorie_goal = ? WHERE username = ?",
+            (calorieGoal, username)
+        )
+        conn.commit()
+        print("Calorie Goal updated successfully.")
+    except sqlite3.Error as e:
+        print("An error occurred:", e)
+    finally:
+        conn.close()
+
+def change_proteinGoal(username, proteinGoal):
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute(
+            "UPDATE user SET protein_goal = ? WHERE username = ?",
+            (proteinGoal, username)
+        )
+        conn.commit()
+        print("Protein Goal updated successfully.")
+    except sqlite3.Error as e:
+        print("An error occurred:", e)
+    finally:
+        conn.close()
+
+
+def get_calorie_goal(username):
+    if isinstance(username, tuple):
+        username = username[0]
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("SELECT calorie_goal FROM user WHERE username = ?", (username,))
+        result = cursor.fetchone()
+        if result:
+            return result[0]
+        return None
+    finally:
+        conn.close()
+
+def get_protein_goal(username):
+    if isinstance(username, tuple):
+        username = username[0]
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("SELECT protein_goal FROM user WHERE username = ?", (username,))
+        result = cursor.fetchone()
+        if result:
+            return result[0]
+        return None
+    finally:
+        conn.close()
+
 def calorie_goal(uid, date):
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
@@ -204,148 +340,6 @@ def protein_goal(uid, date):
     fig.update_layout(title_text=f"Protein Tracker for {date}: {consumed:.0f}g / {goal:.0f}g")
 
     return fig, outcome_text
-
-
-def common_dining(uid):
-    conn = sqlite3.connect(DB_PATH)
-
-    c = conn.cursor()
-    c.execute("SELECT location_id FROM food_log WHERE uid = ?", (uid, ))
-
-    rows = c.fetchall()
-
-    df = pd.DataFrame(rows, columns=["Dining Hall"])
-    counts = df["Dining Hall"].value_counts().reset_index()
-    counts.columns = ["Dining Hall", "# of Visits"]
-
-    # 3. Sort in descending order
-    counts = counts.sort_values("# of Visits", ascending=False)
-
-    # 4. Plot horizontal bar chart
-    fig = px.bar(
-        counts,
-        x="# of Visits",
-        y="Dining Hall",
-        orientation='h',  # horizontal
-        color_discrete_sequence=["lightpink"]
-    )
-
-    fig.update_layout(yaxis=dict(categoryorder='total ascending'))  # most common at top
-    
-    return fig
-
-def location_nutrient_breakdown(uid):
-    conn = sqlite3.connect(DB_PATH)
-    c = conn.cursor()
-    
-    # Query to get total protein, fats, and carbs per dining hall
-    c.execute("""
-        SELECT SUM(protein), SUM(fats), SUM(carbohydrates), location_id 
-        FROM food_log 
-        WHERE uid = ? 
-        GROUP BY location_id
-    """, (uid,))
-
-    rows = c.fetchall()
-    
-    # Convert data into a pandas DataFrame
-    df = pd.DataFrame(rows, columns=['Protein (g)', 'Fats (g)', 'Carbs (g)', 'Dining Hall'])
-    
-    # Melt the dataframe for polar chart plotting
-    df_long = pd.melt(
-        df,
-        id_vars=['Dining Hall'],
-        value_vars=['Protein (g)', 'Fats (g)', 'Carbs (g)'],
-        var_name='Nutrient',
-        value_name='Amount'
-    )
-    
-    # Create the polar chart
-    fig = px.bar_polar(df_long, r="Amount", theta="Dining Hall", color="Nutrient", template="plotly_dark",
-                       color_discrete_sequence=["#FFB6C1", "#FFDAB9", "#FAFAD2"])
-    
-    # Prepare the summary text for display
-    summary_text = "### ✨Nutrient Breakdown by Dining Hall\n"
-    summary_text += "Here’s a summary of the total **Protein**, **Fats**, and **Carbohydrates** you’ve consumed by each dining hall:\n\n"
-
-    # Loop through each dining hall and nutrient type
-    for _, row in df.iterrows():
-        summary_text += f"**{row['Dining Hall']}💙**:\n"
-        summary_text += f"- Protein: {row['Protein (g)']:.0f}g\n"
-        summary_text += f"- Fats: {row['Fats (g)']:.0f}g\n"
-        summary_text += f"- Carbohydrates: {row['Carbs (g)']:.0f}g\n\n"
-    
-    return fig, summary_text
-
-
-def change_calorieGoal(username, calorieGoal):
-    if isinstance(username, tuple):
-        username = username[0]
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-
-    try:
-        cursor.execute(
-            "UPDATE user SET calorie_goal = ? WHERE username = ?",
-            (calorieGoal, username)
-        )
-        conn.commit()
-        print("Calorie Goal updated successfully.")
-    except sqlite3.Error as e:
-        print("An error occurred:", e)
-    finally:
-        conn.close()
-
-def change_proteinGoal(username, proteinGoal):
-    if isinstance(username, tuple):
-        username = username[0]
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-
-    try:
-        cursor.execute(
-            "UPDATE user SET protein_goal = ? WHERE username = ?",
-            (proteinGoal, username)
-        )
-        conn.commit()
-        print("Protein Goal updated successfully.")
-    except sqlite3.Error as e:
-        print("An error occurred:", e)
-    finally:
-        conn.close()
-
-
-def get_calorie_goal(username):
-    if isinstance(username, tuple):
-        username = username[0]
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-
-    try:
-        cursor.execute("SELECT calorie_goal FROM user WHERE username = ?", (username,))
-        result = cursor.fetchone()
-        if result:
-            return result[0]
-        return None
-    finally:
-        conn.close()
-
-def get_protein_goal(username):
-    if isinstance(username, tuple):
-        username = username[0]
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-
-    try:
-        cursor.execute("SELECT protein_goal FROM user WHERE username = ?", (username,))
-        result = cursor.fetchone()
-        if result:
-            return result[0]
-        return None
-    finally:
-        conn.close()
-
-
 
 #----------------------------PAGE LAYOUT------------------------------------#
 
@@ -632,15 +626,14 @@ else:
             
             #Update the database if the goals have changed
             if calorieGoal != current_calorie_goal:
-                change_calorieGoal(username, calorieGoal)
+                change_calorieGoal(getName()[1], calorieGoal)
             if proteinGoal != current_protein_goal:
-                change_proteinGoal(username, proteinGoal)
-
+                change_proteinGoal(getName()[1], proteinGoal)
 
             goals={
             "Calories Goal": st.session_state["calorieGoal"],
             "Protein Goal": st.session_state["protienGoal"]
-        }
+            }
             colprotien,colcalorie,colcarbs=st.columns(3)
     from datetime import datetime
     with st.expander("See you Calorie and Protein Goals"):
