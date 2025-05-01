@@ -92,6 +92,28 @@ def average_calories_by_meal(uid):
 )
     return fig
 
+def nutrient_breakdown(uid):
+    conn = sqlite3.connect(DB_PATH)
+
+    c = conn.cursor()
+    c.execute("SELECT SUM(protein), SUM(fats), SUM(carbohydrates) FROM food_log WHERE uid = ?", (uid, ))
+    row = c.fetchone()
+    
+    labels = ['Protein', 'Fats', 'Carbs']
+    values = [row[0], row[1], row[2]]
+
+    fig = go.Figure(data=[go.Pie(
+    labels=labels,
+    values=values,
+    hole=.5,  # To create a donut shape
+    marker=dict(colors=[
+        '#9B4D9C',  # Light purple for Protein
+        '#6A2C9C',  # Medium purple for Fats
+        '#3E0E75'   # Dark purple for Carbs
+    ]),
+)])
+    
+
 def calorie_goal(uid, date):
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
@@ -627,14 +649,18 @@ else:
             st.write(outcome)
 
     with st.expander("Visualize Your Nutrients Breakdown"):
-        # Get the graph and summary text
-        fig, summary_text = location_nutrient_breakdown(uid=getName()[1])
+        tab1,tab2=st.tabs(["Bar Graph Breakdown","Spider graph Breakdown"])
+        with tab1:
+            st.plotly_chart(nutrient_breakdown())
+        with tab2: 
+            # Get the graph and summary text
+            fig, summary_text = location_nutrient_breakdown(uid=getName()[1])
 
-        # Display the graph
-        st.plotly_chart(fig)
+            # Display the graph
+            st.plotly_chart(fig)
 
-        # Display the summary text extracted from the graph data
-        st.markdown(summary_text)
+            # Display the summary text extracted from the graph data
+            st.markdown(summary_text)
     
     with st.expander("Average Calories Per Meal Category"):
         plot2=average_calories_by_meal(getName()[1])
