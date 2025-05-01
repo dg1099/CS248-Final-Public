@@ -309,6 +309,27 @@ else:
     
     with st.expander("These are the meals you loved ❤️"):
         st.write("")
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+
+        # Replace '123' with your actual uid
+        specific_uid = getName()[1]
+
+        # Execute the query
+        cursor.execute("""
+            SELECT uid, emotion
+            FROM ratinf
+            WHERE emotion = 'Love' AND uid = ?
+        """, (specific_uid,))
+
+        # Fetch and print results
+        results = cursor.fetchall()
+        for row in results:
+            st.write(row)
+
+        # Clean up
+        cursor.close()
+        conn.close()
 
 
     
