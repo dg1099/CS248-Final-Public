@@ -214,7 +214,6 @@ else:
 
             #Makes it so the calander is already on the current date
             d = st.date_input("Meal Date", "today")
-            st.write("You Picked:", d)
             
             st.session_state["date"] = d
             st.write("")
