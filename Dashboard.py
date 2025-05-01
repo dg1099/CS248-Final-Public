@@ -247,8 +247,7 @@ with stylable_container(
                 {
                     border: 4px solid PapayaWhite;
                     border-radius: 0.5rem;
-                    background: #b89927;
-                    background-color: #f7dfef;
+                    background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
                     padding: calc(1em - 1px)
                          
                 }
