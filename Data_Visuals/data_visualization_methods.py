@@ -219,4 +219,4 @@ def protein_goal(uid):
     fig = go.Figure(data=[go.Pie(labels=labels, values=values, marker=dict(colors=colors))])
     fig.update_traces(textinfo='label+percent')
     fig.update_layout(title_text=f"Protein Tracker: {consumed:.0f} / {goal:.0f}g")
-    fig.show()
+    return fig
