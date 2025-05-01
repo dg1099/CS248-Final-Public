@@ -286,8 +286,7 @@ with stylable_container(
         st.write("")
         st.write("")
         with st.popover("Dining Hall visits Breakdown! "):
-            st.plotly_chart(getName()[1])
-            
+            st.write("")
     date=datetime.now().date()
     timenow=datetime.now()
     current_hour=timenow.hour
