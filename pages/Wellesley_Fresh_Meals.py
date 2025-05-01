@@ -287,7 +287,7 @@ else:
             
                 {
                     border-radius: 0.5rem;
-                    background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
+                    background-color: white
                     padding: calc(1em - 1px)
                          
                 }
