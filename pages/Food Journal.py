@@ -318,7 +318,7 @@ else:
         # Execute the query
         cursor.execute("""
             SELECT uid, emotion
-            FROM ratinf
+            FROM rating
             WHERE emotion = 'Love' AND uid = ?
         """, (specific_uid,))
 
