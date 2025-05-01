@@ -145,6 +145,13 @@ def login_sidebar():
     if "access_token" in st.session_state:
         render_user_profile()
 
+        st.markdown("""
+            <style>
+                div.stButton > button {
+                    color: black !important;
+                }
+                </style>
+            """, unsafe_allow_html=True)
         if st.sidebar.button("Logout"):
             for key in ["access_token", "oauth_state"]:
                 st.session_state.pop(key, None)
