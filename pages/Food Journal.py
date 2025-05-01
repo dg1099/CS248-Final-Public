@@ -318,7 +318,7 @@ else:
 
         # Fetch and print results
         results = cursor.fetchall()
-        cols1,cols2,cols3=st.columns([3,7])
+        cols1,cols2,cols3=st.columns([1, 2, 2])
         for (name,emotion,comment,meal) in results:
             with cols1:
                 st.write("💕")
