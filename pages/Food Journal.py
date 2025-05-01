@@ -9,16 +9,14 @@ from datetime import datetime
 from Dashboard import clone_private_repo
 import pandas as pd
 import subprocess
+import plotly.express as px
+import pandas as pd
+import sqlite3
+import plotly.graph_objects as go
 
 st.set_page_config(layout="wide")
 
 DB_PATH= clone_private_repo()
-conn = sqlite3.connect(DB_PATH)
-cursor = conn.cursor()
-cursor.execute("SELECT * FROM rating")
-st.write(cursor.fetchall())
-
-
 
 st.markdown(
     """
@@ -67,6 +65,31 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 ##################### UPDATING AND GETTING CALORIE/PROTEIN GOALS ########################
+def location_nutrient_breakdown (uid):
+            # this would work best if only used for the month/all time
+            
+            conn = sqlite3.connect(DB_PATH)
+
+            c = conn.cursor()
+            c.execute("SELECT SUM(protein), SUM(fats), SUM(carbohydrates), location_id FROM food_log WHERE uid = ? GROUP BY location_id", (uid, ))
+
+            rows = c.fetchall()
+
+            df = pd.DataFrame(rows, columns=['Protein (g)', 'Fats (g)', 'Carbs (g)', 'Dining Hall'])
+
+            df_long = pd.melt(
+                df,
+                id_vars=['Dining Hall'],
+                value_vars=['Protein (g)', 'Fats (g)', 'Carbs (g)'],
+                var_name='Nutrient',
+                value_name='Amount'
+            )
+
+            fig = px.bar_polar(df_long, r="Amount", theta="Dining Hall", color="Nutrient", template="plotly_dark",
+                        color_discrete_sequence=["#FFB6C1", "#FFDAB9", "#FAFAD2"])
+            
+            return fig
+
 def change_calorieGoal(username, calorieGoal):
     if isinstance(username, tuple):
         username = username[0]
@@ -133,6 +156,8 @@ def get_protein_goal(username):
         return None
     finally:
         conn.close()
+
+
 
 #----------------------------PAGE LAYOUT------------------------------------#
 
@@ -353,7 +378,9 @@ else:
                     if month==date:
                         st.markdown(item[5],help=f"Calories in Meal: {item[6]}")
 
-    with st.e
+    with st.expander("Visualize Your Nutrients Breakdown"):
+        st.plotly_chart(location_nutrient_breakdown (getName()[1]))
+    
 
     with st.expander("See your graphs!"):
         with headCol2:
