@@ -320,7 +320,10 @@ else:
         with col3:
             st.write("")
         #This holds all the meals logged by the user for that specific date selected 
-        today = datetime.now().date()
+        import pytz
+        timezone = pytz.timezone('America/New_York')
+
+        today = datetime.now(timezone).date()
     
     with st.expander("These are the meals you loved ❤️"):
         st.write("")

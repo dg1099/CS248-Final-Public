@@ -340,7 +340,7 @@ with stylable_container(
     import pytz
 
     # Set your timezone (example: 'America/New_York')
-    timezone = pytz.timezone('America/New_York')    
+       
 
     options=["Lulu","Bates","Stone D","Tower"]
     with col1:
@@ -351,6 +351,8 @@ with stylable_container(
         with st.popover("Dining Hall visits Breakdown! "):
             st.plotly_chart(common_dining(getName()[1]))
 
+    import pytz
+    timezone = pytz.timezone('America/New_York') 
     now = datetime.now(timezone)
 
     date = now.date()
