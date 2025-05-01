@@ -318,6 +318,15 @@ else:
             WHERE emotion = 'Love' AND uid = ?
         """, (specific_uid,))
 
+        cole1,cole2,cole3=st.columns([1, 4, 4])
+        with cole1:
+            st.write("")
+        with cole2:
+            st.write("Meal Name")
+        with cole3:
+            st.write("Comment")
+
+
         # Fetch and print results
         results = cursor.fetchall()
         cols1,cols2,cols3=st.columns([1, 4, 4])
