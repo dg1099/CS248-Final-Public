@@ -334,7 +334,15 @@ else:
     current_calorie_goal = get_calorie_goal(username)
     current_protein_goal = get_protein_goal(username)
 
-   
+    st.write("""
+    **Welcome to your Nutrition Dashboard!** 🥗
+
+    - 📊 Avg. calories by meal type  
+    - 🔥 Today's calorie & 💪 protein tracker  
+    - 🏫 Top dining halls visited  
+    - 🥦 Nutrient breakdown (Protein, Fats, Carbs)  
+    - 🎯 Set your calorie & protein goals
+    """)
     with stylable_container(
         key="table3sdsDwe",
         css_styles="""
