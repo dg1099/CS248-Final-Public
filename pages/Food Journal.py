@@ -65,6 +65,67 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 ##################### UPDATING AND GETTING CALORIE/PROTEIN GOALS ########################
+def calorie_goal(uid):
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    
+    c.execute("SELECT SUM(calories), calorie_goal FROM food_log WHERE uid = ?", (uid,))
+    row = c.fetchone()
+    conn.close()
+
+    consumed = row[0]
+    goal = row[1]
+
+    if consumed < goal:
+        labels = ['Calories Consumed', 'Remaining']
+        values = [consumed, goal - consumed]
+        colors = ['#FFA07A', '#90EE90']
+    elif consumed == goal:
+        labels = ['Calories Consumed']
+        values = [goal]
+        colors = ['#FFA07A']
+    else:
+        labels = ['Calorie Goal', 'Over Limit']
+        values = [goal, consumed - goal]
+        colors = ['#FFA07A', '#FF6347']
+
+    fig = go.Figure(data=[go.Pie(labels=labels, values=values, marker=dict(colors=colors))])
+    fig.update_traces(textinfo='label+percent')
+    fig.update_layout(title_text=f"Calorie Tracker: {consumed:.0f} / {goal:.0f} kcal")
+    return fig
+
+def protein_goal(uid):
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    
+    c.execute("SELECT SUM(protein), protein_goal FROM food_log WHERE uid = ?", (uid,))
+    row = c.fetchone()
+    conn.close()
+
+    if row is None or row[0] is None:
+        print("No data found.")
+        return
+
+    consumed = row[0]
+    goal = row[1]
+
+    if consumed < goal:
+        labels = ['Protein Consumed', 'Remaining']
+        values = [consumed, goal - consumed]
+        colors = ['#87CEEB', '#D3D3D3']  # Blue for protein, gray for remaining
+    elif consumed == goal:
+        labels = ['Protein Consumed']
+        values = [goal]
+        colors = ['#87CEEB']
+    else:
+        labels = ['Protein Goal', 'Over Limit']
+        values = [goal, consumed - goal]
+        colors = ['#87CEEB', '#FF6347']  # Red for excess
+
+    fig = go.Figure(data=[go.Pie(labels=labels, values=values, marker=dict(colors=colors))])
+    fig.update_traces(textinfo='label+percent')
+    fig.update_layout(title_text=f"Protein Tracker: {consumed:.0f} / {goal:.0f}g")
+    return fig
 
 def common_dining(uid):
     conn = sqlite3.connect(DB_PATH)
@@ -417,63 +478,32 @@ else:
         st.plotly_chart(common_dining(getName()[1]))
     
     
-    with st.expander("See your graphs!"):
-        with headCol2:
-            with st.popover("Meal Goals",use_container_width=True):
-                calorieGoal=st.slider("Calorie Goals:", 1,3000)
-                proteinGoal=st.slider("Protein Goals:", 1,150)
+   
+    with headCol2:
+        with st.popover("Meal Goals",use_container_width=True):
+            calorieGoal=st.slider("Calorie Goals:", 1,3000)
+            proteinGoal=st.slider("Protein Goals:", 1,150)
 
-                st.session_state["calorieGoal"]=calorieGoal
-                st.session_state["protienGoal"]=proteinGoal
+            st.session_state["calorieGoal"]=calorieGoal
+            st.session_state["protienGoal"]=proteinGoal
 
-                #Current Values
-                current_calorie_goal = get_calorie_goal(getName()[1])
-                current_protein_goal = get_protein_goal(getName()[1])
-                
-                #Update the database if the goals have changed
-                if calorieGoal != current_calorie_goal:
-                    change_calorieGoal(username, calorieGoal)
-                if proteinGoal != current_protein_goal:
-                    change_proteinGoal(username, proteinGoal)
+            #Current Values
+            current_calorie_goal = get_calorie_goal(getName()[1])
+            current_protein_goal = get_protein_goal(getName()[1])
+            
+            #Update the database if the goals have changed
+            if calorieGoal != current_calorie_goal:
+                change_calorieGoal(username, calorieGoal)
+            if proteinGoal != current_protein_goal:
+                change_proteinGoal(username, proteinGoal)
 
 
-        goals={
-        "Calories Goal": st.session_state["calorieGoal"],
-        "Protein Goal": st.session_state["protienGoal"]
-    }
-        colprotien,colcalorie,colcarbs=st.columns(3)
+    goals={
+    "Calories Goal": st.session_state["calorieGoal"],
+    "Protein Goal": st.session_state["protienGoal"]
+}
+    colprotien,colcalorie,colcarbs=st.columns(3)
+    
         
-        with colprotien:
-            st.subheader("Nutrients Level")
-            with stylable_container(
-        key="container_with_border_plot",
-        css_styles=[
-            """
-            {
-                border-radius: 1rem;
-                background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
-            }
-            """
-        ]
-    ):
-                plot=spider_graph(email[1])
-                st.plotly_chart(plot,use_container_width=True)
-        with colcalorie:
-            st.subheader("Average Cals by meal")
-            with stylable_container(
-        key="container_with_border_plotsd",
-        css_styles=[
-            """
-            {
-                border-radius: 1rem;
-                background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
-            }
-            """
-        ]
-    ):
-                
-      
-                fig=nutrient_breakdown(email[1])
-                st.plotly_chart(fig)
 
 
