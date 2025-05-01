@@ -224,7 +224,7 @@ with cent_co:
 login_sidebar()
 
 if "access_token" not in st.session_state:
-    st.warning("Please first login!")
+    st.warning("Please first login! Click on our logo to the left to open the sidebar to login!")
     st.stop() #Stop from everything else from being loaded up if they have not loggedin 
 
 # This is to fix the sizing of our app logo 
