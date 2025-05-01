@@ -77,12 +77,12 @@ unsafe_allow_html=True
 st.logo("assets/R.D.Y. to Eat.png",icon_image="assets/R.D.Y. to Eat.png")
 
 ##################### UPDATING AND GETTING CALORIE/PROTEIN GOALS ########################
-def average_calories_by_meal(uid):
+def average_calories_by_meal(username):
 
     conn = sqlite3.connect(DB_PATH)
 
     c = conn.cursor()
-    c.execute("SELECT meal_type, AVG(calories) FROM food_log WHERE uid = ? GROUP BY meal_type", (uid, ))
+    c.execute("SELECT meal_type, AVG(calories) FROM food_log WHERE uid = ? GROUP BY meal_type", (username, ))
     rows = c.fetchall()
 
     df = pd.DataFrame(rows, columns=['Meal', 'Avg. Calories (kcal)'])
@@ -93,11 +93,11 @@ def average_calories_by_meal(uid):
 )
     return fig
 
-def nutrient_breakdown(uid):
+def nutrient_breakdown(username):
     conn = sqlite3.connect(DB_PATH)
 
     c = conn.cursor()
-    c.execute("SELECT SUM(protein), SUM(fats), SUM(carbohydrates) FROM food_log WHERE uid = ?", (uid, ))
+    c.execute("SELECT SUM(protein), SUM(fats), SUM(carbohydrates) FROM food_log WHERE uid = ?", (username, ))
     row = c.fetchone()
     
     labels = ['Protein', 'Fats', 'Carbs']
@@ -127,11 +127,11 @@ def nutrient_breakdown(uid):
     
 
 
-def common_dining(uid):
+def common_dining(username):
     conn = sqlite3.connect(DB_PATH)
 
     c = conn.cursor()
-    c.execute("SELECT location_id FROM food_log WHERE uid = ?", (uid, ))
+    c.execute("SELECT location_id FROM food_log WHERE uid = ?", (username, ))
 
     rows = c.fetchall()
 
@@ -155,7 +155,7 @@ def common_dining(uid):
     
     return fig
 
-def location_nutrient_breakdown(uid):
+def location_nutrient_breakdown(username):
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     
@@ -165,7 +165,7 @@ def location_nutrient_breakdown(uid):
         FROM food_log 
         WHERE uid = ? 
         GROUP BY location_id
-    """, (uid,))
+    """, (username,))
 
     rows = c.fetchall()
     
@@ -272,7 +272,7 @@ def calorie_goal(username, date):
     c.execute("""
         SELECT SUM(calories)
         FROM food_log
-        WHERE username = ? AND date = ?
+        WHERE uid = ? AND date = ?
     """, (username, date))
     
     result = c.fetchone()
@@ -312,7 +312,7 @@ def protein_goal(username, date):
     c.execute("""
         SELECT SUM(protein)
         FROM food_log
-        WHERE username = ? AND date = ?
+        WHERE uid = ? AND date = ?
     """, (username, date))
 
     result = c.fetchone()
@@ -400,7 +400,6 @@ else:
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
 
-        # Replace '123' with your actual uid
         specific_uid = getName()[1]
 
         # Execute the query
@@ -541,7 +540,7 @@ else:
             c = conn.cursor()
             c.execute(
                 """SELECT * FROM food_log WHERE date(date) BETWEEN ? AND ? AND uid = ?""",
-                (d[0], d[1], uid)
+                (d[0], d[1], getName()[1])
             )
             data=c.fetchall()
             c.close()
@@ -590,7 +589,7 @@ else:
             c = conn.cursor()
             c.execute(
                 """SELECT * FROM food_log WHERE date(date) BETWEEN ? AND ? AND uid = ?""",
-                (d[0], d[1], uid)
+                (d[0], d[1], getName()[1])
             )
             data=c.fetchall()
             c.close()
@@ -657,10 +656,10 @@ else:
     with st.expander("Visualize Your Nutrients Breakdown"):
         tab1,tab2=st.tabs(["Bar Graph Breakdown","Spider graph Breakdown"])
         with tab1:
-            st.plotly_chart(nutrient_breakdown(getName()[1]))
+            st.plotly_chart(nutrient_breakdown(user))
         with tab2: 
             # Get the graph and summary text
-            fig, summary_text = location_nutrient_breakdown(uid=getName()[1])
+            fig, summary_text = location_nutrient_breakdown(user)
 
             # Display the graph
             st.plotly_chart(fig)
