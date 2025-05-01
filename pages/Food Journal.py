@@ -65,6 +65,31 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 ##################### UPDATING AND GETTING CALORIE/PROTEIN GOALS ########################
+def location_nutrient_breakdown (uid):
+            # this would work best if only used for the month/all time
+            
+            conn = sqlite3.connect(DB_PATH)
+
+            c = conn.cursor()
+            c.execute("SELECT SUM(protein), SUM(fats), SUM(carbohydrates), location_id FROM food_log WHERE uid = ? GROUP BY location_id", (uid, ))
+
+            rows = c.fetchall()
+
+            df = pd.DataFrame(rows, columns=['Protein (g)', 'Fats (g)', 'Carbs (g)', 'Dining Hall'])
+
+            df_long = pd.melt(
+                df,
+                id_vars=['Dining Hall'],
+                value_vars=['Protein (g)', 'Fats (g)', 'Carbs (g)'],
+                var_name='Nutrient',
+                value_name='Amount'
+            )
+
+            fig = px.bar_polar(df_long, r="Amount", theta="Dining Hall", color="Nutrient", template="plotly_dark",
+                        color_discrete_sequence=["#EF476F", "#FFD166", "#06D6A0"])
+            
+            return fig
+
 def change_calorieGoal(username, calorieGoal):
     if isinstance(username, tuple):
         username = username[0]
@@ -354,30 +379,6 @@ else:
                         st.markdown(item[5],help=f"Calories in Meal: {item[6]}")
 
     with st.expander("Visualize Your Nutrients Breakdown "):
-        def location_nutrient_breakdown (uid):
-            # this would work best if only used for the month/all time
-            
-            conn = sqlite3.connect(DB_PATH)
-
-            c = conn.cursor()
-            c.execute("SELECT SUM(protein), SUM(fats), SUM(carbohydrates), location_id FROM food_log WHERE uid = ? GROUP BY location_id", (uid, ))
-
-            rows = c.fetchall()
-
-            df = pd.DataFrame(rows, columns=['Protein (g)', 'Fats (g)', 'Carbs (g)', 'Dining Hall'])
-
-            df_long = pd.melt(
-                df,
-                id_vars=['Dining Hall'],
-                value_vars=['Protein (g)', 'Fats (g)', 'Carbs (g)'],
-                var_name='Nutrient',
-                value_name='Amount'
-            )
-
-            fig = px.bar_polar(df_long, r="Amount", theta="Dining Hall", color="Nutrient", template="plotly_dark",
-                        color_discrete_sequence=["#EF476F", "#FFD166", "#06D6A0"])
-            
-            return fig
         location_nutrient_breakdown (getName()[1])
     
 
