@@ -320,8 +320,15 @@ else:
 
         # Fetch and print results
         results = cursor.fetchall()
+        cols1,cols2,cols3=st.columns([3,7])
         for (name,emotion,comment,meal) in results:
-            st.write(name)
+            with cols1:
+                st.write("💕")
+            with cols2:
+                st.write(meal)
+            with cols3:
+                st.write(comment)
+            
 
         # Clean up
         cursor.close()
