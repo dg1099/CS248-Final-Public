@@ -584,7 +584,7 @@ else:
             fig = calorie_goal(uid=getName()[1], date=date_str)
             st.plotly_chart(fig)
         with col2:
-            selected_date = st.date_input("📅 Choose a date", datetime.now())
+            selected_date = st.date_input("📅 Choose a date", datetime.now(),key="hsdhwbdhwb")
             date_str = selected_date.strftime("%Y-%m-%d")
             fig = protein_goal(uid=getName()[1], date=date_str)
             st.plotly_chart(fig)
