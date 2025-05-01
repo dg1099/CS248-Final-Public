@@ -81,10 +81,6 @@ def calorie_goal(uid):
     row = c.fetchone()
     conn.close()
 
-    if row is None or row[0] is None:
-        print("No data found.")
-        return
-
     consumed = row[0]
     goal = row[1]
 
