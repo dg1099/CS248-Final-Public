@@ -352,9 +352,9 @@ with stylable_container(
             st.plotly_chart(common_dining(getName()[1]))
 
     now = datetime.now(timezone)
-         
-    date=datetime.now().date()
-    timenow=datetime.now()
+
+    date = now.date()
+    timenow = now.time()
     current_hour=timenow.hour
     col12,=st.columns(1,vertical_alignment="center")
 
