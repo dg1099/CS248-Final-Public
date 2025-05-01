@@ -127,7 +127,7 @@ def protein_goal(uid):
     # Create the pie chart
     fig = go.Figure(data=[go.Pie(labels=labels, values=values, marker=dict(colors=colors))])
     fig.update_traces(textinfo='label+percent')
-    fig.update_layout(title_text=f"Calorie Tracker: {consumed:.0f} / {cal_goal:.0f} kcal")
+    fig.update_layout(title_text=f"Calorie Tracker: {consumed:.0f} / {goal:.0f} kcal")
     
     return fig
 
