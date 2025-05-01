@@ -214,7 +214,6 @@ with st.expander("Welcome!"):
                 css_styles=["""
                 
                     {
-                        border: 4px solid #8259a0;
                         border-radius: 0.5rem;
                         background-image: linear-gradient(-45deg, #FFC796 0%, #FF6B95 100%);
                         padding: calc(1em - 1px);
@@ -246,10 +245,10 @@ with stylable_container(
             css_styles=["""
             
                 {
-                    border: 4px solid #8259a0;
+                    border: 4px solid PapayaWhite;
                     border-radius: 0.5rem;
                     background: #b89927;
-                    background-color: #ece0ea;
+                    background-color: #f7dfef;
                     padding: calc(1em - 1px)
                          
                 }
