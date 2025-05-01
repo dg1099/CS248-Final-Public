@@ -317,7 +317,7 @@ else:
 
         # Execute the query
         cursor.execute("""
-            SELECT uid, emotion
+            SELECT uid, emotion, comment
             FROM rating
             WHERE emotion = 'Love' AND uid = ?
         """, (specific_uid,))
