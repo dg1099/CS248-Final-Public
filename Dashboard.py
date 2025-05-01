@@ -245,7 +245,6 @@ with stylable_container(
             css_styles=["""
             
                 {
-                    border: 4px solid PapayaWhite;
                     border-radius: 0.5rem;
                     background: #b89927;
                     background-color: #f7dfef;
