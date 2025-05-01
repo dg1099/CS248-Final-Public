@@ -245,8 +245,6 @@ def location_nutrient_breakdown(uid):
 
 
 def change_calorieGoal(username, calorieGoal):
-    if isinstance(username, tuple):
-        username = username[0]
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
@@ -263,8 +261,6 @@ def change_calorieGoal(username, calorieGoal):
         conn.close()
 
 def change_proteinGoal(username, proteinGoal):
-    if isinstance(username, tuple):
-        username = username[0]
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
@@ -598,15 +594,14 @@ else:
             
             #Update the database if the goals have changed
             if calorieGoal != current_calorie_goal:
-                change_calorieGoal(username, calorieGoal)
+                change_calorieGoal(getName()[1], calorieGoal)
             if proteinGoal != current_protein_goal:
-                change_proteinGoal(username, proteinGoal)
-
+                change_proteinGoal(getName()[1], proteinGoal)
 
             goals={
             "Calories Goal": st.session_state["calorieGoal"],
             "Protein Goal": st.session_state["protienGoal"]
-        }
+            }
             colprotien,colcalorie,colcarbs=st.columns(3)
     from datetime import datetime
     with st.expander("See you Calorie and Protein Goals"):
