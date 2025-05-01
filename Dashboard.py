@@ -1,16 +1,41 @@
 import streamlit as st
-import Data_Visuals.data_visualization_methods
 from userAuth.auth import google_login
 from userAuth.user_profile import render_user_profile
 from streamlit_extras.stylable_container import stylable_container
-from streamlit_extras.app_logo import add_logo
 from userAuth.user_profile import getName
-from Database_files.add_userData import get_preference
-import Data_Visuals  
 import sqlite3
 from datetime import datetime
 import pandas as pd
 import wellesley_fresh_api
+
+
+def common_dining(uid):
+    conn = sqlite3.connect(DB_PATH)
+
+    c = conn.cursor()
+    c.execute("SELECT location_id FROM food_log WHERE uid = ?", (uid, ))
+
+    rows = c.fetchall()
+
+    df = pd.DataFrame(rows, columns=["Dining Hall"])
+    counts = df["Dining Hall"].value_counts().reset_index()
+    counts.columns = ["Dining Hall", "# of Visits"]
+
+    # 3. Sort in descending order
+    counts = counts.sort_values("# of Visits", ascending=False)
+
+    # 4. Plot horizontal bar chart
+    fig = px.bar(
+        counts,
+        x="# of Visits",
+        y="Dining Hall",
+        orientation='h',  # horizontal
+        color_discrete_sequence=["purple"]
+    )
+
+    fig.update_layout(yaxis=dict(categoryorder='total ascending'))  # most common at top
+    
+    return fig
 
 #st.set_page_config(page_title="RYD To Eat", page_icon="https://drive.google.com/file/d/1wdFemFBErLC6bXpJ5jvKKp6q3a0tIRVt/view?usp=sharing")
 
@@ -261,8 +286,7 @@ with stylable_container(
         st.write("")
         st.write("")
         with st.popover("Dining Hall visits Breakdown! "):
-            st.plotly_chart(Data_Visuals.data_visualization_methods.common_dining(getName()[1]))
-            
+            st.write("")
     date=datetime.now().date()
     timenow=datetime.now()
     current_hour=timenow.hour
