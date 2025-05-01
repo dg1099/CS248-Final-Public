@@ -147,7 +147,7 @@ st.subheader("Settings",divider=True)
 
 
 #This will create the side bar
-login_sidebar()
+
 
 if "access_token" not in st.session_state:
     st.warning("Please first login!")
