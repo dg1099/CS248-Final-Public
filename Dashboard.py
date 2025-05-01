@@ -388,7 +388,7 @@ with stylable_container(
 
             cleandf= cleandf.loc[(cleandf["date"].str.split("T").str[0]==str(date))]
             for item in cleandf["name"].items():
-                st.write(item[1])
+                st.write("〰️"+item[1])
 
 
         elif 10 <= current_hour < 14:
@@ -419,7 +419,7 @@ with stylable_container(
 
             cleandf= cleandf.loc[(cleandf["date"].str.split("T").str[0]==str(date))]
             for item in cleandf["name"].items():
-                st.write(item[1])
+                st.write("〰️"+item[1])
         elif 14 <= current_hour < 21:
             selected_time="Dinner"
             st.warning(f"For {selected_time} at {fav_option}")
@@ -448,7 +448,7 @@ with stylable_container(
 
             cleandf= cleandf.loc[(cleandf["date"].str.split("T").str[0]==str(date))]
             for item in cleandf["name"].items():
-                st.write(item[1])
+                st.write("〰️"+item[1])
         else:
             st.warning("All Dining Halls are closed!")
 
