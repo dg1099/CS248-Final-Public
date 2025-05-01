@@ -442,21 +442,7 @@ else:
         ]
     ):
                 
-
-        with colcarbs:
-            st.subheader("Nutrient Breakdown")
-            with stylable_container(
-        key="container_with_border_plowwet",
-        css_styles=[
-            """
-            {
-                border-radius: 1rem;
-                background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
-            }
-            """
-        ]
-    ):
-                
+      
                 fig=nutrient_breakdown(email[1])
                 st.plotly_chart(fig)
 
