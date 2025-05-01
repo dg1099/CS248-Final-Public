@@ -87,7 +87,6 @@ else:
             - 🧑‍🍳 View the **full meal offerings** from Cafe Hoop based on your preferences  
             - 📊 See **nutritional info** like calories, protein, fats, and carbs for each meal  
             - ✅ Use the **Add To Journal** to add meals to your personal **Food Log**  
-            - 📆 Meals are updated **daily**, based on the latest CSV data  
             - ⚠️ Nutritional data is fetched via Spoonacular API and may be incomplete or estimated  
             - 🧠 Your preferences help filter items for **a personalized experience**
             """)
