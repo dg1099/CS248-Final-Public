@@ -499,8 +499,8 @@ else:
         col1,col2=st.columns(2)
         with col1:
             st.plotly_chart(calorie_goal(getName()[1]))
-        with col2:
-            st.plotly_chart(protein_goal(getName()[1]))
+        # with col2:
+        #     st.plotly_chart(protein_goal(getName()[1]))
     with st.expander("Visualize Your Nutrients Breakdown"):
         st.plotly_chart(location_nutrient_breakdown (getName()[1]))
     
