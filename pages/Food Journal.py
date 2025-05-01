@@ -69,10 +69,13 @@ def calorie_goal(uid):
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
 
-    c.execute("""SELECT SUM(food_log.calories), user.calorie_goal
-              FROM food_log 
-              WHERE uid = ?
-              INNER JOIN user ON food_log.uid = calorie_goal.uid""", (uid, ))
+    c.execute("""
+        SELECT SUM(f.calories), u.calorie_goal
+        FROM food_log f
+        JOIN user u ON u.uid = f.uid
+        WHERE f.uid = ?
+        GROUP BY u.uid
+    """, (uid,))
     
     st.write(c.fetchone())
 
