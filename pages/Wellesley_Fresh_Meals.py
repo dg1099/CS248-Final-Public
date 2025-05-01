@@ -159,9 +159,8 @@ else:
             key="container_with_border1",
             css_styles="""
                 {
-                    border: 4px solid #8259a0;
                     border-radius: 0.5rem;
-                    background: #ece0ea;
+                    background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
                     padding: calc(1em - 1px)
                       
                 }
