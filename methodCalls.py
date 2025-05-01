@@ -257,7 +257,6 @@ def displayPreference(location):
             key=f"container_with_border{location}",
             css_styles="""
                 {
-                    border: 4px solid black;
                     background: #b89927;
                     background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
                     background-color: #2E8B57;
