@@ -69,7 +69,7 @@ def clone_private_repo():
 # Call this once in your app
 DB_PATH = clone_private_repo()
 
-
+st.logo("assets/R.D.Y. to Eat.png",icon_image="assets/R.D.Y. to Eat.png")
 ############################################################################
 ##################### UPDATING AND GETTING allergens########################
 ############################################################################

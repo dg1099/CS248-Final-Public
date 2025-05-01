@@ -2,7 +2,6 @@ import streamlit as st
 from streamlit_extras.stylable_container import stylable_container
 from userAuth.user_profile import getName
 import matplotlib.pyplot as plt
-from Data_Visuals.data_visualization_methods import spider_graph, average_calories_by_meal, nutrient_breakdown
 from userAuth.user_profile import getName
 import sqlite3
 from datetime import datetime
@@ -65,6 +64,25 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 ##################### UPDATING AND GETTING CALORIE/PROTEIN GOALS ########################
+
+def average_calories_by_meal(uid):
+
+    conn = sqlite3.connect(DB_PATH)
+
+    c = conn.cursor()
+    c.execute("SELECT meal_type, AVG(calories) FROM food_log WHERE uid = ? GROUP BY meal_type ", (uid, ))
+    rows = c.fetchall()
+
+    data = [list(row) for row in rows]
+    df = pd.DataFrame(data, columns=['Meal', 'Avg. Calories (kcal)'])
+    fig = px.bar(df,title="Avg. Calories", x='Meal', y='Avg. Calories (kcal)')
+              # Fill color (semi-transparent purple)
+    fig.update_traces(
+    marker=dict(color='rgba(113, 20, 163, 0.6)')  # Semi-transparent purple
+)
+    return fig
+
+
 def calorie_goal(uid):
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
