@@ -262,18 +262,18 @@ def get_protein_goal(username):
     finally:
         conn.close()
 
-def calorie_goal(uid, date):
+def calorie_goal(username, date):
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
 
-    cal_goal = get_calorie_goal(uid)
+    cal_goal = get_calorie_goal(username)
 
     # Filter calories by date
     c.execute("""
         SELECT SUM(calories)
         FROM food_log
-        WHERE uid = ? AND date = ?
-    """, (uid, date))
+        WHERE username = ? AND date = ?
+    """, (username, date))
     
     result = c.fetchone()
     consumed = result[0] if result[0] else 0
@@ -302,18 +302,18 @@ def calorie_goal(uid, date):
     return fig, outcome_text
 
 
-def protein_goal(uid, date):
+def protein_goal(username, date):
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
 
-    goal = get_protein_goal(uid)
+    goal = get_protein_goal(username)
 
     # Filter protein by date
     c.execute("""
         SELECT SUM(protein)
         FROM food_log
-        WHERE uid = ? AND date = ?
-    """, (uid, date))
+        WHERE username = ? AND date = ?
+    """, (username, date))
 
     result = c.fetchone()
     consumed = result[0] if result[0] else 0
@@ -618,23 +618,24 @@ else:
             proteinGoal=st.slider("Protein Goals:", 1,150)
 
             st.session_state["calorieGoal"]=calorieGoal
-            st.session_state["protienGoal"]=proteinGoal
-
+            st.session_state["proteinGoal"]=proteinGoal
+            
+            user = getName()[1]
             #Current Values
-            current_calorie_goal = get_calorie_goal(getName()[1])
-            current_protein_goal = get_protein_goal(getName()[1])
+            current_calorie_goal = get_calorie_goal(user)
+            current_protein_goal = get_protein_goal(user)
             
             #Update the database if the goals have changed
             if calorieGoal != current_calorie_goal:
-                change_calorieGoal(getName()[1], calorieGoal)
+                change_calorieGoal(user, calorieGoal)
             if proteinGoal != current_protein_goal:
-                change_proteinGoal(getName()[1], proteinGoal)
+                change_proteinGoal(user, proteinGoal)
 
             goals={
             "Calories Goal": st.session_state["calorieGoal"],
-            "Protein Goal": st.session_state["protienGoal"]
+            "Protein Goal": st.session_state["proteinGoal"]
             }
-            colprotien,colcalorie,colcarbs=st.columns(3)
+            colprotein,colcalorie,colcarbs=st.columns(3)
     from datetime import datetime
     with st.expander("See you Calorie and Protein Goals"):
         col1,col2=st.columns(2)
@@ -643,13 +644,13 @@ else:
             date_str = selected_date.strftime("%Y-%m-%d")
 
             # Generate and display chart
-            fig,outcome = calorie_goal(uid=getName()[1], date=date_str)
+            fig,outcome = calorie_goal(user, date=date_str)
             st.plotly_chart(fig)
             st.write(outcome)
         with col2:
             selected_date = st.date_input("📅 Choose a date", datetime.now(),key="GVGHVGHJVJHvj")
             date_str = selected_date.strftime("%Y-%m-%d")
-            fig,outcome = protein_goal(uid=getName()[1], date=date_str)
+            fig,outcome = protein_goal(user, date=date_str)
             st.plotly_chart(fig)
             st.write(outcome)
 
