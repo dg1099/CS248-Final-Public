@@ -8,6 +8,7 @@ from datetime import datetime
 from Dashboard import clone_private_repo
 import pandas as pd
 import subprocess
+import plotly.graph_objects as go
 import plotly.express as px
 import pandas as pd
 import sqlite3
@@ -80,13 +81,13 @@ unsafe_allow_html=True
 st.logo("assets/R.D.Y. to Eat.png",icon_image="assets/R.D.Y. to Eat.png") # This is the logo for the app
 
 ##################### UPDATING AND GETTING CALORIE/PROTEIN GOALS ########################
-# This function calculates the average calories consumed by meal type for a specific user
-def average_calories_by_meal(uid):
+# This function updates the user's calorie goal in the database
+def average_calories_by_meal(username):
 
     conn = sqlite3.connect(DB_PATH)
 
     c = conn.cursor()
-    c.execute("SELECT meal_type, AVG(calories) FROM food_log WHERE uid = ? GROUP BY meal_type", (uid, ))
+    c.execute("SELECT meal_type, AVG(calories) FROM food_log WHERE uid = ? GROUP BY meal_type", (username, ))
     rows = c.fetchall()
 
     df = pd.DataFrame(rows, columns=['Meal', 'Avg. Calories (kcal)'])
@@ -97,12 +98,12 @@ def average_calories_by_meal(uid):
 )
     return fig
 
-# This function generates a nutrient breakdown pie chart for a specific user
-def nutrient_breakdown(uid):
+#  This function retrieves the user's name from the database
+def nutrient_breakdown(username):
     conn = sqlite3.connect(DB_PATH)
 
     c = conn.cursor()
-    c.execute("SELECT SUM(protein), SUM(fats), SUM(carbohydrates) FROM food_log WHERE uid = ?", (uid, ))
+    c.execute("SELECT SUM(protein), SUM(fats), SUM(carbohydrates) FROM food_log WHERE uid = ?", (username, ))
     row = c.fetchone()
     
     labels = ['Protein', 'Fats', 'Carbs']
@@ -113,103 +114,31 @@ def nutrient_breakdown(uid):
     values=values,
     hole=.5,  # To create a donut shape
     marker=dict(colors=[
-        '#9B4D9C',  # Light purple for Protein
-        '#6A2C9C',  # Medium purple for Fats
-        '#3E0E75'   # Dark purple for Carbs
-    ]),
-)])
+        "#FFB6C1",  # Light purple for Protein
+        "#FAFAD2",  # Medium purple for Fats
+        "#FFDAB9"   # Dark purple for Carbs
+        ]),
+    )])
+    fig.update_layout(
+    title='Nutritional Breakdown',  # Optional title
+    font=dict(
+        color='white',                 # Font color
+        family='Lexend',
+        size=14
+    ),
+    paper_bgcolor='rgba(255, 255, 255, 255)',  # Background of the entire figure
+    plot_bgcolor='rgba(255, 255, 255, 255)',   # Background of plotting area
+)
+    return fig
     
 ######################################### GRAPHS and DATA VISUALS ########################################
 
-# This method works to display calorie goals based on a specific selected date
-def calorie_goal(uid, date):
-    conn = sqlite3.connect(DB_PATH)
-    c = conn.cursor()
-
-    cal_goal = get_calorie_goal(uid)
-
-    # Filter calories by date
-    c.execute("""
-        SELECT SUM(calories)
-        FROM food_log
-        WHERE uid = ? AND date = ?
-    """, (uid, date))
-    
-    result = c.fetchone()
-    consumed = result[0] if result[0] else 0
-
-    # Determine the outcome based on consumed calories
-    if consumed < cal_goal: 
-        labels = ['Calories Consumed', 'Remaining']
-        values = [consumed, cal_goal - consumed]
-        colors = ["#FFB6C1", "#FFDAB9"]
-        outcome_text = f"🔥 {consumed:.0f} kcal consumed. You have {cal_goal - consumed:.0f} kcal remaining."
-    elif consumed == cal_goal:
-        labels = ['Calories Consumed']
-        values = [cal_goal]
-        colors = ["#FFB6C1"]
-        outcome_text = f"✅ {consumed:.0f} kcal consumed. You've met your goal exactly!"
-    else:
-        labels = ['Calories Goal', 'Over Limit']
-        values = [cal_goal, consumed - cal_goal]
-        colors = ["#FFB6C1", "#FFDAB9"]
-        outcome_text = f"⚠️ {consumed:.0f} kcal consumed. You went over your goal by {consumed - cal_goal:.0f} kcal."
-
-    # Create the pie chart
-    fig = go.Figure(data=[go.Pie(labels=labels, values=values, marker=dict(colors=colors))])
-    fig.update_traces(textinfo='label+percent')
-    fig.update_layout(title_text=f"Calorie Tracker for {date}: {consumed:.0f} / {cal_goal:.0f} kcal")
-    
-    return fig, outcome_text
-
-# This method works to display protein goals based on a specific selected date
-def protein_goal(uid, date):
-    conn = sqlite3.connect(DB_PATH)
-    c = conn.cursor()
-
-    goal = get_protein_goal(uid)
-
-    # Filter protein by date
-    c.execute("""
-        SELECT SUM(protein)
-        FROM food_log
-        WHERE uid = ? AND date = ?
-    """, (uid, date))
-
-    result = c.fetchone()
-    consumed = result[0] if result[0] else 0
-
-    # Determine the outcome based on consumed protein
-    if consumed < goal:
-        labels = ['Protein Consumed', 'Remaining']
-        values = [consumed, goal - consumed]
-        colors = ["#FFB6C1", "#FAFAD2"]
-        outcome_text = f"💪 {consumed:.0f}g protein consumed. You need {goal - consumed:.0f}g more."
-    elif consumed == goal:
-        labels = ['Protein Consumed']
-        values = [goal]
-        colors = ["#FFB6C1"]
-        outcome_text = f"✅ {consumed:.0f}g protein consumed. You've met your goal!"
-    else:
-        labels = ['Protein Goal', 'Over Limit']
-        values = [goal, consumed - goal]
-        colors = ["#FFB6C1", "#FFDAB9"]
-        outcome_text = f"⚠️ {consumed:.0f}g protein consumed. You went over your goal by {consumed - goal:.0f}g."
-
-    # Create pie chart
-    fig = go.Figure(data=[go.Pie(labels=labels, values=values, marker=dict(colors=colors))])
-    fig.update_traces(textinfo='label+percent')
-    fig.update_layout(title_text=f"Protein Tracker for {date}: {consumed:.0f}g / {goal:.0f}g")
-
-    return fig, outcome_text
-
-
-#This displays the dinning halls that the user eats the most from 
-def common_dining(uid):
+# This function retrieves the user's most common dining hall visits
+def common_dining(username):
     conn = sqlite3.connect(DB_PATH)
 
     c = conn.cursor()
-    c.execute("SELECT location_id FROM food_log WHERE uid = ?", (uid, ))
+    c.execute("SELECT location_id FROM food_log WHERE uid = ?", (username, ))
 
     rows = c.fetchall()
     # Convert rows to a flat list of dining hall names
@@ -233,8 +162,8 @@ def common_dining(uid):
     
     return fig
 
-#This is a nutrient breakdown for users displaying protein, fats and carbs for each dining hall as a bar plot
-def location_nutrient_breakdown(uid):
+# This function retrieves the nutrient breakdown by dining hall
+def location_nutrient_breakdown(username):
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     
@@ -244,7 +173,7 @@ def location_nutrient_breakdown(uid):
         FROM food_log 
         WHERE uid = ? 
         GROUP BY location_id
-    """, (uid,))
+    """, (username,))
 
     rows = c.fetchall()
     
@@ -261,7 +190,7 @@ def location_nutrient_breakdown(uid):
     )
     
     # Create the polar chart
-    fig = px.bar_polar(df_long, r="Amount", theta="Dining Hall", color="Nutrient", template="plotly_dark",
+    fig = px.bar_polar(df_long, r="Amount", theta="Dining Hall", color="Nutrient", template="plotly_white",
                        color_discrete_sequence=["#FFB6C1", "#FFDAB9", "#FAFAD2"])
     
     # Prepare the summary text for display
@@ -281,8 +210,6 @@ def location_nutrient_breakdown(uid):
 
 #Allows users set calorie goals based on user name into our database 
 def change_calorieGoal(username, calorieGoal):
-    if isinstance(username, tuple):
-        username = username[0]
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
@@ -300,8 +227,6 @@ def change_calorieGoal(username, calorieGoal):
 
 #Allows users set protein goals based on user name into our database 
 def change_proteinGoal(username, proteinGoal):
-    if isinstance(username, tuple):
-        username = username[0]
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
@@ -350,7 +275,84 @@ def get_protein_goal(username):
     finally:
         conn.close()
 
+def calorie_goal(username, date):
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
 
+    cal_goal = get_calorie_goal(username)
+
+    # Filter calories by date
+    c.execute("""
+        SELECT SUM(calories)
+        FROM food_log
+        WHERE uid = ? AND date = ?
+    """, (username, date))
+    
+    result = c.fetchone()
+    consumed = result[0] if result[0] else 0
+
+    if consumed < cal_goal:
+        labels = ['Calories Consumed', 'Remaining']
+        values = [consumed, cal_goal - consumed]
+        colors = ["#FFB6C1", "#FAFAD2"]
+        outcome_text = f"🔥 {consumed:.0f} kcal consumed. You have {cal_goal - consumed:.0f} kcal remaining."
+    elif consumed == cal_goal:
+        labels = ['Calories Consumed']
+        values = [cal_goal]
+        colors = ["#FFB6C1"]
+        outcome_text = f"✅ {consumed:.0f} kcal consumed. You've met your goal exactly!"
+    else:
+        labels = ['Calories Goal', 'Over Limit']
+        values = [cal_goal, consumed - cal_goal]
+        colors = ["#FFB6C1", "#FFDAB9"]
+        outcome_text = f"⚠️ {consumed:.0f} kcal consumed. You went over your goal by {consumed - cal_goal:.0f} kcal."
+
+    # Create the pie chart
+    fig = go.Figure(data=[go.Pie(labels=labels, values=values, marker=dict(colors=colors))])
+    fig.update_traces(textinfo='label+percent')
+    fig.update_layout(title_text=f"Calorie Tracker for {date}: {consumed:.0f} / {cal_goal:.0f} kcal")
+    
+    return fig, outcome_text
+
+
+def protein_goal(username, date):
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+
+    goal = get_protein_goal(username)
+
+    # Filter protein by date
+    c.execute("""
+        SELECT SUM(protein)
+        FROM food_log
+        WHERE uid = ? AND date = ?
+    """, (username, date))
+
+    result = c.fetchone()
+    consumed = result[0] if result[0] else 0
+
+    if consumed < goal:
+        labels = ['Protein Consumed', 'Remaining']
+        values = [consumed, goal - consumed]
+        colors = ["#FFB6C1", "#FAFAD2"]
+        outcome_text = f"💪 {consumed:.0f}g protein consumed. You need {goal - consumed:.0f}g more."
+    elif consumed == goal:
+        labels = ['Protein Consumed']
+        values = [goal]
+        colors = ["#FFB6C1"]
+        outcome_text = f"✅ {consumed:.0f}g protein consumed. You've met your goal!"
+    else:
+        labels = ['Protein Goal', 'Over Limit']
+        values = [goal, consumed - goal]
+        colors = ["#FFB6C1", "#FFDAB9"]
+        outcome_text = f"⚠️ {consumed:.0f}g protein consumed. You went over your goal by {consumed - goal:.0f}g."
+
+    # Create pie chart
+    fig = go.Figure(data=[go.Pie(labels=labels, values=values, marker=dict(colors=colors))])
+    fig.update_traces(textinfo='label+percent')
+    fig.update_layout(title_text=f"Protein Tracker for {date}: {consumed:.0f}g / {goal:.0f}g")
+
+    return fig, outcome_text
 
 #----------------------------PAGE LAYOUT------------------------------------#
 
@@ -414,7 +416,6 @@ else:
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
 
-        # Get the specific user ID from the session state
         specific_uid = getName()[1]
 
         # Execute the query
@@ -565,7 +566,7 @@ else:
             c = conn.cursor()
             c.execute(
                 """SELECT * FROM food_log WHERE date(date) BETWEEN ? AND ? AND uid = ?""",
-                (d[0], d[1], uid)
+                (d[0], d[1], getName()[1])
             )
             data=c.fetchall()
             c.close()
@@ -615,7 +616,7 @@ else:
             c = conn.cursor()
             c.execute(
                 """SELECT * FROM food_log WHERE date(date) BETWEEN ? AND ? AND uid = ?""",
-                (d[0], d[1], uid)
+                (d[0], d[1], getName()[1])
             )
             data=c.fetchall()
             c.close()
@@ -644,24 +645,24 @@ else:
             proteinGoal=st.slider("Protein Goals:", 1,150)
 
             st.session_state["calorieGoal"]=calorieGoal
-            st.session_state["protienGoal"]=proteinGoal
-
+            st.session_state["proteinGoal"]=proteinGoal
+            
+            user = getName()[1]
             #Current Values
-            current_calorie_goal = get_calorie_goal(getName()[1])
-            current_protein_goal = get_protein_goal(getName()[1])
+            current_calorie_goal = get_calorie_goal(user)
+            current_protein_goal = get_protein_goal(user)
             
             #Update the database if the goals have changed
             if calorieGoal != current_calorie_goal:
-                change_calorieGoal(username, calorieGoal)
+                change_calorieGoal(user, calorieGoal)
             if proteinGoal != current_protein_goal:
-                change_proteinGoal(username, proteinGoal)
-
+                change_proteinGoal(user, proteinGoal)
 
             goals={
             "Calories Goal": st.session_state["calorieGoal"],
-            "Protein Goal": st.session_state["protienGoal"]
-        }
-            colprotien,colcalorie,colcarbs=st.columns(3)
+            "Protein Goal": st.session_state["proteinGoal"]
+            }
+            colprotein,colcalorie,colcarbs=st.columns(3)
     from datetime import datetime
 
     # This will display the current goals set by the user
@@ -673,14 +674,14 @@ else:
             date_str = selected_date.strftime("%Y-%m-%d")
 
             # Generate and display chart
-            fig,outcome = calorie_goal(uid=getName()[1], date=date_str)
+            fig,outcome = calorie_goal(user, date=date_str)
             st.plotly_chart(fig)
             st.write(outcome)
         # This will display the current protein goal set by the user
         with col2:
             selected_date = st.date_input("📅 Choose a date", datetime.now(),key="GVGHVGHJVJHvj")
             date_str = selected_date.strftime("%Y-%m-%d")
-            fig,outcome = protein_goal(uid=getName()[1], date=date_str)
+            fig,outcome = protein_goal(user, date=date_str)
             st.plotly_chart(fig)
             st.write(outcome)
 
@@ -689,10 +690,10 @@ else:
     with st.expander("Visualize Your Nutrients Breakdown"):
         tab1,tab2=st.tabs(["Bar Graph Breakdown","Spider graph Breakdown"])
         with tab1:
-            st.plotly_chart(nutrient_breakdown(getName()[1]))
+            st.plotly_chart(nutrient_breakdown(user))
         with tab2: 
             # Get the graph and summary text
-            fig, summary_text = location_nutrient_breakdown(uid=getName()[1])
+            fig, summary_text = location_nutrient_breakdown(user)
 
             # Display the graph
             st.plotly_chart(fig)
