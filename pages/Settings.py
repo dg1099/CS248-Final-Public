@@ -207,6 +207,10 @@ with stylable_container(
     st.subheader("Settings")
     username=st.text_input("Enter Your chosen username!")
 
+    # Future feature: Add a button to save the username to the database
+    # This can be done by creating a new column in the database for username and updating it when the user clicks save
+    # Then display that across the site instead of the getName() method used below
+
     # Get user email
     user_email = getName()[1]
     current_prefs = get_user_allergens(user_email)
