@@ -15,6 +15,7 @@ import wellesley_fresh_api
 
 #----------------------------CSS LAYOUT------------------------------------#\
 
+# This is to fix the sizing of our app logo
 st.markdown(
     """
 <style>
@@ -29,6 +30,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# This is to make sure our app has a background image
 st.markdown(
     """
     <style>
@@ -41,7 +43,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-
+# This is to make sure our boxes are the same height
 st.markdown("""
     <style>
     .equal-height-container {
@@ -78,6 +80,7 @@ st.logo("assets/R.D.Y. to Eat.png",icon_image="assets/R.D.Y. to Eat.png")
 # ADDING TO FOOD LOG #
 ######################
 
+# This function adds a meal to the food log in the database
 def add_to_food_log(meal_id, uid, meal_type, food_name, calories, protein, fats, carbohydrates, date, location,db_path=DB_PATH):
     try:
         conn = sqlite3.connect(db_path)
@@ -101,6 +104,7 @@ def add_to_food_log(meal_id, uid, meal_type, food_name, calories, protein, fats,
 ######################
 # ADD A RATING TO DB #
 ######################
+# This function inserts a rating into the database
 def insert_rating(mealname, uid, rating, comment, emotion):
 
     # Insert into the database
@@ -122,7 +126,7 @@ if "access_token" not in st.session_state:
     #Stop from everything else from being loaded up if they have not loggedin 
 else: 
     
-
+    # This is to set the page layout to wide so it looks better
     headCol1,headCol2=st.columns([8,2])
 
     #This is our header column so we can also have a popout section for prefrences
@@ -131,6 +135,7 @@ else:
     with headCol2:
         currentpref=displayPreference("wellesleyfresh")
 
+    # This is the expander that gives an overview of the page and what it does
     with st.expander("✨ Page Overview!"):
         st.write("""
         **Welcome to the Dining Hall Menu Generator!** 🍽️
@@ -146,6 +151,7 @@ else:
     # This is the columns that layout meal and dining hall options 
     col1,col2,col3=st.columns(3)
 
+    # This is the container that will hold the meal time and dining hall options
     with col1:
         with stylable_container(
             key="container_with_border2313",
@@ -161,7 +167,7 @@ else:
             st.subheader("Pick Meal Time!")
             
             
-
+            # These are the buttons that will allow the user to select the meal time they want to see the menu for
             breakfast=st.button("Breakfast")
             lunch=st.button("Lunch")
             dinner=st.button('Dinner')
@@ -176,7 +182,7 @@ else:
             
 
             
-
+    # This is the container that will hold the dining hall options
     with col2:
         with stylable_container(
             key="container_with_border1",
@@ -192,6 +198,7 @@ else:
             
             st.subheader("Pick a Dining Hall!")
             
+            # These are the buttons that will allow the user to select the dining hall they want to see the menu for
             lulu=st.button("Lulu")
             tower=st.button("Tower")
             bates=st.button("Bates")
@@ -360,11 +367,12 @@ else:
             with menucol:
                 st.write("Calorie Count")
 
-
+            # This is the loop that will display all the meals in a table format
             for idx,(mealname,calories,description) in  enumerate(zip(st.session_state["dataframe"]['name'], st.session_state["dataframe"]['nutritionals.calories'],st.session_state["dataframe"]["description"])):
                 col1,col2,col3=st.columns(3,border=True)
                 
                 with col1:
+                    # This is the container that will hold the meal name and description
                     with stylable_container(
         key=f"table3{mealname}{calories}",
         css_styles="""
@@ -390,7 +398,7 @@ else:
                     #Star rating popover in streamlit 
                     with st.popover("Rating",icon="👋"):
                         with st.form(key=f"{mealname}_{idx}_"):
-                            # Define emoji-to-label mapping
+                            # Emoji selection for feelings about the meal
                             emoji_labels = {
                                 "😡": "Horrible",
                                 "😕": "Okay",
@@ -399,6 +407,7 @@ else:
                                 "😍": "Love"
                             }
 
+                            # Text input for meal comment
                             comment=st.text_input("Add your meal comment here!",key=f"{mealname}_")
                             st.write("How do you feel about this?")
 
@@ -416,8 +425,9 @@ else:
                             sentiment_mapping = ["1", "2", "3", "4", "5"]
                             selected = st.feedback("stars",key=session_key+"rating")
 
-                            submitted = st.form_submit_button("Submit")
+                            submitted = st.form_submit_button("Submit")# This is the submit button for the form
 
+                            # Check if the form was submitted and a rating was selected
                             if submitted:
                                 st.markdown(f"You selected {sentiment_mapping[selected]} star(s).")
                                 insert_rating(mealname, getName()[1], sentiment_mapping[selected], comment, emotion_label)

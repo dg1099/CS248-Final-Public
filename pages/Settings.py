@@ -7,7 +7,6 @@ from userAuth.user_profile import getName
 import sqlite3
 from Database_files.add_userData import update_preference
 
-#st.set_page_config(page_title="RYD To Eat", page_icon="https://drive.google.com/file/d/1wdFemFBErLC6bXpJ5jvKKp6q3a0tIRVt/view?usp=sharing")
 
 ############################################################################
 ##################### Private Database Configuration ########################
@@ -27,6 +26,7 @@ unsafe_allow_html=True
 )
 st.logo("assets/R.D.Y. to Eat.png",icon_image="assets/R.D.Y. to Eat.png")
 
+# This is to add our app logo to the sidebar
 def clone_private_repo():
     token = st.secrets["github"]["GITHUB_TOKEN"]
     repo_url = st.secrets["github"]["PRIVATE_DB_REPO"]
@@ -50,6 +50,7 @@ DB_PATH = clone_private_repo()
 ##################### UPDATING AND GETTING allergens########################
 ############################################################################
 
+# This function updates the user's allergens in the database
 def change_allergens(username, allergens):
     # Convert allergens list to comma-separated string
     pref_string = ",".join(allergens)
@@ -71,6 +72,7 @@ def change_allergens(username, allergens):
     finally:
         conn.close()
 
+# This function retrieves the user's allergens from the database
 def get_user_allergens(username):
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
@@ -91,6 +93,7 @@ def get_user_allergens(username):
 #Fot google sign in 
 DEBUG = False
 
+# This function is used to set a fake access token and user info for debugging purposes.
 def fake_login():
     """Sets a fake access token and user info for debugging."""
     st.session_state["access_token"] = "fake-token"
@@ -99,7 +102,7 @@ def fake_login():
 
 def login_sidebar():
     st.sidebar.title("Welcome!")
-
+    # This is to add our app logo to the sidebar 
     if DEBUG and "access_token" not in st.session_state:
         fake_login()
 
@@ -113,7 +116,7 @@ def login_sidebar():
             st.rerun()
 
     else:
-        
+        # If not logged in, show login button
         st.sidebar.write("Please log in with your Google account:")
         logged_in = google_login()
         st.sidebar.warning("Not logged in.")
@@ -123,6 +126,7 @@ def login_sidebar():
 
 #----------------------------CSS LAYOUT------------------------------------#\
 
+# This is to add our sidebar and login button
 st.html(
     """
 <style>
@@ -138,6 +142,7 @@ st.html(
 """
 )
 
+# This is to add our app logo to the sidebar
 st.markdown(
     """
     <style>
@@ -153,12 +158,7 @@ st.subheader("Settings",divider=True)
 
 #----------------------------PAGE LAYOUT------------------------------------#
 
-
-
-
-
 #This will create the side bar
-
 
 if "access_token" not in st.session_state:
     st.warning("Please first login! Click on our logo to the left to open the sidebar to login!")
@@ -174,8 +174,10 @@ img[data-testid="stLogo"] {
 """,
 unsafe_allow_html=True
 )
-st.logo("assets/R.D.Y. to Eat.png",icon_image="assets/R.D.Y. to Eat.png")
 
+st.logo("assets/R.D.Y. to Eat.png",icon_image="assets/R.D.Y. to Eat.png")# This is to add our app logo to the sidebar
+
+# This is to add our sidebar and login button
 with st.expander("✨ Page Overview!"):
     st.write("""
     **Welcome to Your Settings Page!** ⚙️
@@ -188,7 +190,7 @@ with st.expander("✨ Page Overview!"):
     Changes here help tailor your dining experience by automatically filtering meals and saving your hall preferences across the app!
     """)
 
-
+# This is to add our app logo to the sidebar
 with stylable_container(
         key="container_with_border",
         css_styles="""
@@ -217,6 +219,7 @@ with stylable_container(
     stoned=st.button("Stone D")
     tower=st.button("Tower")
 
+    # Initialize session state for favorite hall if not already set
     st.session_state["fav_hall"]=""
     if lulu:
         st.session_state["fav_hall"]="Lulu"

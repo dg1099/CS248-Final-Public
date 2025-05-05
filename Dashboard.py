@@ -14,6 +14,8 @@ import plotly.graph_objects as go
 import pytz
 
 
+############################################### Datavisualization Functions #######################################################
+# Function to visualize the most common dining hall visits 
 def common_dining(uid):
     conn = sqlite3.connect(DB_PATH)
 
@@ -42,7 +44,6 @@ def common_dining(uid):
     
     return fig
 
-#st.set_page_config(page_title="RYD To Eat", page_icon="https://drive.google.com/file/d/1wdFemFBErLC6bXpJ5jvKKp6q3a0tIRVt/view?usp=sharing")
 
 ############################################################################
 ##################### Private Database Configuration ########################
@@ -50,7 +51,7 @@ def common_dining(uid):
 import os
 import subprocess
 
-
+# This function clones a private GitHub repository containing the database file
 def clone_private_repo():
     token = st.secrets["github"]["GITHUB_TOKEN"]
     repo_url = st.secrets["github"]["PRIVATE_DB_REPO"]
@@ -86,6 +87,7 @@ st.logo("assets/R.D.Y. to Eat.png",icon_image="assets/R.D.Y. to Eat.png")
 ##################### UPDATING AND GETTING allergens########################
 ############################################################################
 
+# This function updates the user's allergens in the database
 def change_allergens(username, allergens):
     # Convert allergens list to comma-separated string
     pref_string = ",".join(allergens)
@@ -107,6 +109,7 @@ def change_allergens(username, allergens):
     finally:
         conn.close()
 
+# This function retrieves the user's allergens from the database
 def get_user_allergens(username):
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
@@ -121,6 +124,7 @@ def get_user_allergens(username):
         conn.close()
 
 ##################### SHOWING TOP 5 MEALS ########################
+# This function retrieves the top-rated meals from the database
 def topRated():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
@@ -141,12 +145,14 @@ def topRated():
 #Fot google sign in 
 DEBUG = False
 
+# This function sets a fake access token and user info for debugging purposes
 def fake_login():
     """Sets a fake access token and user info for debugging."""
     st.session_state["access_token"] = "fake-token"
     st.session_state["fake_user_name"] = "Test Student"
     st.session_state["fake_user_picture"] = "https://i.pravatar.cc/60?img=25"  # random placeholder
 
+#This is the login side bar that allows users to log into the site
 def login_sidebar():
     st.sidebar.title("Welcome!")
 
@@ -157,6 +163,7 @@ def login_sidebar():
     if "access_token" in st.session_state:
         render_user_profile()
 
+        #Mark down to make the button text black so its easier for users to view 
         st.markdown("""
             <style>
                 div.stButton > button {
@@ -170,7 +177,7 @@ def login_sidebar():
             st.rerun()
 
     else:
-        
+        #Makes it so if the user has not logged in it will display a warning 
         st.sidebar.write("Please log in with your Google account:")
         logged_in = google_login()
         st.sidebar.warning("Not logged in.")
@@ -180,6 +187,7 @@ def login_sidebar():
 
 #----------------------------CSS LAYOUT------------------------------------#\
 
+# This is to style the sidebar and main app background
 st.html(
     """
 <style>
@@ -195,6 +203,7 @@ st.html(
 """
 )
 
+# This is to style the main app background
 st.markdown(
     """
     <style>
@@ -206,6 +215,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# This is to style the header of the app
 st.markdown(
     "<h1 style='text-align: center; '>RDY To Eat</h1>",
              unsafe_allow_html=True)
@@ -238,8 +248,11 @@ img[data-testid="stLogo"] {
 """,
 unsafe_allow_html=True
 )
-st.logo("assets/R.D.Y. to Eat.png",icon_image="assets/R.D.Y. to Eat.png")
 
+st.logo("assets/R.D.Y. to Eat.png",icon_image="assets/R.D.Y. to Eat.png")# This is to display the app logo in the header
+
+# An expander holding a welcome message for users 
+# This is to create a stylable container that holds the welcome message and styles it
 with st.expander("Welcome!"):
     with stylable_container(
                 key=f"container_with_bordew2323e23e",
@@ -272,6 +285,8 @@ with st.expander("Welcome!"):
                 meal goals to stay on track. We’re excited to have you join us 
                 on your food journey!""")
 
+#This is a container that holds the top rated meals method results and displays it  with 
+# specific css styable conatiner coding 
 with stylable_container(
                 key=f"container_with_bordew2weewe323e23e",
                 css_styles=["""
@@ -299,6 +314,7 @@ with stylable_container(
        st.markdown(f"〰️{dish[0]} with a rating of "+ '⭐' * int(dish[1]),help=f"Rating of {dish[1]} ")
 
 
+#This section of code will display the current meals avaiable in dinning halls based on users current time 
 with stylable_container(
             key="container_with_border23",
             css_styles=["""
@@ -321,27 +337,12 @@ with stylable_container(
                 
         ):
 
-    
+    #Subheader to display and section of so users understand what is being displayed here 
     st.subheader("Whats Happening in the Halls right now!")
     st.warning("Please log your meals in the Wellesley Fresh Meals Tab")
 
-    # with st.expander("Take a sneek peek at your most frequented hall!"):
-    #     st.write("hey")
-    # email=getName()[1]
-    # fav_hall=get_preference(email)
-
-    # if fav_hall!=None:
-        
-    # else:
-    #     options=["Lulu","Bates","Stone D","Tower"]
-    #     fav_option=st.selectbox("Select A Hall!",options)
     col1,col2=st.columns(2)
-    
-    import pytz
-
-    # Set your timezone (example: 'America/New_York')
-       
-
+     
     options=["Lulu","Bates","Stone D","Tower"]
     with col1:
         fav_option=st.selectbox("Select A Hall!",options)
@@ -351,6 +352,7 @@ with stylable_container(
         with st.popover("Dining Hall visits Breakdown! "):
             st.plotly_chart(common_dining(getName()[1]))
 
+    # Setting timezone
     import pytz
     timezone = pytz.timezone('America/New_York') 
     now = datetime.now(timezone)
@@ -360,10 +362,15 @@ with stylable_container(
     current_hour=timenow.hour
     col12,=st.columns(1,vertical_alignment="center")
 
+    #This will filter what to display to the users based on what time it currently is for th euser based on EST time zopne 
+    
+    #When breakfast display breakfast menus 
     with col12:
         if 5 <= current_hour < 10:
             selected_time="Breakfast"
             st.warning(f"For {selected_time} at {fav_option}")
+
+            #Gets data from the wellsley fresh api and gets the menus as json files 
             data = wellesley_fresh_api.wellesleyCall(
                             fav_option, 
                             selected_time, 
@@ -385,16 +392,17 @@ with stylable_container(
                             "allergens",
                             "date"]]
             cleandf=cleandf.drop_duplicates(subset=["name"])
-
+            #Filters data frame to on only display the meal names based on name 
             cleandf= cleandf.loc[(cleandf["date"].str.split("T").str[0]==str(date))]
             for item in cleandf["name"].items():
                 st.write("〰️"+item[1])
 
-
+        #When lunch display lunch menus 
         elif 10 <= current_hour < 14:
             selected_time="Lunch"
             st.warning(f"For {selected_time} at {fav_option}")
 
+            #Gets data from the wellsley fresh api and gets the menus as json files 
             data = wellesley_fresh_api.wellesleyCall(
                             fav_option, 
                             selected_time, 
@@ -416,14 +424,17 @@ with stylable_container(
                             "allergens",
                             "date"]]
             cleandf=cleandf.drop_duplicates(subset=["name"])
-
+            #Filters data frame to on only display the meal names based on name 
             cleandf= cleandf.loc[(cleandf["date"].str.split("T").str[0]==str(date))]
             for item in cleandf["name"].items():
                 st.write("〰️"+item[1])
+        
+        #When Dinner display dinner menus         
         elif 14 <= current_hour < 21:
             selected_time="Dinner"
             st.warning(f"For {selected_time} at {fav_option}")
 
+            #Gets data from the wellsley fresh api and gets the menus as json files 
             data = wellesley_fresh_api.wellesleyCall(
                             fav_option, 
                             selected_time, 
@@ -445,10 +456,11 @@ with stylable_container(
                             "allergens",
                             "date"]]
             cleandf=cleandf.drop_duplicates(subset=["name"])
-
+            #Filters data frame to on only display the meal names based on name 
             cleandf= cleandf.loc[(cleandf["date"].str.split("T").str[0]==str(date))]
             for item in cleandf["name"].items():
                 st.write("〰️"+item[1])
+        #Displays this warning when all the dining halls are closed 
         else:
             st.warning("All Dining Halls are closed!")
 

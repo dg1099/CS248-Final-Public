@@ -4,6 +4,7 @@ import os
 import subprocess
 import streamlit as st
 
+# from userAuth.user_profile import getName
 def clone_private_repo():
     token = st.secrets["github"]["GITHUB_TOKEN"]
     repo_url = st.secrets["github"]["PRIVATE_DB_REPO"]
@@ -24,6 +25,8 @@ def clone_private_repo():
 DB_PATH = clone_private_repo()
 
 ##################### UPDATING AND GETTING allergens########################
+
+# This function updates the user's allergens in the database
 def change_allergens(username, allergens):
     # Convert allergens list to comma-separated string
     pref_string = ",".join(allergens)
@@ -45,6 +48,7 @@ def change_allergens(username, allergens):
     finally:
         conn.close()
 
+# This function retrieves the user's allergens from the database
 def get_allergens(username):
     conn = sqlite3.connect(DB_PATH )
     cursor = conn.cursor()
@@ -63,9 +67,12 @@ def get_allergens(username):
 # ADDING TO FOOD LOG #
 ######################
 
+# This function retrieves the user's name from the database
 def get_db_connection(DB_PATH ):
     return sqlite3.connect(DB_PATH)
 
+
+# This function adds a food item to the user's food log
 def add_to_food_log(
     meal_id, uid, meal_type, food_name,
     calories, protein, fats, carbohydrates,location,

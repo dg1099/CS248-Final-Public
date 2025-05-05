@@ -17,6 +17,9 @@ st.set_page_config(layout="wide")
 
 DB_PATH= clone_private_repo()
 
+
+##################################################CSS CODE################################################
+# This is to style the sidebar with a border and background image
 st.markdown(
     """
 <style>
@@ -31,6 +34,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# This is to style the main app background with a gradient image
 st.markdown(
     """
     <style>
@@ -43,7 +47,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-
+# This is to style the main app container to have equal height boxes
 st.markdown("""
     <style>
     .equal-height-container {
@@ -73,9 +77,10 @@ img[data-testid="stLogo"] {
 """,
 unsafe_allow_html=True
 )
-st.logo("assets/R.D.Y. to Eat.png",icon_image="assets/R.D.Y. to Eat.png")
+st.logo("assets/R.D.Y. to Eat.png",icon_image="assets/R.D.Y. to Eat.png") # This is the logo for the app
 
 ##################### UPDATING AND GETTING CALORIE/PROTEIN GOALS ########################
+# This function calculates the average calories consumed by meal type for a specific user
 def average_calories_by_meal(uid):
 
     conn = sqlite3.connect(DB_PATH)
@@ -92,6 +97,7 @@ def average_calories_by_meal(uid):
 )
     return fig
 
+# This function generates a nutrient breakdown pie chart for a specific user
 def nutrient_breakdown(uid):
     conn = sqlite3.connect(DB_PATH)
 
@@ -113,7 +119,9 @@ def nutrient_breakdown(uid):
     ]),
 )])
     
+######################################### GRAPHS and DATA VISUALS ########################################
 
+# This method works to display calorie goals based on a specific selected date
 def calorie_goal(uid, date):
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
@@ -130,7 +138,8 @@ def calorie_goal(uid, date):
     result = c.fetchone()
     consumed = result[0] if result[0] else 0
 
-    if consumed < cal_goal:
+    # Determine the outcome based on consumed calories
+    if consumed < cal_goal: 
         labels = ['Calories Consumed', 'Remaining']
         values = [consumed, cal_goal - consumed]
         colors = ["#FFB6C1", "#FFDAB9"]
@@ -153,7 +162,7 @@ def calorie_goal(uid, date):
     
     return fig, outcome_text
 
-
+# This method works to display protein goals based on a specific selected date
 def protein_goal(uid, date):
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
@@ -170,6 +179,7 @@ def protein_goal(uid, date):
     result = c.fetchone()
     consumed = result[0] if result[0] else 0
 
+    # Determine the outcome based on consumed protein
     if consumed < goal:
         labels = ['Protein Consumed', 'Remaining']
         values = [consumed, goal - consumed]
@@ -194,6 +204,7 @@ def protein_goal(uid, date):
     return fig, outcome_text
 
 
+#This displays the dinning halls that the user eats the most from 
 def common_dining(uid):
     conn = sqlite3.connect(DB_PATH)
 
@@ -201,7 +212,7 @@ def common_dining(uid):
     c.execute("SELECT location_id FROM food_log WHERE uid = ?", (uid, ))
 
     rows = c.fetchall()
-
+    # Convert rows to a flat list of dining hall names
     df = pd.DataFrame(rows, columns=["Dining Hall"])
     counts = df["Dining Hall"].value_counts().reset_index()
     counts.columns = ["Dining Hall", "# of Visits"]
@@ -222,6 +233,7 @@ def common_dining(uid):
     
     return fig
 
+#This is a nutrient breakdown for users displaying protein, fats and carbs for each dining hall as a bar plot
 def location_nutrient_breakdown(uid):
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
@@ -265,7 +277,9 @@ def location_nutrient_breakdown(uid):
     
     return fig, summary_text
 
+##################################### DATABASE Update code ###################################################
 
+#Allows users set calorie goals based on user name into our database 
 def change_calorieGoal(username, calorieGoal):
     if isinstance(username, tuple):
         username = username[0]
@@ -284,6 +298,7 @@ def change_calorieGoal(username, calorieGoal):
     finally:
         conn.close()
 
+#Allows users set protein goals based on user name into our database 
 def change_proteinGoal(username, proteinGoal):
     if isinstance(username, tuple):
         username = username[0]
@@ -302,7 +317,7 @@ def change_proteinGoal(username, proteinGoal):
     finally:
         conn.close()
 
-
+#This returns the users calorie goal from the database from the user table 
 def get_calorie_goal(username):
     if isinstance(username, tuple):
         username = username[0]
@@ -318,6 +333,8 @@ def get_calorie_goal(username):
     finally:
         conn.close()
 
+
+#This returns the users proteinn goal from the database from the user table 
 def get_protein_goal(username):
     if isinstance(username, tuple):
         username = username[0]
@@ -338,7 +355,7 @@ def get_protein_goal(username):
 #----------------------------PAGE LAYOUT------------------------------------#
 
 
-email=getName()[0]
+email=getName()[0] #This is the email of the user that is logged in
 
 
 if "access_token" not in st.session_state:
@@ -346,7 +363,7 @@ if "access_token" not in st.session_state:
     #Stop from everything else from being loaded up if they have not loggedin 
 else: 
 
-    headCol1,headCol2=st.columns([8,2])
+    headCol1,headCol2=st.columns([8,2]) #This is the header columns so we can have a popout section for prefrences and a header column
 
     #This is our header column so we can also have a popout section for prefrences
     with headCol1:
@@ -356,6 +373,7 @@ else:
     current_calorie_goal = get_calorie_goal(username)
     current_protein_goal = get_protein_goal(username)
 
+    #This is a small page overview for user to undertsand what is the contents of the page 
     with st.expander("✨ Page Overveiw!"):
         st.write("""
         **Welcome to your Nutrition Dashboard!** 🥗
@@ -376,6 +394,7 @@ else:
             }
         """,
     ):
+        # This is the main header for the page
         col1,col2,col3=st.columns(3)
         with col1:
             st.write("")
@@ -389,12 +408,13 @@ else:
 
         today = datetime.now(timezone).date()
     
+    #This is the meals that the user has logged in the database as loved
     with st.expander("These are the meals you loved ❤️"):
         st.write("")
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
 
-        # Replace '123' with your actual uid
+        # Get the specific user ID from the session state
         specific_uid = getName()[1]
 
         # Execute the query
@@ -414,18 +434,19 @@ else:
 
 
         # Fetch and print results
+        # This will display all the meals that the user has loved in the database
         results = cursor.fetchall()
         cols1,cols2,cols3=st.columns([1, 4, 4])
         for (name,emotion,comment,meal) in results:
             with cols1:
-                st.write("💕")
+                st.write("💕")  
             with cols2:
                 st.write(meal)
             with cols3:
                 st.write(comment)
             
 
-        # Clean up
+        #Close everything after we are done with it
         cursor.close()
         conn.close()
 
@@ -435,6 +456,7 @@ else:
     #This loads all the lists so they they later display all the meals based on the dayes they where served 
     daily,weekly,monthly=st.tabs(["Daily Meal Log","Weekly Meal Log","Monthly Meal Log"])
     
+    # This is the daily meal log section where the user can select a date and see all the meals they have logged for that day
     with daily: 
             with stylable_container(
         key="table3wqew",
@@ -446,6 +468,7 @@ else:
             }
         """,
     ): 
+                #This is the daily meal log section where the user can select a date and see all the meals they have logged for that day
                 today=st.date_input("Select A Date", today)
                 uid = getName()[1]
                 conn=sqlite3.connect(DB_PATH)
@@ -463,6 +486,7 @@ else:
                 dinner=[]
                 snack=[]
 
+                #This will add meals to a sepcific the meals based list that will be used to display the meals based on the type of meal they are
                 for item in meals_today:
                     if item[4]=="Breakfast":
                         breakfast.append(item)
@@ -474,7 +498,7 @@ else:
                         snack.append(item)
 
 
-            
+                #This will display the header for the daily meal log section and the meals that the user has logged for that day
                 st.subheader("Breakfast 🥞",divider=True)
                 if len(breakfast)==0:
                         st.write("Nothing was logged")
@@ -482,18 +506,21 @@ else:
                     st.markdown(food[5],help=f"Calories in Meal: {food[6]}")
                     
                 
+                #This will display the header for the daily meal log section and the meals that the user has logged for that day
                 st.subheader("Lunch 🍚",divider=True)
                 if len(lunch)==0:
                     st.write("Nothing was logged")
                 for food2 in lunch: 
                     st.markdown(food2[5],help=f"Calories in Meal: {food2[6]}")
 
+                #This will display the header for the daily meal log section and the meals that the user has logged for that day
                 st.subheader("Dinner 🍝",divider=True)
                 if len(dinner)==0:
                     st.write("Nothing was logged")
                 for food3 in dinner: 
                     st.markdown(food3[5],help=f"Calories in Meal: {food3[6]}")
 
+                ##This will display the header for the daily meal log section and the meals that the user has logged for that day
                 st.subheader("Snacks 🍟",divider=True)
                 if len(snack)==0:
                     st.write("Nothing was logged")
@@ -503,6 +530,8 @@ else:
 
         #Make a double for loop to loop from the specific date range and they display all the meals for all the days 
     import datetime
+
+    # This will display the weekly meal log section where the user can select a date range and see all the meals they have logged for that week
     with weekly:
         with stylable_container(
         key="table3we",
@@ -514,6 +543,7 @@ else:
             }
         """,
     ):      
+            
             st.warning("This log only displays days where meals were logged!")
             #This makes it so that th euser can only select one week at a time here 
             start = today - datetime.timedelta(days=7) 
@@ -525,12 +555,12 @@ else:
                 
                 
             )
-
+            #This will check if the user has selected a proper date range
             if len(d)!=2:
                 st.warning("Please Select a proper date range!")
                 st.stop()
 
-
+            # This will connect to the database and get all the meals that the user has logged for that specific date range
             conn = sqlite3.connect(DB_PATH)
             c = conn.cursor()
             c.execute(
@@ -542,7 +572,7 @@ else:
 
             #So we can mange which dates we have in this range 
             dates=[]
-
+            # This will loop through all the meals that the user has logged for that specific date range and add the dates to a list
             for item in data:
                 if item[2] not in dates:
                     dates.append(item[2])
@@ -555,6 +585,7 @@ else:
     
                     if item[2]==date:
                         st.markdown(item[5],help=f"Calories in Meal: {item[6]}")
+    # This will display the monthly meal log section where the user can select a date range and see all the meals they have logged for that month
     with monthly:
         with stylable_container(
         key="table3wwerwe",
@@ -607,6 +638,7 @@ else:
                         st.markdown(item[5],help=f"Calories in Meal: {item[6]}")
 
     with headCol2:
+        #This is the popout section for the user to set their meal goals
         with st.popover("Meal Goals",use_container_width=True):
             calorieGoal=st.slider("Calorie Goals:", 1,3000)
             proteinGoal=st.slider("Protein Goals:", 1,150)
@@ -631,8 +663,11 @@ else:
         }
             colprotien,colcalorie,colcarbs=st.columns(3)
     from datetime import datetime
+
+    # This will display the current goals set by the user
     with st.expander("See you Calorie and Protein Goals"):
         col1,col2=st.columns(2)
+        # This will display the current calorie goal set by the user
         with col1:
             selected_date = st.date_input("📅 Choose a date", datetime.now())
             date_str = selected_date.strftime("%Y-%m-%d")
@@ -641,6 +676,7 @@ else:
             fig,outcome = calorie_goal(uid=getName()[1], date=date_str)
             st.plotly_chart(fig)
             st.write(outcome)
+        # This will display the current protein goal set by the user
         with col2:
             selected_date = st.date_input("📅 Choose a date", datetime.now(),key="GVGHVGHJVJHvj")
             date_str = selected_date.strftime("%Y-%m-%d")
@@ -648,6 +684,8 @@ else:
             st.plotly_chart(fig)
             st.write(outcome)
 
+
+    #This will display the nutrient breakdown for the user based on the meals they have logged in the database
     with st.expander("Visualize Your Nutrients Breakdown"):
         tab1,tab2=st.tabs(["Bar Graph Breakdown","Spider graph Breakdown"])
         with tab1:
@@ -662,9 +700,12 @@ else:
             # Display the summary text extracted from the graph data
             st.markdown(summary_text)
     
+    # This will display the most common dining halls that the user has visited based on the meals they have logged in the database
     with st.expander("Average Calories Per Meal Category"):
         plot2=average_calories_by_meal(getName()[1])
         st.plotly_chart(plot2,use_container_width=True)
+
+    #This will display the most common dining halls that the user has visited based on the meals they have logged in the database
     with st.expander("Where can you been found on campus!"):
         st.plotly_chart(common_dining(getName()[1]))
     

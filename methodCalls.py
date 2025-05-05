@@ -9,9 +9,11 @@ from Dashboard import DB_PATH
 import datetime
 from datetime import datetime
 
+# This function displays the menu for meals and drinks
 def displayMenu(location,file1,file2):
     def add_to_food_log(meal_id, uid, meal_type, food_name, calories, protein, fats, carbohydrates, date, location,db_path= DB_PATH):
         try:
+            # Connect to the database
             conn = sqlite3.connect(db_path)
             cursor = conn.cursor()
 
@@ -31,7 +33,7 @@ def displayMenu(location,file1,file2):
             st.error(f"An error occurred while saving to the journal: {e}")
     
     tab1,tab2=st.tabs(["Meals","Drinks"])
-
+    ## Load the CSV files for meals and drinks
     df = pd.read_csv(file1)
     with tab1:
         with stylable_container(
@@ -60,9 +62,11 @@ def displayMenu(location,file1,file2):
 
                 
         ):
+            # Check if the session state for meals exists, if not, initialize it
             if f"meals{location}" not in st.session_state:
                 st.session_state[f"meals{location}"] = []
 
+            # Display the meals dataframe
             search=st.text_input("Search for a Meal!",key=f"{location}meal")
             if search:
                 # Filter the dataframe based on the search input
@@ -78,6 +82,7 @@ def displayMenu(location,file1,file2):
             with cols2:
                 st.write("Calorie Count")
 
+            # Iterate through the dataframe and display each meal with its calorie count
             for idx,(meal,ingr) in  enumerate(zip(df["Meal Name"], df["Calories"])):
                 col1,col2,col3=st.columns(3,border=True)
                 
@@ -111,6 +116,7 @@ def displayMenu(location,file1,file2):
                         from datetime import datetime
                         current_hour = datetime.now().hour
                         
+                        # Determine meal type based on the current hour
                         if 5 <= current_hour < 11:
                             meal_type = "Breakfast"
                         elif 11 <= current_hour < 15:
@@ -120,7 +126,7 @@ def displayMenu(location,file1,file2):
                         else:
                             meal_type = "Snack"
 
-
+                        # Add the meal to the food log
                         add_to_food_log(
                             meal_id,
                             getName()[1],
@@ -134,10 +140,11 @@ def displayMenu(location,file1,file2):
                             location,
                             db_path=DB_PATH
                         )
+                    # Check if the meal has already been added to the journal
                     if session_key in st.session_state[f"meals{location}"]:
                         st.warning("Added to Journal")
             
-
+    # Display the drinks tab
     with tab2: 
         with stylable_container(
             key=f"container_with_bordew2ewqw{location}",
@@ -161,6 +168,7 @@ def displayMenu(location,file1,file2):
 
                 
         ):
+            # Check if the session state for drinks exists, if not, initialize it
             if f"drink{location}" not in st.session_state:
                 st.session_state[f"drink{location}"] = []
 
@@ -176,15 +184,17 @@ def displayMenu(location,file1,file2):
             else:
                 df = df
 
+            # Display the drinks dataframe
             cols1,cols2,cols3=st.columns(3)
             with cols1:
                 st.write("Meal Name")
             with cols2:
                 st.write("Calorie Count")
 
+            # Iterate through the dataframe and display each drink with its calorie count
             for ind, (drink, cals) in enumerate(zip(df["Drink Name"], df["Calories"])):
                 
-
+                # Create columns for drink name, calorie count, and button
                 col1,col2,col3=st.columns(3,border=True)
                 with col1:
                     st.write(drink)
@@ -205,7 +215,7 @@ def displayMenu(location,file1,file2):
                     current_hour = datetime.now().hour
 
 
-                    
+                    # Check if the button was pressed
                     if drinkb:
                         st.session_state[f"drink{location}"].append(session_key1)
                         meal_name = df["Drink Name"].iloc[ind] if pd.notnull(df["Drink Name"].iloc[ind]) else "Unknown"
@@ -214,6 +224,7 @@ def displayMenu(location,file1,file2):
                         fat = df["Fat"].iloc[ind] if pd.notnull(df["Fat"].iloc[ind]) else 0
                         carbs = df["Carbohydrates"].iloc[ind] if pd.notnull(df["Carbohydrates"].iloc[ind]) else 0
                         
+                        # Determine meal type based on the current hour
                         if 5 <= current_hour < 11:
                             meal_type = "Breakfast"
                         elif 11 <= current_hour < 15:
@@ -223,7 +234,8 @@ def displayMenu(location,file1,file2):
                         else:
                             meal_type = "Snack"
 
-                        st.write(meal_type)
+                        
+                        # Add the drink to the food log
                         add_to_food_log(
                             meal_id,
                             getName()[1],
@@ -237,15 +249,11 @@ def displayMenu(location,file1,file2):
                             location,
                             db_path=DB_PATH
                         )
+                    # Check if the drink has already been added to the journal
                     if session_key1 in st.session_state[f"drink{location}"]:
                         st.warning("Added to Journal")
                 
-                
-                
-                                
-        
-
-
+# This function displays the user's dietary preferences in a popover
 def displayPreference(location):
     
     with st.popover("Preferences",use_container_width=True):
