@@ -309,9 +309,10 @@ with stylable_container(
                     
             ):
     top_rated = topRated()
-    st.subheader("🌠Top 5 Dishes across Wellesley!")
-    for dish in top_rated:
-       st.markdown(f"〰️{dish[0]} with a rating of "+ '⭐' * int(dish[1]),help=f"Rating of {dish[1]} ")
+    if top_rated!=[]:
+        st.subheader("🌠Top 5 Dishes across Wellesley!")
+        for dish in top_rated:
+            st.markdown(f"〰️{dish[0]} with a rating of "+ '⭐' * int(dish[1]),help=f"Rating of {dish[1]} ")
 
 
 #This section of code will display the current meals avaiable in dinning halls based on users current time 
