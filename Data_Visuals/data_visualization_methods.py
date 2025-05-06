@@ -1,3 +1,8 @@
+# Author: Dianna Gonzalez
+# Version: 5/6/25
+
+# Data visualizations for food journal
+
 import plotly.express as px
 import pandas as pd
 import sqlite3
@@ -11,6 +16,9 @@ conn = sqlite3.connect(DB_PATH)
 c = conn.cursor()
 
 def spider_graph(uid):
+    """
+    Creates basic spider graph that display protein, fats, and carbs info on the user
+    """
     conn = sqlite3.connect(DB_PATH)
 
     c = conn.cursor()
@@ -36,6 +44,9 @@ def spider_graph(uid):
     return fig
 
 def average_calories_by_meal(uid):
+    """
+    Graph displays average calories for breakfast, lunch, and dinner
+    """
 
     conn = sqlite3.connect(DB_PATH)
 
@@ -52,6 +63,10 @@ def average_calories_by_meal(uid):
     return fig
 
 def nutrient_breakdown(uid):
+    """
+    Basic pie chart that shows breakdown of nutrients consumed
+    Shows percentage of protein, fats, and carbs
+    """
     conn = sqlite3.connect(DB_PATH)
 
     c = conn.cursor()
@@ -87,25 +102,10 @@ def nutrient_breakdown(uid):
     return fig
 
 def location_nutrient_breakdown (uid):
-    conn = sqlite3.connect(DB_PATH)
+    """
+    Radar graph that shows nutrient breakdown based on dining hall
+    """
 
-    c = conn.cursor()
-    c.execute("SELECT SUM(protein), SUM(fats), SUM(carbohydrates), location_id FROM food_log WHERE uid = ? GROUP BY location_id", (uid, ))
-
-    rows = c.fetchall()
-
-    data = [list(row) + [sum(row[0:2])] for row in rows]
-    df = pd.DataFrame(data, columns=['Protein', 'Fats', 'Carbs', 'Total Nutrients', 'Dining Hall'])
-
-    fig = px.bar_polar(df, r="Total Nutrients", theta="Dining Hall", color="Protein", template="plotly_white",
-                color_discrete_sequence= px.colors.sequential.Plasma_r)
-    
-    return fig
-
-# make visual with calorie count per dining hall, which dining hall we visit the most
-# goal graphs
-
-def location_nutrient_breakdown (uid):
     # this would work best if only used for the month/all time
 
     conn = sqlite3.connect(DB_PATH)
@@ -138,6 +138,10 @@ def location_nutrient_breakdown (uid):
     return fig
 
 def common_dining(uid):
+    """
+    Bar graphs displaying number of times each dining hall has been visited
+    Shown in descending order
+    """
     conn = sqlite3.connect(DB_PATH)
 
     c = conn.cursor()
@@ -166,6 +170,9 @@ def common_dining(uid):
     return fig
 
 def calorie_goal(uid):
+    """
+    Pie chart that shows remaining calories for daily goal or how over the user is
+    """
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     
@@ -202,6 +209,9 @@ def calorie_goal(uid):
     return fig
 
 def protein_goal(uid):
+    """
+    Pie chart that shows remaining protein for daily goal or how over the user is
+    """
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     

@@ -1,6 +1,12 @@
+# Author: Dianna Gonzalez
+# Version: 5/6/25
+
+# API Call for Wellesley Fresh
+
 import requests
 import datetime
 
+# dictionary with location ids and meal ids for each dining hall
 locations = {'Lulu': [96, {'Breakfast': 148, 'Lunch': 149, 'Dinner': 312}], 
          'Bates': [95, {'Breakfast': 145, 'Lunch': 146, 'Dinner': 311}],
          'Stone D': [131, {'Breakfast': 261, 'Lunch': 262, 'Dinner': 263}], 
