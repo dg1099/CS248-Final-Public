@@ -287,29 +287,31 @@ with st.expander("Welcome!"):
 
 #This is a container that holds the top rated meals method results and displays it  with 
 # specific css styable conatiner coding 
-with stylable_container(
-                key=f"container_with_bordew2weewe323e23e",
-                css_styles=["""
-                
-                    {
-                        border-radius: 0.5rem;
-                        background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
-                        padding: calc(1em - 1px);
-                            
-                    }
-                    """,
-                    """
-                    div[data-testid="stMarkdownContainer"] p {
-                        font-family: 'Lexend', sans-serif;
-                        font-size: 1.1rem;
-                        font-weight: 500;
-                    }
-                    """],
 
+top_rated = topRated()
+if top_rated:
+    with stylable_container(
+                    key=f"container_with_bordew2weewe323e23e",
+                    css_styles=["""
                     
-            ):
-    top_rated = topRated()
-    if top_rated!=[]:
+                        {
+                            border-radius: 0.5rem;
+                            background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%);
+                            padding: calc(1em - 1px);
+                                
+                        }
+                        """,
+                        """
+                        div[data-testid="stMarkdownContainer"] p {
+                            font-family: 'Lexend', sans-serif;
+                            font-size: 1.1rem;
+                            font-weight: 500;
+                        }
+                        """],
+
+                        
+                ):
+        
         st.subheader("🌠Top 5 Dishes across Wellesley!")
         for dish in top_rated:
             st.markdown(f"〰️{dish[0]} with a rating of "+ '⭐' * int(dish[1]),help=f"Rating of {dish[1]} ")
