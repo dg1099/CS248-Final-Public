@@ -15,8 +15,9 @@ img[data-testid="stLogo"] {
 """,
 unsafe_allow_html=True
 )
-st.logo("assets/R.D.Y. to Eat.png",icon_image="assets/R.D.Y. to Eat.png")
+st.logo("assets/R.D.Y. to Eat.png",icon_image="assets/R.D.Y. to Eat.png") # This is to add our app logo to the sidebar
 
+# This is to make sure our sidebar has a border and a background image
 st.markdown(
     """
 <style>
@@ -31,6 +32,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# This is to make sure our app has a background image
 st.markdown(
     """
     <style>
@@ -43,7 +45,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-
+# This is to make sure our boxes are the same height
 st.markdown("""
     <style>
     .equal-height-container {
@@ -80,7 +82,9 @@ else:
         st.subheader(f"Hello, {getName()[0]}",divider=True)
         st.write("Hours: Wed-Thurs from 9pm-12am, Fri-Sat from 10pm-1am")
         st.warning("Disclaimer: These nutritional facts are estimated using the Spoonacular API. Some may be incomplete or not entirely accurate.")
-        with st.expander("✨ Page Overview!"):
+        
+        
+        with st.expander("✨ Page Overview!"):# This is our page overview expander
             st.write("""
             **Welcome to the Dining Hall Menu Viewer!** 🥗
 
@@ -90,7 +94,8 @@ else:
             - ⚠️ Nutritional data is fetched via Spoonacular API and may be incomplete or estimated  
             - 🧠 Your preferences help filter items for **a personalized experience**
             """)
+    # This is our preferences column so we can have a popout section for prefrences
     with headCol2:
         displayPreference("cafehoop")
-            
+    # This is our main content column where we display the menu        
     displayMenu("cafehoop","coopMenus/cafe-hoop-dishes-filled.csv","coopMenus/cafe-hoop-drinks-filled.csv")
