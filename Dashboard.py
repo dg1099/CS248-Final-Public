@@ -379,6 +379,7 @@ with stylable_container(
                             selected_time, 
                             date)
             df = pd.json_normalize(data)
+            st.write(df)
                     
             try:
                 cleandf = df[['name', 
