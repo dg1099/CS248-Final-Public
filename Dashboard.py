@@ -475,7 +475,7 @@ with stylable_container(
             
             #Filters data frame to on only display the meal names based on name 
             cleandf= cleandf.loc[(cleandf["date"].str.split("T").str[0]==str(date))]
-            if df.empty:
+            if cleandf.empty:
                 st.warning("No Meals Available")
             else:
                 for item in cleandf["name"].items():
