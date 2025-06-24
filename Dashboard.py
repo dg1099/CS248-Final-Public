@@ -474,7 +474,7 @@ with stylable_container(
             cleandf=cleandf.drop_duplicates(subset=["name"])
             #Filters data frame to on only display the meal names based on name 
             cleandf= cleandf.loc[(cleandf["date"].str.split("T").str[0]==str(date))]
-            if not cleandf.empty:
+            if not df.empty:
                 for item in cleandf["name"].items():
                     st.write("〰️"+item[1])
             else:
