@@ -456,7 +456,7 @@ with stylable_container(
             df = pd.json_normalize(data)
 
 
-            st.write(df)    
+              
             try:
                 cleandf = df[['name', 
                             'nutritionals.calories',
