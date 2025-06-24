@@ -398,11 +398,11 @@ with stylable_container(
             cleandf=cleandf.drop_duplicates(subset=["name"])
             #Filters data frame to on only display the meal names based on name 
             cleandf= cleandf.loc[(cleandf["date"].str.split("T").str[0]==str(date))]
-            if not cleandf.empty:
+            if df.empty:
+                st.warning("No Meals Available")
+            else:
                 for item in cleandf["name"].items():
                     st.write("〰️"+item[1])
-            else:
-                st.warning("No Meals Available")
 
         #When lunch display lunch menus 
         elif 10 <= current_hour < 14:
@@ -436,11 +436,11 @@ with stylable_container(
             cleandf=cleandf.drop_duplicates(subset=["name"])
             #Filters data frame to on only display the meal names based on name 
             cleandf= cleandf.loc[(cleandf["date"].str.split("T").str[0]==str(date))]
-            if not cleandf.empty:
+            if df.empty:
+                st.warning("No Meals Available")
+            else:
                 for item in cleandf["name"].items():
                     st.write("〰️"+item[1])
-            else:
-                st.warning("No Meals Available")
             
         
         #When Dinner display dinner menus         
@@ -476,10 +476,10 @@ with stylable_container(
             #Filters data frame to on only display the meal names based on name 
             cleandf= cleandf.loc[(cleandf["date"].str.split("T").str[0]==str(date))]
             if df.empty:
+                st.warning("No Meals Available")
+            else:
                 for item in cleandf["name"].items():
                     st.write("〰️"+item[1])
-            else:
-                st.warning("No Meals Available")
         #Displays this warning when all the dining halls are closed 
         else:
             st.warning("All Dining Halls are closed!")
