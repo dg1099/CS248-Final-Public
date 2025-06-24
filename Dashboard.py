@@ -397,9 +397,12 @@ with stylable_container(
             cleandf=cleandf.drop_duplicates(subset=["name"])
             #Filters data frame to on only display the meal names based on name 
             cleandf= cleandf.loc[(cleandf["date"].str.split("T").str[0]==str(date))]
-            for item in cleandf["name"].items():
-                st.write("〰️"+item[1])
-
+            if cleandf !=[]:
+                for item in cleandf["name"].items():
+                    st.write("〰️"+item[1])
+            else:
+                st.warning("No Meals Available")
+                
         #When lunch display lunch menus 
         elif 10 <= current_hour < 14:
             selected_time="Lunch"
@@ -429,8 +432,12 @@ with stylable_container(
             cleandf=cleandf.drop_duplicates(subset=["name"])
             #Filters data frame to on only display the meal names based on name 
             cleandf= cleandf.loc[(cleandf["date"].str.split("T").str[0]==str(date))]
-            for item in cleandf["name"].items():
-                st.write("〰️"+item[1])
+            if cleandf !=[]:
+                for item in cleandf["name"].items():
+                    st.write("〰️"+item[1])
+            else:
+                st.warning("No Meals Available")
+            
         
         #When Dinner display dinner menus         
         elif 14 <= current_hour < 21:
@@ -461,8 +468,11 @@ with stylable_container(
             cleandf=cleandf.drop_duplicates(subset=["name"])
             #Filters data frame to on only display the meal names based on name 
             cleandf= cleandf.loc[(cleandf["date"].str.split("T").str[0]==str(date))]
-            for item in cleandf["name"].items():
-                st.write("〰️"+item[1])
+            if cleandf !=[]:
+                for item in cleandf["name"].items():
+                    st.write("〰️"+item[1])
+            else:
+                st.warning("No Meals Available")
         #Displays this warning when all the dining halls are closed 
         else:
             st.warning("All Dining Halls are closed!")
