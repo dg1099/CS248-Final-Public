@@ -379,7 +379,7 @@ with stylable_container(
                             selected_time, 
                             date)
             df = pd.json_normalize(data)
-            st.write(df)
+            
                     
             try:
                 cleandf = df[['name', 
@@ -406,6 +406,8 @@ with stylable_container(
 
         #When lunch display lunch menus 
         elif 10 <= current_hour < 14:
+            
+
             selected_time="Lunch"
             st.warning(f"For {selected_time} at {fav_option}")
 
@@ -415,7 +417,8 @@ with stylable_container(
                             selected_time, 
                             date)
             df = pd.json_normalize(data)
-                    
+            st.write(df)
+                   
             try:
                 cleandf = df[['name', 
                             'nutritionals.calories',
